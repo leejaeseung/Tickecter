@@ -4,8 +4,10 @@ class Menu:
 
     def __init__(self):
         print("현재 시간을 입력해 주세요.")
+        self.__now_time = 0
 
     def menu4100(self, input):
+        self.__now_time = str(input)
         self.print_login_menu()
         return 4200, False, 1
 
@@ -67,6 +69,21 @@ class Menu:
         os.system('cls')
         self.print_login_menu()
         return 4200, False, 1
+    def menu4300(self,input):
+        new_input = int(input)
+        if new_input == 1:
+            #현재 날짜로부터 10일 후 까지의 달력 출력
+            print("상영을 원하는 날짜를 8자리로 입력해 주세요.")
+            return 4311
+        elif new_input == 2:
+            print("ID를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
+            return 4221, False, 1
+        elif new_input == 3:
+            os.system('cls')
+            self.print_main_menu()
+            return 4300, False, 2
+        else:
+            return -1
 
     def print_login_menu(self):
         print("1. 회원 로그인")
@@ -77,3 +94,37 @@ class Menu:
         print("1. 영화 예매")
         print("2. 예매 내역 조회 및 취소")
         print("3. 영화 시간표 조회")
+
+    def print_10days(self):
+        year = int(self.__now_time[:4])
+        month = int(self.__now_time[4:6])
+        day = int(self.__now_time[6:8])
+
+        print('\t\t'+year)
+        print('\t\t'+month)
+        for i in range(0,11):
+            out_day = day + i
+
+            if month == 4 or month == 6 or month == 9 or month == 11:
+                if out_day > 30:
+                    month = month + 1
+                    out_day = 1
+                    print('\t\t'+month)
+            elif month == 2:
+                if out_day > 28:
+                    month = month + 1
+                    out_day = 1
+                    print('\t\t'+month)
+            else:
+                if out_day > 31:
+                    if month == 12:
+                        year = year + 1
+                        if year > 9999:
+                            year = 0
+                            print('\t\t'+year)
+                        month = 1
+                        out_day = 1
+                    print('\t\t'+month)
+            print(out_day, end=' ')
+            if i == 6:
+                print()

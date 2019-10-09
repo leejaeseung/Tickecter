@@ -40,8 +40,8 @@ class MenuManager(Menu.Menu):
             mN, iB, w = super().menu4230(input)
             self.__MI = menuInfo.menuInfo(mN, iB, w)
         elif menu == 4300:
-            mN, iB, w = super().menu4212(input)
-            self.__MI = menuInfo.menuInfo(mN, iB, w)
+            mN = super().menu4212(input)
+            self.__MI = menuInfo.menuInfo(mN, self.__MI.getisMember(), self.__MI.getwhere())
 
         else:
             return -1
