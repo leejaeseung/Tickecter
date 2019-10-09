@@ -90,6 +90,7 @@ class Menu:
             #return 4300, False, 2  수정 필요
         #else:
             #return -1
+
     def menu4311(self, input):
         if int(input) < int(self.__now_time):
             print("현재 날짜보다 이전 날짜입니다. 다시 입력해 주세요.")
@@ -99,6 +100,7 @@ class Menu:
             print("상영중인 영화.....")
             print("예매할 영화를 선택하세요.(숫자.영화명 입력)")
             self.MI.setMI(4312, self.MI.getisMember(), self.MI.getwhere())
+
     def menu4312(self, input):
         #if True: # 입력한 영화가 존재할 경우
             # 선택한 영화의 좌석표를 출력
@@ -107,13 +109,30 @@ class Menu:
         #else:    # 입력한 영화가 존재하지 않을 경우
             print("존재하지 않는 영화입니다. 다시 입력해 주세요.")
             #self.MI.setMI(4312, self.MI.getisMember(), self.MI.getwhere())
+
     def menu4313(self, input):
         #if True: #입력한 좌석이 존재하는 경우
             #결제 금액을 출력
-            #self.MI.setMI(4314, self.MI.getisMember(), self.MI.getwhere())
+            if self.MI.getisMember():
+                #보유 마일리지를 출력
+                print("회원님의 마일리지 잔액은 ㅁㅁㅁ 입니다. 얼마를 사용하시겠습니까?")
+                self.MI.setMI(43141, self.MI.getisMember(), self.MI.getwhere())
+            else:
+                print("결제하실 카드 번호를 입력해 주세요.")
+                self.MI.setMI(43142, self.MI.getisMember(), self.MI.getwhere())
         #else:      #입력한 좌석이 존재하지 않는 경우
             print("존재하지 않는 좌석입니다. 다시 입력해 주세요")
             self.MI.setMI(4313, self.MI.getisMember(), self.MI.getwhere())
+
+    def menu43141(self, input):
+        #if True:       #마일리지 잔액보다 적거나 같게 입력했을 경우
+            print("나머지 금액은 ㅁㅁㅁ 입니다. 등록된 카드로 결제하겠습니다.")
+            #마일리지를 변수에 저장
+            self.MI.setMI(4315, self.MI.getisMember(), self.MI.getwhere())
+        #else:
+            print("초과된 마일리지 금액입니다. 다시 입력해 주세요.")
+            self.MI.setMI(43141, self.MI.getisMember(), self.MI.getwhere())
+
 
     def print_login_menu(self):
         print("1. 회원 로그인")

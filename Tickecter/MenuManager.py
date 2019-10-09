@@ -36,5 +36,7 @@ class MenuManager(Menu.Menu):
             self.menu4312(input)
         elif menu == 4313:
             self.menu4313(input)
+        elif menu == 43141:
+            self.menu43141(input)
         else:
             return -1
