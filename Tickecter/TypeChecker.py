@@ -1,6 +1,7 @@
 import os
-class inputcheck:
-    def ID_check(new_id):
+class TypeChecker:
+
+    def ID_check(self, new_id):
         countalpha = 0
         countnum = 0
         if len(new_id) < 4 or len(new_id) > 10:
@@ -32,7 +33,7 @@ class inputcheck:
             return True
 
 
-    def date_check(date):
+    def date_check(self, date):
         if date.isdigit() == 0:
             print('숫자만 입력 가능합니다.')
         else:
@@ -57,7 +58,7 @@ class inputcheck:
                         return True
 
 
-    def pw_check(password):
+    def pw_check(self, password):
         countalpha = 0
         countnum = 0
         if len(password) < 4 or len(password) > 10:
@@ -76,12 +77,12 @@ class inputcheck:
             return True
 
 
-    def movieTitle(title):
-        if len(new_id) > 20 and title[0].isspace() == 1:
+    def movieTitle(self, title):
+        if len(title) > 20 and title[0].isspace() == 1:
             print("입력 형식에 맞지 않습니다.")  # 길이
             return False
         else:
-            for index_value in new_id:
+            for index_value in title:
                 if (index_value.isalpha() == 0 or index_value.islower() == 0) and index_value.isdigit() == 0:
                     print("입력 형식에 맞지 않습니다.")  # 숫자나 영문 소문자가 아님
                     return False
@@ -97,27 +98,15 @@ class inputcheck:
                 next(titlecheck)
                 for row_list in titlecheck:
                     for index_value in selected_column:
-                        if row_list[index_value] == new_id:
+                        if row_list[index_value] == title:
                             return True
         print("상영중인 영화가 아닙니다.")
         return False
 
 
-    def checkyoursheet(sheet):
+    def checkyoursheet(self, sheet):
         if sheet[0].isupper() == 0 or sheet[1:].isdigit() == 0:
             print("입력 형식에 맞지 않습니다.")  # 길이
             return False
         else:
             return True
-
-
-    new_id = input()
-    ID_check(new_id)
-    date = input()
-    date_check(date)
-    password = input()
-    pw_check(password)
-    sheet = input()
-    checkyoursheet(sheet)
-    title = input()
-    movieTitle(title)
