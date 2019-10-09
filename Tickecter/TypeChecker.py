@@ -103,6 +103,23 @@ class TypeChecker:
         print("상영중인 영화가 아닙니다.")
         return False
 
+    def cardNum(cardnumber):
+        if len.cardnumber != 12 or cardnumber.isdigit():
+            print('입력 형식에 맞지 않습니다.')
+        else:
+            import csv
+            input_file = "CardList.csv"
+            with open(input_file, 'r', newline='') as csv_in_file:
+                selected_column = [0]
+                numbercheck = csv.reader(csv_in_file)
+                next(numbercheck)
+                for row_list in numbercheck:
+                    for index_value in selected_column:
+                        if row_list[index_value] == cardnumber:
+                            return True
+        print("해당하는 카드번호가 없습니다.")
+        return False
+
 
     def checkyoursheet(self, sheet):
         if sheet[0].isupper() == 0 or sheet[1:].isdigit() == 0:
