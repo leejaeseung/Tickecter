@@ -103,7 +103,7 @@ class TypeChecker:
         print("상영중인 영화가 아닙니다.")
         return False
 
-    def cardNum(cardnumber):
+    def cardNum(self, cardnumber):
         if len.cardnumber != 12 or cardnumber.isdigit():
             print('입력 형식에 맞지 않습니다.')
         else:
