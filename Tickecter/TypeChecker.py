@@ -34,8 +34,8 @@ class TypeChecker:
 
 
     def date_check(self, date):
-        if date.isdigit() == 0:
-            print('숫자만 입력 가능합니다.')
+        if date.isdigit() == 0 or len(date) != 8:
+            print('8자리 숫자만 입력 가능합니다.')
         else:
             if date[4] > '1' or date[6] > '3':  # 20월 이상, 40일 이상 먼저 거름
                 print('날짜가 입력 형식에 맞지 않습니다.')
