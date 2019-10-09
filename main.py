@@ -26,10 +26,10 @@ def main():
                 MM.print_main_menu()
             del (input)
             continue
-        #MM.manageMenu(input)
-        #del (input)
+        MM.manageMenu(input)
+        del (input)
 
-    #print("프로그램이 종료됩니다.")
+    print("프로그램이 종료됩니다.")
 
 
 if __name__ == "__main__":
