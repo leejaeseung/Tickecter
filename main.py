@@ -12,16 +12,14 @@ def main():
             break
         elif input == 'RESTART':
             if MM.getMI().getwhere() != 0:
-                MM.getMI().setmenuNum(4200)
-                MM.getMI().setisMember(False)
-                MM.getMI().setwhere(1)
+                MM.getMI().setMI(4200, False, 1)
                 os.system('cls')
                 MM.print_login_menu()
             del (input)
             continue
         elif input == 'BACK':
             if MM.getMI().getwhere() == 2:
-                MM.getMI().setmenuNum(4300)
+                MM.getMI().setMI(4300, MM.getMI().getisMember(), MM.getMI().getwhere())
                 os.system('cls')
                 MM.print_main_menu()
             del (input)
