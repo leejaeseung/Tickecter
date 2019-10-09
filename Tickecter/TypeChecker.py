@@ -127,3 +127,5 @@ class TypeChecker:
             return False
         else:
             return True
+
+a=3
