@@ -7,7 +7,7 @@ class Menu:
         print("현재 시간을 입력해 주세요.")
         self.__now_time = 0
         self.__FM = FileManager.FileManager()
-        Menu.MI = menuInfo.menuInfo(4100, False, 0)
+        self.MI = menuInfo.menuInfo(4100, False, 0)
 
     def menu4100(self, input):
         self.__now_time = str(input)
