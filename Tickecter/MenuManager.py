@@ -36,11 +36,8 @@ class MenuManager(Menu.Menu):
         elif menu == 4223:
             mN, iB, w = super().menu4223(input)
             self.__MI = menuInfo.menuInfo(mN, iB, w)
-        elif menu == 4230:
-            mN, iB, w = super().menu4230(input)
-            self.__MI = menuInfo.menuInfo(mN, iB, w)
         elif menu == 4300:
-            mN = super().menu4212(input)
+            mN = super().menu4300(input)
             self.__MI = menuInfo.menuInfo(mN, self.__MI.getisMember(), self.__MI.getwhere())
 
         else:
