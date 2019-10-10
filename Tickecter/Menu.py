@@ -1,5 +1,6 @@
 from . import FileManager, menuInfo
 import os
+import time
 
 class Menu:
 
@@ -133,6 +134,26 @@ class Menu:
             print("초과된 마일리지 금액입니다. 다시 입력해 주세요.")
             self.MI.setMI(43141, self.MI.getisMember(), self.MI.getwhere())
 
+    def menu43142(self, input):
+        #if #존재하지 않는 카드 번호일 경우
+            print("존재하지 않는 카드 번호입니다. 다시 입력해 주세요.")
+            self.MI.setMI(43142, self.MI.getisMember(), self.MI.getwhere())
+
+        #elif #이미 등록된 카드 번호일 경우
+            print("이미 등록된 카드 번호입니다. 다시 입력해 주세요.")
+            self.MI.setMI(43142, self.MI.getisMember(), self.MI.getwhere())
+        #else: #유효한 카드 번호일 경우
+            self.MI.setMI(4315, self.MI.getisMember(), self.MI.getwhere())
+
+    def menu4315(self, input):
+        #if self.MI.getisMember():       #회원이면 마일리지를 저장함
+
+        #else:                          #비회원이면 마일리지 저장x
+
+        print("결제가 완료되었습니다. 예매 코드 : ")
+        # 예매 코드 출력
+        time.sleep(1)                   #1초동안 예매 코드를 보여줌
+        self.MI.setMI(4300, self.MI.getisMember(),self.MI.getwhere())
 
     def print_login_menu(self):
         print("1. 회원 로그인")
