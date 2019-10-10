@@ -56,8 +56,8 @@ class TypeChecker:
                             if date[5] == '2' and (date[7] == '9' or date[6] > '2'):
                                 print('날짜가 입력 형식에 맞지 않습니다.')
                                 return False
-                    else:
-                        return True
+
+        return True
 
 
     def pw_check(self, password):
