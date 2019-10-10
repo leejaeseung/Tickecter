@@ -1,78 +1,81 @@
+from . import FileManager, menuInfo
 import os
-
+import time
 
 class Menu:
 
     def __init__(self):
         print("현재 시간을 입력해 주세요.")
         self.__now_time = 0
+        self.__FM = FileManager.FileManager()
+        self.MI = menuInfo.menuInfo(4100, False, 0)
 
     def menu4100(self, input):
         self.__now_time = str(input)
         self.print_login_menu()
-        return 4200, False, 1
+        self.MI.setMI(4200, self.MI.getisMember(), 1)
 
     def menu4200(self, input):
         new_input = int(input)
         if new_input == 1:
             print("ID를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
-            return 4211, False, 1
+            self.MI.setMI(4211, self.MI.getisMember(), self.MI.getwhere())
         elif new_input == 2:
             print("ID를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
-            return 4221, False, 1
+            self.MI.setMI(4221, self.MI.getisMember(), self.MI.getwhere())
         elif new_input == 3:
             os.system('cls')
             self.print_main_menu()
-            return 4300, False, 2
+            self.MI.setMI(4300, self.MI.getisMember(), 2)
         else:
             return -1
 
     def menu4211(self, input):
         # 파일 관리 클래스를 사용해 input 과 비교, if문으로 True면 다음 메뉴, False면 다시 입력받음,아이디를 잠시 저장
         # if True :  #존재하는 아이디면
-        print("Password를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
-        return 4212, False, 1
+            print("Password를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
+            self.MI.setMI(4212, self.MI.getisMember(), self.MI.getwhere())
 
-    # else:      #존재하지 않는 아이디면
-    # print("존재하지 않는 ID입니다. 다시 입력해 주세요.")
-    # return 4211, False, 1
+        # else:      #존재하지 않는 아이디면
+            # print("존재하지 않는 ID입니다. 다시 입력해 주세요.")
+            # self.MI.setMI(4211, self.MI.getisMember(), self.MI.getwhere())
 
     def menu4212(self, input):
         # 파일 관리 클래스를 사용해 input 과 비교, if문으로 True면 다음 메뉴, False면 다시 입력받음, 비밀번호를 잠시 저장
         # if True :     #비밀번호가 일치하면
         self.print_main_menu()
-        return 4300, True, 2
+        self.MI.setMI(4300, True, 2)
 
-    # else :         #일치하지 않으면
-    # print("일치하지 않는 Password입니다. 다시 입력해 주세요.")
-    # return 4212, False, 1
+        # else :         #일치하지 않으면
+            # print("일치하지 않는 Password입니다. 다시 입력해 주세요.")
+            # self.MI.setMI(4212, self.MI.getisMember(), self.MI.getwhere())
 
     def menu4221(self, input):
         # 파일 관리 클래스를 사용해 input 과 비교, if문으로 True면 다음 메뉴, False면 다시 입력받음, 아이디를 잠시 저장
         # if True :     #만들 수 있는 아이디면
-        print("Password를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
-        return 4222, False, 1
+            print("Password를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
+            self.MI.setMI(4222, self.MI.getisMember(), self.MI.getwhere())
 
-    # else:          #이미 존재하는 아이디면
-    # print("이미 존재하는 ID입니다. 다시 입력해 주세요.")
-    # return 4221, False, 1
+        # else:          #이미 존재하는 아이디면
+            # print("이미 존재하는 ID입니다. 다시 입력해 주세요.")
+            # self.MI.setMI(4221, self.MI.getisMember(), self.MI.getwhere())
 
     def menu4222(self, input):
         # 비밀번호를 잠시 저장
         print("등록할 카드 번호를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
-        return 4223, False, 1
+        self.MI.setMI(4223, self.MI.getisMember(), self.MI.getwhere())
 
     def menu4223(self, input):
         # if 2 :     #이미 등록된 카드 번호이면
-        # print("이미 등록된 카드 번호입니다. 다시 입력해 주세요.")
-        # return 4223, False, 1
+            # print("이미 등록된 카드 번호입니다. 다시 입력해 주세요.")
+            # self.MI.setMI(4223, self.MI.getisMember(), self.MI.getwhere())
         # elif 1 :   #존재하지 않는 카드 번호이면
-        # print("존재하지 않는 카드 번호입니다. 다시 입력해 주세요.")
-        # return 4223, False, 1
+            # print("존재하지 않는 카드 번호입니다. 다시 입력해 주세요.")
+            # self.MI.setMI(4223, self.MI.getisMember(), self.MI.getwhere())
         # else :     #유효한 카드 번호이면 -> UserList를 업데이트
-        os.system('cls')
-        self.print_login_menu()
-        return 4200, False, 1
+            os.system('cls')
+            self.print_login_menu()
+            self.MI.setMI(4200, self.MI.getisMember(), self.MI.getwhere())
 
     def menu4300(self, input):
         new_input = int(input)
@@ -80,14 +83,77 @@ class Menu:
             self.print_10days()
             # 현재 날짜로부터 10일 후 까지의 달력 출력
             print("상영을 원하는 날짜를 8자리로 입력해 주세요.")
-            return 4311
-        elif new_input == 2:
-            print("ID를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
-            return 4221, False, 1
-        elif new_input == 3:
-            return 4300, False, 2
+            self.MI.setMI(4311, self.MI.getisMember(), self.MI.getwhere())
+        #elif new_input == 2:
+
+            #return 4221, False, 1  수정 필요
+        #elif new_input == 3:
+            #return 4300, False, 2  수정 필요
+        #else:
+            #return -1
+
+    def menu4311(self, input):
+        if int(input) < int(self.__now_time):
+            print("현재 날짜보다 이전 날짜입니다. 다시 입력해 주세요.")
+            self.MI.setMI(4311, self.MI.getisMember(), self.MI.getwhere())
         else:
-            return -1
+            #상영중인 영화를 한 줄씩 출력
+            print("상영중인 영화.....")
+            print("예매할 영화를 선택하세요.(숫자.영화명 입력)")
+            self.MI.setMI(4312, self.MI.getisMember(), self.MI.getwhere())
+
+    def menu4312(self, input):
+        #if True: # 입력한 영화가 존재할 경우
+            # 선택한 영화의 좌석표를 출력
+            print("예약할 좌석을 고르십시오.")
+            self.MI.setMI(4313, self.MI.getisMember(), self.MI.getwhere())
+        #else:    # 입력한 영화가 존재하지 않을 경우
+            print("존재하지 않는 영화입니다. 다시 입력해 주세요.")
+            #self.MI.setMI(4312, self.MI.getisMember(), self.MI.getwhere())
+
+    def menu4313(self, input):
+        #if True: #입력한 좌석이 존재하는 경우
+            #결제 금액을 출력
+            if self.MI.getisMember():
+                #보유 마일리지를 출력
+                print("회원님의 마일리지 잔액은 ㅁㅁㅁ 입니다. 얼마를 사용하시겠습니까?")
+                self.MI.setMI(43141, self.MI.getisMember(), self.MI.getwhere())
+            else:
+                print("결제하실 카드 번호를 입력해 주세요.")
+                self.MI.setMI(43142, self.MI.getisMember(), self.MI.getwhere())
+        #else:      #입력한 좌석이 존재하지 않는 경우
+            print("존재하지 않는 좌석입니다. 다시 입력해 주세요")
+            self.MI.setMI(4313, self.MI.getisMember(), self.MI.getwhere())
+
+    def menu43141(self, input):
+        #if True:       #마일리지 잔액보다 적거나 같게 입력했을 경우
+            print("나머지 금액은 ㅁㅁㅁ 입니다. 등록된 카드로 결제하겠습니다.")
+            #마일리지를 변수에 저장
+            self.MI.setMI(4315, self.MI.getisMember(), self.MI.getwhere())
+        #else:
+            print("초과된 마일리지 금액입니다. 다시 입력해 주세요.")
+            self.MI.setMI(43141, self.MI.getisMember(), self.MI.getwhere())
+
+    def menu43142(self, input):
+        #if #존재하지 않는 카드 번호일 경우
+            print("존재하지 않는 카드 번호입니다. 다시 입력해 주세요.")
+            self.MI.setMI(43142, self.MI.getisMember(), self.MI.getwhere())
+
+        #elif #이미 등록된 카드 번호일 경우
+            print("이미 등록된 카드 번호입니다. 다시 입력해 주세요.")
+            self.MI.setMI(43142, self.MI.getisMember(), self.MI.getwhere())
+        #else: #유효한 카드 번호일 경우
+            self.MI.setMI(4315, self.MI.getisMember(), self.MI.getwhere())
+
+    def menu4315(self, input):
+        #if self.MI.getisMember():       #회원이면 마일리지를 저장함
+
+        #else:                          #비회원이면 마일리지 저장x
+
+        print("결제가 완료되었습니다. 예매 코드 : ")
+        # 예매 코드 출력
+        time.sleep(1)                   #1초동안 예매 코드를 보여줌
+        self.MI.setMI(4300, self.MI.getisMember(),self.MI.getwhere())
 
     def print_login_menu(self):
         print("1. 회원 로그인")
@@ -102,7 +168,7 @@ class Menu:
     def print_10days(self):
         year = int(self.__now_time[:4])
         month = int(self.__now_time[4:6])
-        day = int(self.__now_time[6:8])
+        day = int(self.__now_time[6:8]) - 1
 
         count = 0       #일주일마다 행을 나누기 위한 변수
 
@@ -115,13 +181,13 @@ class Menu:
                     month = month + 1
                     day = 1
                     count = 0
-                    print('\t', month, '월')
+                    print('\n\t', month, '월')
             elif month == 2:
                 if day > 28:
                     month = month + 1
                     day = 1
                     count = 0
-                    print('\t', month, '월')
+                    print('\n\t', month, '월')
             else:
                 if day > 31:
                     if month == 12:

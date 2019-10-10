@@ -17,14 +17,10 @@ class menuInfo:
     def getwhere(self):
         return self.__where
 
-    def setmenuNum(self, mN):
+    def setMI(self, mN, iM, w):
         assert isinstance(mN, int)
         self.__menuNum = mN
-
-    def setisMember(self, iM):
         assert isinstance(iM, bool)
         self.__isMember = iM
-
-    def setwhere(self, w):
         assert isinstance(w, int)
         self.__where = w
