@@ -171,4 +171,3 @@ class TypeChecker:
         else:
             return True
 
-a=3
