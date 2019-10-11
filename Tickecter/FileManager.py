@@ -3,10 +3,10 @@ import pandas as pd
 class FileManager:
 
     def __init__(self):
-        CL = pd.read_csv("../CardList.csv")
-        UL = pd.read_csv("../UserList.csv")
-        ML = pd.read_csv("../MovieList.csv")
-        RL = pd.read_csv("../ReservationList.csv")
+        CL = pd.read_csv("../CardList.csv",dtype=str)
+        UL = pd.read_csv("../UserList.csv",dtype=str)
+        ML = pd.read_csv("../MovieList.csv",dtype=str)
+        RL = pd.read_csv("../ReservationList.csv",dtype=str)
 
         # 카드리스트 카드번호를 키로 딕셔너리
         self.cardlist = dict([(a, b) for a,b in zip(CL.cardnum, CL.regist)])
@@ -56,6 +56,7 @@ class FileManager:
     #회원 가입(아이디,비밀번호,카드 매개로 받아 user하나 더생성)함수 //카드리스트랑 ,유저리스트 수정
 
     #영화예매(회원/비회원,아이디,영화 정보 ,,,좌석리스트) 받아 영화 예매 함수, 유저리스트에서 마일리지, 예약리스트
+
 
 x =FileManager()
 # print(x.movielist)
