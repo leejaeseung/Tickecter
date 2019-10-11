@@ -53,12 +53,53 @@ class TypeChecker:
                             print('날짜가 입력 형식에 맞지 않습니다.')
                             return False
                         else:
-                            if date[5] == '2' and (date[7] == '9' or date[6] > '2'):
-                                print('날짜가 입력 형식에 맞지 않습니다.')
+                            return True
+                    else:
+                        if date[5] == '2' and (date[7] == '9' or date[6] > '2'):
+                            print('날짜가 입력 형식에 맞지 않습니다.')
+                            return False
+                        else:
+                            print('날짜가 입력 형식에 맞지 않습니다.')
+                            return False
+                else:
+                    print('날짜가 입력 형식에 맞지 않습니다.')
+                    return False
+
+    def time_check(self, date):
+        if date.isdigit() == 0 or len(date) != 12:
+            print('8자리 숫자만 입력 가능합니다.')
+        else:
+            if date[4] > '1' or date[6] > '3':  # 20월 이상, 40일 이상 먼저 거름
+                print('날짜가 입력 형식에 맞지 않습니다.')
+                return False
+            elif date[4] == '0' and date[5] == '0' or date[6] == '0' and date[7] == '0':  # 월 또는 일이 00인 경우 제외
+                print('날짜가 입력 형식에 맞지 않습니다.')
+                return False
+            else:
+                if (date[4] == '0' and date[5] <= '9') or (date[4] == '1' and date[5] <= '2'):  # 0~9나  10~12월인지 검증
+                    if (date[6] <= '2') or (
+                            date[5] != '2' and date[6] == '3' and date[7] <= '1'):  # 날짜가 10~29일, 또는 30~31일인지 확인(2월 제외)
+                        if (date[5] == '4' or date[6] == '6' or date[6] == '9' or (date[4] == '1' and date[5] == '1')) and (
+                                date[6] == '3' and date[7] >= '1'):
+                            # 4, 6, 9 11월일때는 31일이면 안 됨
+                            print('날짜가 입력 형식에 맞지 않습니다.')
+                            return False
+                        else:
+                            if (date[8] > 2 or date[10] > 5):
+                                print('시간이 입력 형식에 맞지 않습니다.')
                                 return False
 
-        return True
-
+                            return True
+                    else:
+                        if date[5] == '2' and (date[7] == '9' or date[6] > '2'):
+                            print('날짜가 입력 형식에 맞지 않습니다.')
+                            return False
+                        else:
+                            print('날짜가 입력 형식에 맞지 않습니다.')
+                            return False
+                else:
+                    print('날짜가 입력 형식에 맞지 않습니다.')
+                    return False
 
     def pw_check(self, password):
         countalpha = 0
@@ -130,4 +171,3 @@ class TypeChecker:
         else:
             return True
 
-a=3

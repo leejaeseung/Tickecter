@@ -1,13 +1,27 @@
 from Tickecter import MenuManager
 import os
 
+from Tickecter.TypeChecker import TypeChecker
+
 
 def main():
     global input
     MM = MenuManager.MenuManager()
 
     while True:
-        input = input()
+        TP = TypeChecker()
+        input2 = input()
+        TP.checkyoursheet(input2)
+        input2 = input()
+        TP.pw_check(input2)
+        input2 = input()
+        TP.ID_check(input2)
+        input2 = input()
+        TP.cardNum(input2)
+        input2 = input()
+        TP.date_check(input2)
+        input2 = input()
+        TP.movieTitle(input2)
         if input == 'EXIT':
             break
         elif input == 'RESTART':
