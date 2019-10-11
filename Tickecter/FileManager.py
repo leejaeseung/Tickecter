@@ -66,19 +66,38 @@ class FileManager:
             return False
 
     #좌석 str 받으면 리스트 리턴 함수
+    def seats_to_list(self,strseat):
+        if "~" in strseat:
+            list = strseat.split("~")
+            seatlist = []
+            for i in range(int(list[0][1]),int(list[1][1])+1):
+                seatlist.append(list[0][0]+str(i))
+            return seatlist
+        elif "," in strseat:
+            list = strseat.split(",")
+            return list
+        else:
+            list = [strseat]
+            return list
 
+
+#csv는 ,로 셀을 구분.. 좌석에 ,를 사용하면?
 
     #회원 가입(아이디,비밀번호,카드 매개로 받아 user하나 더생성)함수 //카드리스트랑 ,유저리스트 수정
 
     #영화예매(회원/비회원,아이디,영화 정보 ,,,좌석리스트) 받아 영화 예매 함수, 유저리스트에서 마일리지, 예약리스트
 
 
-x =FileManager()
-print(x.dupli_checkCARDNUM("2040111912894451"))
+x=FileManager()
 x.savefile()
+print(x.seats_to_list("A1~A4"))
+print(x.seats_to_list("A1,A4,B4"))
+print(x.seats_to_list("B3"))
 #사용예
 # x = FileManager()
 # print(x.userlist["u8s0e9r"]["userpassword"])
 # print(x.movielist[3][2])
 # print(x.reservationlist)
 # print(x.movielist)
+# print(x.dupli_checkCARDNUM("2040111912894451"))
+
