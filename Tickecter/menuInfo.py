@@ -1,7 +1,4 @@
 class menuInfo:
-    __menuNum = 0
-    __isMember = 0
-    __where = 0
 
     def __init__(self, mN, iM, w):
         self.__menuNum = mN
