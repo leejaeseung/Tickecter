@@ -43,6 +43,12 @@ class FileManager:
         df_movielist.set_axis(["day","moviecode",'moviename','starttime','finishtime','screen','seat','A','B','C','D','E','F','G','H','I','j'],axis='columns',inplace=True)
         df_movielist.to_csv("movielist.csv",header=True,index=False)
 
+    #아이디 존재 유무 리턴함수
+
+    #카드 번호드록 유무 리턴
+    #좌석 str 받으면 리스트 리턴
+    #회원 가입(아이디,비밀번호,카드 매개로 받아 user하나 더생성)
+    #영화예매(회원/비회원,아이디,영화 정보 ,,,좌석리스트) 받아 영화 예매
 
 x =FileManager()
 x.savefile()
