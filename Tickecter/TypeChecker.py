@@ -85,11 +85,11 @@ class TypeChecker:
                             print('날짜가 입력 형식에 맞지 않습니다.')
                             return False
                         else:
-                            if (date[8] > 2 or date[10] > 5):
+                            if date[8] > 2 or date[10] > 5 or (date[8] == 2 and date[9] > 4):   #30시 또는 60분, 25시
                                 print('시간이 입력 형식에 맞지 않습니다.')
                                 return False
-
-                            return True
+                            else:
+                                return True
                     else:
                         if date[5] == '2' and (date[7] == '9' or date[6] > '2'):
                             print('날짜가 입력 형식에 맞지 않습니다.')
