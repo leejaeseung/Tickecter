@@ -22,35 +22,50 @@ class FileManager:
         #예약리스트 이차원 리스트
         self.reservationlist = [(member,userID,reservationcode,seats,cancel)
                                 for member,userID,reservationcode,seats,cancel in zip(RL.member,RL.userID,RL.reservationcode,RL.seats,RL.cancel)]
-        print(ML)
+
     def savefile(self):
         ##card
         df_cardlist = pd.DataFrame()
         df_cardlist['cardnum']= self.cardlist.keys()
         df_cardlist['regist']= self.cardlist.values()
 
-        ##user
+        # user
         us_list = []
         for a,b in self.userlist.items():
             us_list.append((a,b["userpassword"],b["registcard"],b["mileage"]))
         df_userlist = pd.DataFrame(us_list)
-
-        #movie
-        df_movielist= pd.DataFrame(self.movielist)
-
-        df_cardlist.to_csv("cardlist.csv",header=True,index=False)
         df_userlist.set_axis(["userID", "userpassword", "registcard", "mileage"], axis='columns', inplace=True)
-        df_userlist.to_csv("userlist.csv",header=True,index=False)
-        df_movielist.set_axis(["day","moviecode",'moviename','starttime','finishtime','screen','seat','A','B','C','D','E','F','G','H','I','j'],axis='columns',inplace=True)
-        df_movielist.to_csv("movielist.csv",header=True,index=False)
+
+        # movie
+        df_movielist= pd.DataFrame(self.movielist)
+        df_movielist.set_axis(["day","moviecode",'moviename','starttime','finishtime','screen','seat','A','B','C','D','E','F','G','H','I','J'],axis='columns',inplace=True)
+
+        # reservation
+        df_reservation = pd.DataFrame(self.reservationlist)
+        df_reservation.set_axis(["member","userID","reservationcode","seats","cancel"],axis='columns',inplace=True)
+
+        # 파일 저장 - 실제 작동할때는 파일명앞에 ../추가  "../CardList.csv"
+        df_cardlist.to_csv("CardList.csv",header=True,index=False)
+        df_userlist.to_csv("UserList.csv",header=True,index=False)
+        df_movielist.to_csv("MovieList.csv",header=True,index=False)
+        df_reservation.to_csv("ReservationList.csv",header=True, index=False)
 
 
     #아이디 존재 유무 리턴함수
+    def dupli_checkID(self,inputID):
+        if self.userlist.get(inputID,False):
+            return True
+        else:
+            return False
 
     #카드 번호등록 유무 리턴 함수
+    def dupli_checkCARDNUM(self,inputCARDNUM):
+        if self.cardlist.get(inputCARDNUM,False):
+            return True
+        else:
+            return False
 
     #좌석 str 받으면 리스트 리턴 함수
-
 
 
     #회원 가입(아이디,비밀번호,카드 매개로 받아 user하나 더생성)함수 //카드리스트랑 ,유저리스트 수정
@@ -59,13 +74,11 @@ class FileManager:
 
 
 x =FileManager()
-# print(x.movielist)
+print(x.dupli_checkCARDNUM("2040111912894451"))
 x.savefile()
 #사용예
-if 2<1:
-    #클래스 생성
-    x = FileManager()
-    print(x.userlist["u8s0e9r"]["password"])
-    print(x.movielist[3][2])
-    print(x.reservationlist)
-    print(x.movielist)
+# x = FileManager()
+# print(x.userlist["u8s0e9r"]["userpassword"])
+# print(x.movielist[3][2])
+# print(x.reservationlist)
+# print(x.movielist)
