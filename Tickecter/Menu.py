@@ -122,8 +122,8 @@ class Menu:
                 print("결제하실 카드 번호를 입력해 주세요.")
                 self.MI.setMI(43142, self.MI.getisMember(), self.MI.getwhere())
         #else:      #입력한 좌석이 존재하지 않는 경우
-            print("존재하지 않는 좌석입니다. 다시 입력해 주세요")
-            self.MI.setMI(4313, self.MI.getisMember(), self.MI.getwhere())
+            #print("존재하지 않는 좌석입니다. 다시 입력해 주세요")
+            #self.MI.setMI(4313, self.MI.getisMember(), self.MI.getwhere())
 
     def menu43141(self, input):
         #if True:       #마일리지 잔액보다 적거나 같게 입력했을 경우
@@ -153,7 +153,7 @@ class Menu:
         print("결제가 완료되었습니다. 예매 코드 : ")
         # 예매 코드 출력
         time.sleep(1)                   #1초동안 예매 코드를 보여줌
-        self.MI.setMI(4300, self.MI.getisMember(),self.MI.getwhere())
+        self.MI.setMI(4300, self.MI.getisMember(), self.MI.getwhere())
 
     def print_login_menu(self):
         print("1. 회원 로그인")
