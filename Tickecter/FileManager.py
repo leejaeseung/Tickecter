@@ -50,6 +50,8 @@ class FileManager:
         df_movielist.to_csv("MovieList.csv",header=True,index=False)
         df_reservation.to_csv("ReservationList.csv",header=True, index=False)
 
+        # csv는 ,로 셀을 구분.. 좌석에 ,를 사용하면?
+        #좌석 번호 저장 할때 csv가 ,로 셀을 구분하여 문자열에,이 포함될경우 자동으로 ""로 묶어줌 그래서 A1~A4는 "이 포함되지 않으나 A1,A2는 "이 포함되어 저장
 
     #아이디 존재 유무 리턴함수
     def dupli_checkID(self,inputID):
@@ -60,9 +62,14 @@ class FileManager:
 
     #카드 번호등록 유무 리턴 함수
     def dupli_checkCARDNUM(self,inputCARDNUM):
-        if self.cardlist.get(inputCARDNUM,False):
+        if self.cardlist.get(inputCARDNUM) == 0:
+            print("성공")
             return True
+        elif self.cardlist.get(inputCARDNUM, False) == 1:
+            print("이미 등록된 카드입니다.")
+            return False
         else:
+            print("존재 하지 않는 카드번호입니다.")
             return False
 
     #좌석 str 받으면 리스트 리턴 함수
@@ -81,18 +88,16 @@ class FileManager:
             return list
 
 
-#csv는 ,로 셀을 구분.. 좌석에 ,를 사용하면?
-
     #회원 가입(아이디,비밀번호,카드 매개로 받아 user하나 더생성)함수 //카드리스트랑 ,유저리스트 수정
+    def join_user(self,id,password,cardnum):
+        self.userlist[id] ={"userpassword":password,"registcard":cardnum,"mileage":0}
+        self.cardlist[cardnum] = str(1)
 
     #영화예매(회원/비회원,아이디,영화 정보 ,,,좌석리스트) 받아 영화 예매 함수, 유저리스트에서 마일리지, 예약리스트
 
 
 x=FileManager()
 x.savefile()
-print(x.seats_to_list("A1~A4"))
-print(x.seats_to_list("A1,A4,B4"))
-print(x.seats_to_list("B3"))
 #사용예
 # x = FileManager()
 # print(x.userlist["u8s0e9r"]["userpassword"])
@@ -100,4 +105,13 @@ print(x.seats_to_list("B3"))
 # print(x.reservationlist)
 # print(x.movielist)
 # print(x.dupli_checkCARDNUM("2040111912894451"))
+#출력확인 seat_to list
+# print(x.seats_to_list("A1~A4"))
+# print(x.seats_to_list("A1,A4,B4"))
+# print(x.seats_to_list("B3"))
 
+# print(x.userlist)
+# print(x.cardlist)
+# x.join_user("aaaa","1231aa","2040430744863878")
+# print(x.userlist)
+# print(x.cardlist)
