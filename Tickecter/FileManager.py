@@ -9,10 +9,10 @@ class FileManager:
         RL = pd.read_csv("../ReservationList.csv",dtype=str)
 
         # 카드리스트 카드번호를 키로 딕셔너리
-        self.cardlist = dict([(a, b) for a,b in zip(CL.cardnum, CL.regist)])
+        self.cardlist = dict([(a, b) for a, b in zip(CL.cardnum, CL.regist)])
 
         #유저리스트 아이디를 키로 딕셔너리
-        self.userlist = dict([(userID,{"userpassword":password,"registcard":cardnum,"mileage":mileage})
+        self.userlist = dict([(userID,{"userpassword": password, "registcard": cardnum, "mileage": mileage})
                          for userID, password, cardnum, mileage in zip(UL.userID, UL.userpassword, UL.registcard,UL.mileage)])
 
         #영화일정리스트 이차원 리스트
