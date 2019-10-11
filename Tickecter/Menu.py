@@ -6,9 +6,10 @@ class Menu:
 
     def __init__(self):
         print("현재 시간을 입력해 주세요.")
-        self.__now_time = 0
+        self.__now_time = None
         self.__FM = FileManager.FileManager()
         self.MI = menuInfo.menuInfo(4100, False, 0)
+        self.want_reserveday = None
 
     def menu4100(self, input):
         self.__now_time = str(input)
@@ -85,8 +86,13 @@ class Menu:
             print("상영을 원하는 날짜를 8자리로 입력해 주세요.")
             self.MI.setMI(4311, self.MI.getisMember(), self.MI.getwhere())
         #elif new_input == 2:
-
-            #return 4221, False, 1  수정 필요
+            if self.MI.getisMember():       #회원이면
+                # ReservationList 에서 회원의 예매 내역 출력
+                print("취소하시려는 영화의 예매 코드를 입력해 주세요.(취소하지 않고  메인 메뉴로 돌아가시려면 “BACK”을 입력해 주세요)")
+                self.MI.setMI(4322, self.MI.getisMember(), self.MI.getwhere())
+            else:
+                print("예매 코드를 입력해 주세요.")
+                self.MI.setMI(43212, self.MI.getisMember(), self.MI.getwhere())
         #elif new_input == 3:
             #return 4300, False, 2  수정 필요
         #else:
@@ -97,6 +103,7 @@ class Menu:
             print("현재 날짜보다 이전 날짜입니다. 다시 입력해 주세요.")
             self.MI.setMI(4311, self.MI.getisMember(), self.MI.getwhere())
         else:
+            self.want_reserveday = input
             #상영중인 영화를 한 줄씩 출력
             print("상영중인 영화.....")
             print("예매할 영화를 선택하세요.(숫자.영화명 입력)")
@@ -154,6 +161,26 @@ class Menu:
         # 예매 코드 출력
         time.sleep(1)                   #1초동안 예매 코드를 보여줌
         self.MI.setMI(4300, self.MI.getisMember(), self.MI.getwhere())
+
+    def menu43212(self, input):
+        #if     #존재하는 예매 코드인 경우
+            #예매 코드에 해당하는 영화정보 출력
+            print("취소하시려는 영화의 예매 코드를 입력해 주세요.(취소하지 않고  메인 메뉴로 돌아가시려면 “BACK”을 입력해 주세요.)")
+            self.MI.setMI(4322, self.MI.getisMember(), self.MI.getwhere())
+        #else:  #존재하지 않는 예매 코드인 경우
+            print("존재하지 않는 예매 코드입니다. 다시 입력해 주세요.")
+            self.MI.setMI(43212, self.MI.getisMember(), self.MI.getwhere())
+
+    def menu4322(self, input):
+        # if     #존재하는 예매 코드인 경우
+            # 예매 코드를 취소 - ReservationList, MovieList를 업데이트
+            print("ㅁㅁㅁ의 예매가 취소되었습니다.")
+            time.sleep(1)
+            self.MI.setMI(4323, self.MI.getisMember(), self.MI.getwhere())
+        # else:  #존재하지 않는 예매 코드인 경우
+            print("존재하지 않는 예매 코드입니다. 다시 입력해 주세요.")
+            self.MI.setMI(4322, self.MI.getisMember(), self.MI.getwhere())
+
 
     def print_login_menu(self):
         print("1. 회원 로그인")
