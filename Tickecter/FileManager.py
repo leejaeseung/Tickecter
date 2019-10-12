@@ -134,6 +134,7 @@ class FileManager:
 
 #클래스 선언
 x=FileManager()
+x.savefile()
 
 
 # movie =x.day_movielist("20191020","1710")
