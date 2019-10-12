@@ -13,7 +13,7 @@ class Menu:
     def menu4100(self, input):
         self.__now_time = str(input)
         self.print_login_menu()
-        self.MI.setMI(4200, self.MI.getisMember(), 1)
+        self.MI.setMI(4200, self.MI.getisMember(), 1)  #로그인 안한 상황
 
     def menu4200(self, input):
         new_input = int(input)

@@ -53,7 +53,6 @@ class FileManager:
 x =FileManager()
 x.savefile()
 #사용예
-if 2<1:
     #클래스 생성
     x = FileManager()
     print(x.userlist["u8s0e9r"]["password"])
