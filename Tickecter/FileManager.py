@@ -93,10 +93,27 @@ class FileManager:
         self.userlist[id] ={"userpassword":password,"registcard":cardnum,"mileage":0}
         self.cardlist[cardnum] = str(1)
 
+    def day_movielist(self,day,starttime):
+        daylist =[]
+        daymovie = []
+        for list in self.movielist:
+            if list[0] ==day and int(list[3])>int(starttime): # 상영날짜가 day인 아직 시작하지 않은 영화
+                if list[1] not in daymovie: #같은 영화라면 가장 이른시간의 영화만
+                    daylist.append(list)
+                    daymovie.append(list[1])
+        return daylist
+
     #영화예매(회원/비회원,아이디,영화 정보 ,,,좌석리스트) 받아 영화 예매 함수, 유저리스트에서 마일리지, 예약리스트
+    def bookmovie(self,isuser,id,day,moviecode,starttime,strseat):
+        pass
+
+
+
+
 
 
 x=FileManager()
+print(x.day_movielist("20191022","1910"))
 x.savefile()
 #사용예
 # x = FileManager()
