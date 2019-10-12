@@ -50,12 +50,12 @@ class FileManager:
     #회원 가입(아이디,비밀번호,카드 매개로 받아 user하나 더생성)
     #영화예매(회원/비회원,아이디,영화 정보 ,,,좌석리스트) 받아 영화 예매
 
-x =FileManager()
-x.savefile()
-#사용예
+    #x =FileManager()
+    #x.savefile()
+    #사용예
     #클래스 생성
-    x = FileManager()
-    print(x.userlist["u8s0e9r"]["password"])
-    print(x.movielist[3][2])
-    print(x.reservationlist)
-    print(x.movielist)
+ x = FileManager()
+print(x.userlist["u8s0e9r"]["password"])
+print(x.movielist[3][2])
+print(x.reservationlist)
+print(x.movielist)
