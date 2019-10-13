@@ -29,6 +29,7 @@ def main():
             if MM.getMI().getwhere() != 0:
                 MM.getMI().setMI(4200, False, 1)
                 MM.userName = None
+                MM.password = None
                 os.system('cls')
                 MM.print_login_menu()
             del (input)
