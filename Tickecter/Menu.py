@@ -8,7 +8,8 @@ class Menu:
         print("현재 시간을 입력해 주세요.")
         self.__now_time = 0
         self.__FM = FileManager.FileManager()
-        self.MI = menuInfo.menuInfo(4100, False, 0)
+        self.MI = menuInfo.menuInfo(4100, False, 0) #__menuNum,__isMember,__where
+
 
     def menu4100(self, input):
         self.__now_time = str(input)
@@ -30,49 +31,65 @@ class Menu:
         else:
             return -1
 
-    def menu4211(self, input):
+    def menu4211(self, input):    # self.MI.isMember=1 인 경우. (회원 로그인)
         # 파일 관리 클래스를 사용해 input 과 비교, if문으로 True면 다음 메뉴, False면 다시 입력받음,아이디를 잠시 저장
         # if True :  #존재하는 아이디면
+        tempID = str(input)     #아이디를 입력받아 임시 공간에 저장, FileManager 객체 __FM의 userlist의 userID와 비교.
+        if tempID == self.__FM.userlist.userID:     #일치한다면  menu4212로..
             print("Password를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
             self.MI.setMI(4212, self.MI.getisMember(), self.MI.getwhere())
 
         # else:      #존재하지 않는 아이디면
-            # print("존재하지 않는 ID입니다. 다시 입력해 주세요.")
-            # self.MI.setMI(4211, self.MI.getisMember(), self.MI.getwhere())
+        else:
+            print("존재하지 않는 ID입니다. 다시 입력해 주세요.")
+            self.MI.setMI(4211, self.MI.getisMember(), self.MI.getwhere())
 
     def menu4212(self, input):
         # 파일 관리 클래스를 사용해 input 과 비교, if문으로 True면 다음 메뉴, False면 다시 입력받음, 비밀번호를 잠시 저장
-        # if True :     #비밀번호가 일치하면
+        tempPW = str(input)     #비밀번호를 입력받아 임시 공간에 저장
+        if tempPW == self.__FM.userlist.userID.userpassword:     #객체 __FM의 userlist의 uesrpassword와 비교해서 비밀번호가 일치하면
+            print("로그인 성공!")
         self.print_main_menu()
         self.MI.setMI(4300, True, 2)
 
-        # else :         #일치하지 않으면
-            # print("일치하지 않는 Password입니다. 다시 입력해 주세요.")
-            # self.MI.setMI(4212, self.MI.getisMember(), self.MI.getwhere())
+        # 일치하지 않으면
+        else:
+            print("일치하지 않는 Password입니다. 다시 입력해 주세요.")
+            self.MI.setMI(4212, self.MI.getisMember(), self.MI.getwhere())
 
     def menu4221(self, input):
         # 파일 관리 클래스를 사용해 input 과 비교, if문으로 True면 다음 메뉴, False면 다시 입력받음, 아이디를 잠시 저장
-        # if True :     #만들 수 있는 아이디면
-            print("Password를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
+        tempID = str(input)      #아이디를 입력받아 임시 공간에 저장
+        if tempID != self.__FM.userlist.userID:     #만들 수 있는 아이디면,
+            print("생성가능한 아이디입니다.\nPassword를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
             self.MI.setMI(4222, self.MI.getisMember(), self.MI.getwhere())
+            self.__FM.savefile()
 
-        # else:          #이미 존재하는 아이디면
-            # print("이미 존재하는 ID입니다. 다시 입력해 주세요.")
-            # self.MI.setMI(4221, self.MI.getisMember(), self.MI.getwhere())
+        else:         # userlist에 이미 존재하는 아이디면
+            print("이미 존재하는 ID입니다. 다시 입력해 주세요.")
+            self.MI.setMI(4221, self.MI.getisMember(), self.MI.getwhere())
 
     def menu4222(self, input):
-        # 비밀번호를 잠시 저장
+        # 비밀번호를 저장
+        tempPw = str(input)
+        print("아이디, 비밀번호 생성이 완료되었습니다.")
         print("등록할 카드 번호를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
+        self.__MI.savefile()
         self.MI.setMI(4223, self.MI.getisMember(), self.MI.getwhere())
 
     def menu4223(self, input):
+
+        tempCardnum = int(input)
         # if 2 :     #이미 등록된 카드 번호이면
-            # print("이미 등록된 카드 번호입니다. 다시 입력해 주세요.")
-            # self.MI.setMI(4223, self.MI.getisMember(), self.MI.getwhere())
+        if tempCardnum == self.__FM.cardlist.cardnum:
+            print("이미 등록된 카드 번호입니다. 다시 입력해 주세요.")
+            self.MI.setMI(4223, self.MI.getisMember(), self.MI.getwhere())
+
         # elif 1 :   #존재하지 않는 카드 번호이면
-            # print("존재하지 않는 카드 번호입니다. 다시 입력해 주세요.")
-            # self.MI.setMI(4223, self.MI.getisMember(), self.MI.getwhere())
-        # else :     #유효한 카드 번호이면 -> UserList를 업데이트
+            print("존재하지 않는 카드 번호입니다. 다시 입력해 주세요.")
+            self.MI.setMI(4223, self.MI.getisMember(), self.MI.getwhere())
+
+        elif tempCardnum != self.__FM.cardlist.cardnum:   #유효한 카드 번호이면 -> UserList를 업데이트
             os.system('cls')
             self.print_login_menu()
             self.MI.setMI(4200, self.MI.getisMember(), self.MI.getwhere())
