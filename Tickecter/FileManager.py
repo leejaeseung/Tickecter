@@ -67,13 +67,11 @@ class FileManager:
     #카드 번호등록 유무 리턴 함수
     def dupli_checkCARDNUM(self,inputCARDNUM):
         if self.cardlist.get(inputCARDNUM) == 0:
-            return True
+            return 0
         elif self.cardlist.get(inputCARDNUM, False) == 1:
-            print("이미 등록된 카드입니다.")
-            return False
+            return 2
         else:
-            print("존재 하지 않는 카드번호입니다.")
-            return False
+            return 1
 
 
     #회원 가입(아이디,비밀번호,카드 매개로 받아 user하나 더생성)함수 //카드리스트랑 ,유저리스트 수정
