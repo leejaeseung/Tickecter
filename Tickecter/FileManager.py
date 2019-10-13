@@ -3,10 +3,10 @@ import pandas as pd
 class FileManager:
 
     def __init__(self):
-        CL = pd.read_csv("../CardList.csv",dtype=str)
-        UL = pd.read_csv("../UserList.csv",dtype=str)
-        ML = pd.read_csv("../MovieList.csv",dtype=str)
-        RL = pd.read_csv("../ReservationList.csv",dtype=str)
+        CL = pd.read_csv("../Tickecter/CardList.csv", dtype=str)
+        UL = pd.read_csv("../Tickecter/UserList.csv", dtype=str)
+        ML = pd.read_csv("../Tickecter/MovieList.csv", dtype=str)
+        RL = pd.read_csv("../Tickecter/ReservationList.csv", dtype=str)
 
         # 카드리스트 카드번호를 키로 딕셔너리
         self.cardlist = dict([(a, b) for a, b in zip(CL.cardnum, CL.regist)])
@@ -94,15 +94,9 @@ class FileManager:
     def day_movielist(self,day,starttime):
         daylist =[]
         for _code,movieinfo in self.movielist.items():
-            if movieinfo[0] ==day and int(movieinfo[3]) > int(starttime): # 상영날짜가 day인 아직 시작하지 않은 영화
-                daylist.append([_code,movieinfo])  #이부분에서 _code와 movieinfo 리스트 하나로 묶는법을 잘 모르겠.
+            if movieinfo[0] == day and int(movieinfo[3]) > int(starttime): # 상영날짜가 day인 아직 시작하지 않은 영화
+                daylist.append([_code, movieinfo])  #이부분에서 _code와 movieinfo 리스트 하나로 묶는법을 잘 모르겠.
         return daylist
-
-    #그날 영화 리스트 입력 받으면 출력해주는 함수       이거는 클래스에 있을 필요x
-    def printday_movie(self,day_movie):
-        for index, elem in enumerate(day_movie):
-            print(str(index) +". "+elem[1][2]+" 시작시간 "+elem[1][3])
-
 
     # 좌석 str 받으면 리스트 리턴 함수
     def seats_to_list(self, strseat):
