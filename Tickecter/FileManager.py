@@ -66,9 +66,9 @@ class FileManager:
 
     #카드 번호등록 유무 리턴 함수
     def dupli_checkCARDNUM(self,inputCARDNUM):
-        if self.cardlist.get(inputCARDNUM) == 0:
+        if self.cardlist.get(inputCARDNUM) == '0':
             return 0
-        elif self.cardlist.get(inputCARDNUM, False) == 1:
+        elif self.cardlist.get(inputCARDNUM, False) == '1':
             return 2
         else:
             return 1
