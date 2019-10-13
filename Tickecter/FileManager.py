@@ -51,7 +51,7 @@ class FileManager:
         df_cardlist.to_csv("CardList.csv",header=True,index=False)
         df_userlist.to_csv("UserList.csv",header=True,index=False)
         df_movielist.to_csv("MovieList.csv",header=True,index=False)
-        df_reservation.to_csv("ReservationList.csv",header=True, index=False)
+        df_reservation.to_csv("ReservationList.csv", header=True, index=False)
 
         # csv는 ,로 셀을 구분.. 좌석에 ,를 사용하면?
         #좌석 번호 저장 할때 csv가 ,로 셀을 구분하여 문자열에,이 포함될경우 자동으로 ""로 묶어줌 그래서 A1~A4는 "이 포함되지 않으나 A1,A2는 "이 포함되어 저장
@@ -114,24 +114,22 @@ class FileManager:
     #영화예매(회원/비회원,아이디,영화 정보 ,,,좌석리스트) 받아 영화 예매 함수
     def bookmovie(self,isuser,id,choice_movie,strseat):
         seatlist =self.seats_to_list(strseat)
-        self.reservationlist.append([isuser,id,choice_movie[0]+choice_movie[1]+choice_movie[3]+strseat[0:1],strseat,"0"])
+        self.reservationlist.append([isuser,id,choice_movie[0]+choice_movie[1]+choice_movie[3]+seatlist[0],strseat,"0"])
         for seat in seatlist:
             hori = 7 + ord(seat[0]) - ord('A')
             vert = int(seat[1:]) - 1
             choice_movie[hori] =choice_movie[hori][0:vert] + "1" + choice_movie[hori][vert + 1:]
 
 
-    #movielist day,moviecode,moviename,starttime,finishtime,screen,seat,A,B,C,D,E,F,G,H,I,J
+# movielist day,moviecode,moviename,starttime,finishtime,screen,seat,A,B,C,D,E,F,G,H,I,J
 
-#클래스 선언
+# 클래스 선언
 x=FileManager()
-
-
 # movie =x.day_movielist("20191020","1710")
-# x.printday_movie(movie)
+# print(movie)
 # index =input("인덱스를 입력하시요")
 # x.bookmovie("1","user",movie[int(index)][1],"A1,A2,A4")
-# print(x.checkseat(movie[int(index)][1],"A3"))
+
 x.savefile()
 
 # x.savefile()

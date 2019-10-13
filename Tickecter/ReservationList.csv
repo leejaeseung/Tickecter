@@ -1,3 +1,4 @@
 member,userID,reservationcode,seats,cancel
 1,u8s0e9r,20191020AA0410A1,"A1,B1,B2,A3",1
 1,u8s0e9r,20191020AA0410A1,A1~A3,1
+1,user,20191020AA1920A1,"A1,A2,A4",0
