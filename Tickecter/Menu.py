@@ -170,7 +170,7 @@ class Menu:
 
     def menu43141(self, input):
         mileage = int(self.__FM.getuser(self.userName, self.password).get("mileage"))
-        if mileage <= int(input):  # 마일리지 잔액보다 적거나 같게 입력했을 경우
+        if mileage >= int(input):  # 마일리지 잔액보다 적거나 같게 입력했을 경우
             print("나머지 금액은", self.final_cost - int(input), " 입니다. 등록된 카드로 결제하겠습니다.")
             # 마일리지를 저장
             mileage = mileage - int(input) + int(self.final_cost / 10)
@@ -178,7 +178,7 @@ class Menu:
 
             print("결제가 완료되었습니다. 예매 코드 : ", self.selected_movie[0] + self.seat_First)
 
-            self.__FM.bookmovie('1', self.userName, self.selected_movie, self.seat_list)
+            self.__FM.bookmovie('1', self.userName, self.selected_movie[1], self.seat_list)
             # 수정된 파일들 저장
             self.__FM.savefile()
             # 예매 코드 출력
@@ -342,7 +342,7 @@ class Menu:
             col = int(seat[1:])
             if len(self.selected_movie[1][6 + row]) < col:                  #예약 가능 좌석 보다 높은 값일 때
                 return -1
-            if list(self.selected_movie[1][6 + row])[col - 1] == 1:  # 예약되어 있으면
+            if list(self.selected_movie[1][6 + row])[col - 1] == '1':  # 예약되어 있으면
                 return -1
             else:
                 cnt = cnt + 1
