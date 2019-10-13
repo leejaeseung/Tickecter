@@ -70,13 +70,11 @@ class Menu:
         self.MI.setMI(4223, self.MI.getisMember(), self.MI.getwhere())
 
     def menu4223(self, input):
-        # if 2 :     #이미 등록된 카드 번호이면
-            # print("이미 등록된 카드 번호입니다. 다시 입력해 주세요.")
-            # self.MI.setMI(4223, self.MI.getisMember(), self.MI.getwhere())
-        # elif 1 :   #존재하지 않는 카드 번호이면
-            # print("존재하지 않는 카드 번호입니다. 다시 입력해 주세요.")
-            # self.MI.setMI(4223, self.MI.getisMember(), self.MI.getwhere())
-        # else :     #유효한 카드 번호이면 -> UserList를 업데이트
+        if self.__FM.dupli_checkCARDNUM(input)== False :     #이미 등록된 카드 번호이거나 존재 하지 않는 카드 번호이면
+            print("다시 입력해 주세요.")
+            self.MI.setMI(4223, self.MI.getisMember(), self.MI.getwhere())
+        else :     #유효한 카드 번호이면 -> UserList를 업데이트
+            
             os.system('cls')
             self.print_login_menu()
             self.MI.setMI(4200, self.MI.getisMember(), self.MI.getwhere())

@@ -67,7 +67,6 @@ class FileManager:
     #카드 번호등록 유무 리턴 함수
     def dupli_checkCARDNUM(self,inputCARDNUM):
         if self.cardlist.get(inputCARDNUM) == 0:
-            print("성공")
             return True
         elif self.cardlist.get(inputCARDNUM, False) == 1:
             print("이미 등록된 카드입니다.")
@@ -118,31 +117,40 @@ class FileManager:
         else:
             list = [strseat]
             return list
-
-    #영화예매(회원/비회원,아이디,영화 정보 ,,,좌석리스트) 받아 영화 예매 함수
-    def bookmovie(self,isuser,id,daylist,index,strseat):
-        choice = daylist[int(index)][0] #리스트에 인덱스로 접근 영화 일정딕셔너리의 key받아옴
+        # 자리가 예매 되었는지 안되었는지 출력
+    def checkseat(self,choice_movie,strseat):
         seatlist =self.seats_to_list(strseat)
-        self.reservationlist.append([isuser,id,choice,strseat,"0"])
         for seat in seatlist:
             hori = 7 + ord(seat[0]) - ord('A')
-            vert = int(seat[1])
-            self.movielist[choice][hori] =self.movielist[choice][hori][0:vert-1] + "1" + self.movielist[choice][hori][vert:]
+            vert = int(seat[1])-1
+            if choice_movie[hori][vert] != "0":
+                return False
+        return True
+
+
+    #영화예매(회원/비회원,아이디,영화 정보 ,,,좌석리스트) 받아 영화 예매 함수
+    def bookmovie(self,isuser,id,choice_movie,strseat):
+        seatlist =self.seats_to_list(strseat)
+        self.reservationlist.append([isuser,id,choice_movie[0]+choice_movie[1]+choice_movie[3]+strseat[0:1],strseat,"0"])
+        for seat in seatlist:
+            hori = 7 + ord(seat[0]) - ord('A')
+            vert = int(seat[1]) - 1
+            choice_movie[hori] =choice_movie[hori][0:vert] + "1" + choice_movie[hori][vert + 1:]
 
 
     #movielist day,moviecode,moviename,starttime,finishtime,screen,seat,A,B,C,D,E,F,G,H,I,J
 
 #클래스 선언
 x=FileManager()
-x.savefile()
 
 
 # movie =x.day_movielist("20191020","1710")
 # x.printday_movie(movie)
 # index =input("인덱스를 입력하시요")
-#x.bookmovie(0,0,movie,index,"A1~A4")
-# index =input("인덱스를 입력하시요")
-# x.bookmovie("1","user",movie,index,"A1,A2,A4")
+# x.bookmovie("1","user",movie[int(index)][1],"A1,A2,A4")
+# print(x.checkseat(movie[int(index)][1],"A3"))
+x.savefile()
+
 # x.savefile()
 
 #사용예
