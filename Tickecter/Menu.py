@@ -330,7 +330,7 @@ class Menu:
         cnt = 0
         for seat in seatList:
             row = ord(seat[0]) - ord('A') + 1
-            col = int(seat[1])
+            col = int(seat[1:])
             if len(self.selected_movie[1][6 + row]) < col:                  #예약 가능 좌석 보다 높은 값일 때
                 return -1
             if list(self.selected_movie[1][6 + row])[col - 1] == 1:         #예약되어 있으면

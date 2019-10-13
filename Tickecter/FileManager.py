@@ -102,7 +102,7 @@ class FileManager:
         if "~" in strseat:
             list = strseat.split("~")
             seatlist = []
-            for i in range(int(list[0][1]), int(list[1][1]) + 1):
+            for i in range(int(list[0][1:]), int(list[1][1:]) + 1):
                 seatlist.append(list[0][0] + str(i))
             return seatlist
         elif "," in strseat:
@@ -119,7 +119,7 @@ class FileManager:
         self.reservationlist.append([isuser,id,choice_movie[0]+choice_movie[1]+choice_movie[3]+strseat[0:1],strseat,"0"])
         for seat in seatlist:
             hori = 7 + ord(seat[0]) - ord('A')
-            vert = int(seat[1]) - 1
+            vert = int(seat[1:]) - 1
             choice_movie[hori] =choice_movie[hori][0:vert] + "1" + choice_movie[hori][vert + 1:]
 
 
