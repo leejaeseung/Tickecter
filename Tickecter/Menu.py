@@ -41,7 +41,6 @@ class Menu:
     def menu4211(self, input): # 로그인 메뉴-id
         # 파일 관리 클래스를 사용해 input 과 비교, if문으로 True면 다음 메뉴, False면 다시 입력받음,아이디를 잠시 저장
         if self.__FM.dupli_checkID(input) :  # 존재하는 아이디면
-            self.tempID= input
             self.userName = input
             print("Password를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
             self.MI.setMI(4212, self.MI.getisMember(), self.MI.getwhere())
@@ -53,7 +52,7 @@ class Menu:
     def menu4212(self, input): # 로그인 메뉴 -password
         # 파일 관리 클래스를 사용해 input 과 비교, if문으로 True면 다음 메뉴, False면 다시 입력받음, 비밀번호를 잠시 저장
         self.password = input
-        if self.__FM.userlist[self.tempID] == input:     # 비밀번호가 일치하면
+        if self.__FM.userlist[self.userName]["userpassword"] == input:     # 비밀번호가 일치하면
             os.system('cls')
             self.print_main_menu()
             self.MI.setMI(4300, True, 2)
@@ -64,7 +63,7 @@ class Menu:
     def menu4221(self, input): # 회원 가입 메뉴- id 입력후
         # 파일 관리 클래스를 사용해 input 과 비교, if문으로 True면 다음 메뉴, False면 다시 입력받음, 아이디를 잠시 저장
         if not self.__FM.dupli_checkID(input):     # 만들 수 있는 아이디면
-            self.tempID= input
+            self.userName= input
             print("Password를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
             self.MI.setMI(4222, self.MI.getisMember(), self.MI.getwhere())
 
