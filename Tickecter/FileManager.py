@@ -111,15 +111,6 @@ class FileManager:
         else:
             list = [strseat]
             return list
-        # 자리가 예매 되었는지 안되었는지 출력
-    def checkseat(self,choice_movie,strseat):
-        seatlist =self.seats_to_list(strseat)
-        for seat in seatlist:
-            hori = 7 + ord(seat[0]) - ord('A')
-            vert = int(seat[1])-1
-            if choice_movie[hori][vert] != "0":
-                return False
-        return True
 
 
     #영화예매(회원/비회원,아이디,영화 정보 ,,,좌석리스트) 받아 영화 예매 함수
