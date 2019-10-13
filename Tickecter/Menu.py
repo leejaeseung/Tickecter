@@ -31,38 +31,41 @@ class Menu:
         else:
             return -1
 
-    def menu4211(self, input):
+    def menu4211(self, input): # 로그인 메뉴-id
         # 파일 관리 클래스를 사용해 input 과 비교, if문으로 True면 다음 메뉴, False면 다시 입력받음,아이디를 잠시 저장
-        # if True :  #존재하는 아이디면
+        if self.__FM.dupli_checkID(input) :  # 존재하는 아이디면
+            self.tempID= input
             print("Password를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
             self.MI.setMI(4212, self.MI.getisMember(), self.MI.getwhere())
 
-        # else:      #존재하지 않는 아이디면
-            # print("존재하지 않는 ID입니다. 다시 입력해 주세요.")
-            # self.MI.setMI(4211, self.MI.getisMember(), self.MI.getwhere())
+        else:      # 존재하지 않는 아이디면
+            print("존재하지 않는 ID입니다. 다시 입력해 주세요.")
+            self.MI.setMI(4211, self.MI.getisMember(), self.MI.getwhere())
 
-    def menu4212(self, input):
+    def menu4212(self, input): # 로그인 메뉴 -password
         # 파일 관리 클래스를 사용해 input 과 비교, if문으로 True면 다음 메뉴, False면 다시 입력받음, 비밀번호를 잠시 저장
-        # if True :     #비밀번호가 일치하면
-        self.print_main_menu()
-        self.MI.setMI(4300, True, 2)
+        if self.__FM.userlist[self.tempID] == input:     # 비밀번호가 일치하면
+            self.print_main_menu()
+            self.MI.setMI(4300, True, 2)
 
-        # else :         #일치하지 않으면
-            # print("일치하지 않는 Password입니다. 다시 입력해 주세요.")
-            # self.MI.setMI(4212, self.MI.getisMember(), self.MI.getwhere())
+        else:         #일치하지 않으면
+            print("일치하지 않는 Password입니다. 다시 입력해 주세요.")
+            self.MI.setMI(4212, self.MI.getisMember(), self.MI.getwhere())
 
-    def menu4221(self, input):
+    def menu4221(self, input): # 회원 가입 메뉴- id 입력후
         # 파일 관리 클래스를 사용해 input 과 비교, if문으로 True면 다음 메뉴, False면 다시 입력받음, 아이디를 잠시 저장
-        # if True :     #만들 수 있는 아이디면
+        if not self.__FM.dupli_checkID(input):     # 만들 수 있는 아이디면
+            self.tempID= input
             print("Password를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
             self.MI.setMI(4222, self.MI.getisMember(), self.MI.getwhere())
 
-        # else:          #이미 존재하는 아이디면
-            # print("이미 존재하는 ID입니다. 다시 입력해 주세요.")
-            # self.MI.setMI(4221, self.MI.getisMember(), self.MI.getwhere())
+        else:          #이미 존재하는 아이디면
+            print("이미 존재하는 ID입니다. 다시 입력해 주세요.")
+            self.MI.setMI(4221, self.MI.getisMember(), self.MI.getwhere())
 
     def menu4222(self, input):
         # 비밀번호를 잠시 저장
+        self.temppassword =input
         print("등록할 카드 번호를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
         self.MI.setMI(4223, self.MI.getisMember(), self.MI.getwhere())
 
