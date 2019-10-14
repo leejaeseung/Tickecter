@@ -120,8 +120,15 @@ class FileManager:
             vert = int(seat[1:]) - 1
             choice_movie[hori] =choice_movie[hori][0:vert] + "1" + choice_movie[hori][vert + 1:]
 
+    #아이디를 입력받으면 해당 회원의 예매 코드에 해당하는 영화 정보들만을 리스트로 리턴하는 함수 - 회원을 위해 필요
+    #def getReservation(self, username):
 
-# movielist day,moviecode,moviename,starttime,finishtime,screen,seat,A,B,C,D,E,F,G,H,I,J
+    #예매 코드를 입력받으면 예매 코드에 해당하는 영화 정보를 리턴하는 함수 - 위 함수에서 사용할 수 있을듯. - 비회원을 위해 필요
+
+    #예매 코드를 입력받으면 ReservationList에서 해당 예매코드를 취소하는 함수
+
+
+#movielist day,moviecode,moviename,starttime,finishtime,screen,seat,A,B,C,D,E,F,G,H,I,J
 
 # 클래스 선언
 x=FileManager()
