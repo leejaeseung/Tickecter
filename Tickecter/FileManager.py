@@ -20,7 +20,7 @@ class FileManager:
                           for key, day, moviecode,moviename,starttime,finishtime,screen,seat,A,B,C,D,E,F,G,H,I,J
                           in zip(ML.day+ML.moviecode+ML.starttime,ML.day,ML.moviecode,ML.moviename,ML.starttime,ML.finishtime,ML.screen,ML.seat,ML.A,ML.B,ML.C,ML.D,ML.E,ML.F,ML.G,ML.H,ML.I,ML.J)])
         #예약리스트 이차원 리스트
-        self.reservationlist = [(member,userID,reservationcode,seats,cancel)
+        self.reservationlist = [[member,userID,reservationcode,seats,cancel]
                                 for member,userID,reservationcode,seats,cancel in zip(RL.member,RL.userID,RL.reservationcode,RL.seats,RL.cancel)]
 
     def savefile(self):
@@ -120,18 +120,58 @@ class FileManager:
             vert = int(seat[1:]) - 1
             choice_movie[hori] =choice_movie[hori][0:vert] + "1" + choice_movie[hori][vert + 1:]
 
-    #아이디를 입력받으면 해당 회원의 예매 코드에 해당하는 영화 정보들만을 리스트로 리턴하는 함수 - 회원을 위해 필요
-    #def getReservation(self, username):
+    #아이디를 입력받으면 해당 회원의 예매 코드에 해당하는 예약 리스트들의 인덱스 리스트 리턴하는 함수 ,회원이 아닌경우 code_num을 넣으면 예약리스트의 인덱스 하나 리턴
+    def getReservation(self, username="",code_num=''):  
+        list=[]
+        if username != '':
+            for index, reserlist in enumerate(self.reservationlist):
+                if reserlist[0] == '1' and reserlist[1] == username:
+                    list.append(index)
+            return list
+        else:
+            for index, reserlist in enumerate(self.reservationlist):
+                if reserlist[4]=='0' and reserlist[2] == code_num:
+                    return index
 
-    #예매 코드를 입력받으면 예매 코드에 해당하는 영화 정보를 리턴하는 함수 - 위 함수에서 사용할 수 있을듯. - 비회원을 위해 필요
+            
+       
+
 
     #예매 코드를 입력받으면 ReservationList에서 해당 예매코드를 취소하는 함수
+    def book_cancel(self,index):
+        reserv= self.reservationlist[int(index)]
+        if reserv[4] =='1':
+            print("이미 취소 된 내역 입니다.")
+            return False
+        else:
+            seatlist= self.seats_to_list(reserv[3])
+            choice_movie =self.movielist[reserv[2][:-2]]
+            reserv[4] ='1'
+            for seat in seatlist:
+                hori = 7 + ord(seat[0]) - ord('A')
+                vert = int(seat[1:]) - 1
+                choice_movie[hori] = choice_movie[hori][0:vert] + "0" + choice_movie[hori][vert + 1:]
+
+
+# member, userID, reservationcode, seats, cancel
 
 
 #movielist day,moviecode,moviename,starttime,finishtime,screen,seat,A,B,C,D,E,F,G,H,I,J
 
 # 클래스 선언
+
 x=FileManager()
+#user일때
+y = x.getReservation(username="user")
+for index, i in enumerate(y):
+    print(x.reservationlist[i])
+index=input("인덱스 입력")
+x.book_cancel(y[int(index)])
+#비회원
+# y= x.getReservation(code_num="20191020AA0710A3")
+# print(x.reservationlist[y])
+# x.book_cancel(y)
+
 # movie =x.day_movielist("20191020","1710")
 # print(movie)
 # index =input("인덱스를 입력하시요")
