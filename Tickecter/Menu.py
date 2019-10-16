@@ -104,7 +104,7 @@ class Menu:
         elif new_input == 2:
             if self.MI.getisMember():  # 회원이면
                 # ReservationList 에서 회원의 예매 내역 출력
-                self.print_SortedMovies()
+                self.printMovies("")
                 print("취소하시려는 영화의 예매 코드를 입력해 주세요.(취소하지 않고  메인 메뉴로 돌아가시려면 “BACK”을 입력해 주세요)")
                 self.MI.setMI(4322, self.MI.getisMember(), self.MI.getwhere())
             else:
@@ -215,23 +215,28 @@ class Menu:
             self.MI.setMI(4300, self.MI.getisMember(), self.MI.getwhere())
 
     def menu43212(self, input):
-        # if     #존재하는 예매 코드인 경우
-        # 예매 코드에 해당하는 영화정보 출력
-        print("취소하시려는 영화의 예매 코드를 입력해 주세요.(취소하지 않고  메인 메뉴로 돌아가시려면 “BACK”을 입력해 주세요.)")
-        self.MI.setMI(4322, self.MI.getisMember(), self.MI.getwhere())
-        # else:  #존재하지 않는 예매 코드인 경우
-        print("존재하지 않는 예매 코드입니다. 다시 입력해 주세요.")
-        self.MI.setMI(43212, self.MI.getisMember(), self.MI.getwhere())
+        if self.__FM.getReservation("", input) != -1:     #존재하는 예매 코드인 경우
+            # 예매 코드에 해당하는 영화정보 출력
+            self.printMovies(input)
+            print("취소하시려는 영화의 예매 코드를 입력해 주세요.(취소하지 않고  메인 메뉴로 돌아가시려면 “BACK”을 입력해 주세요.)")
+            self.MI.setMI(4322, self.MI.getisMember(), self.MI.getwhere())
+        else:  #존재하지 않는 예매 코드인 경우
+            print("존재하지 않는 예매 코드입니다. 다시 입력해 주세요.")
+            self.MI.setMI(43212, self.MI.getisMember(), self.MI.getwhere())
 
     def menu4322(self, input):
-        # if     #존재하는 예매 코드인 경우
-        # 예매 코드를 취소 - ReservationList, MovieList를 업데이트
-        print("ㅁㅁㅁ의 예매가 취소되었습니다.")
-        time.sleep(1)
-        self.MI.setMI(4323, self.MI.getisMember(), self.MI.getwhere())
-        # else:  #존재하지 않는 예매 코드인 경우
-        print("존재하지 않는 예매 코드입니다. 다시 입력해 주세요.")
-        self.MI.setMI(4322, self.MI.getisMember(), self.MI.getwhere())
+        if self.__FM.getReservation("", input) != -1:     #존재하는 예매 코드인 경우
+            # 예매 코드를 취소 - ReservationList, MovieList를 업데이트
+            self.__FM.book_cancel(input)
+            self.__FM.savefile()
+            print("ㅁㅁㅁ의 예매가 취소되었습니다.")
+            time.sleep(1)
+            os.system('cls')
+            self.print_main_menu()
+            self.MI.setMI(4300, self.MI.getisMember(), self.MI.getwhere())
+        else:  #존재하지 않는 예매 코드인 경우
+            print("존재하지 않는 예매 코드입니다. 다시 입력해 주세요.")
+            self.MI.setMI(4322, self.MI.getisMember(), self.MI.getwhere())
 
 
     def print_login_menu(self):
@@ -352,15 +357,22 @@ class Menu:
         return cnt
 
     #회원의 예매 내역을 시간순으로 출력해주는 함수
-    def print_SortedMovies(self):
-        pq = PriorityQueue()
-        R_list = self.__FM.getReservation(self.userName, "")
-        #시간 정보만 따로 뽑아서 우선순위 큐에 넣어 정렬한다.
-        for index in R_list:
-            Priority = int(self.__FM.reservationlist[index][2][0:8] + self.__FM.reservationlist[index][2][10:14])
-            pq.put((Priority, self.__FM.reservationlist[index]))
+    def printMovies(self, reserve_code):
+        if self.MI.getisMember():
+            pq = PriorityQueue()
+            R_list = self.__FM.getReservation(self.userName, "")
+            #시간 정보만 따로 뽑아서 우선순위 큐에 넣어 정렬한다.
+            for index in R_list:
+                Priority = int(self.__FM.reservationlist[index][2][0:8] + self.__FM.reservationlist[index][2][10:14])
+                pq.put((Priority, self.__FM.reservationlist[index]))
 
-        while not pq.empty():
-            reserve = pq.get()[1]
-            movie = self.__FM.findMovie(reserve[2][0:14])
-            print(movie[2] , movie[0][0:4], "년", movie[0][4:6], "월", movie[0][6:8], "일", movie[3][0:2], ":", movie[3][2:], reserve[3])
+            while not pq.empty():
+                reserve = pq.get()[1]
+                movie = self.__FM.movielist[reserve[2][0:14]]
+                print("예매 코드 ", reserve[2], " " , movie[2]," " , movie[0][0:4], "년 ", movie[0][4:6], "월 ", movie[0][6:8], "일 ", movie[3][0:2], ":", movie[3][2:], " ", reserve[3] , sep="")
+        else:
+            R_index = self.__FM.getReservation("", reserve_code)
+            reserve = self.__FM.reservationlist[R_index]
+            movie = self.__FM.movielist[self.__FM.reservationlist[R_index][2][0:14]]
+            print("예매 코드 ", reserve[2], " ", movie[2], " ", movie[0][0:4], "년 ", movie[0][4:6], "월 ", movie[0][6:8],
+                  "일 ", movie[3][0:2], ":", movie[3][2:], " ", reserve[3], sep="")
