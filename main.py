@@ -9,7 +9,8 @@ def main():
     MM = MenuManager.MenuManager()
 
     while True:
-        TP = TypeChecker()
+        input = input()
+        """TP = TypeChecker()
         input2 = input()
         TP.checkyoursheet(input2)
         input2 = input()
@@ -21,12 +22,14 @@ def main():
         input2 = input()
         TP.date_check(input2)
         input2 = input()
-        TP.movieTitle(input2)
+        TP.movieTitle(input2)"""
         if input == 'EXIT':
             break
         elif input == 'RESTART':
             if MM.getMI().getwhere() != 0:
                 MM.getMI().setMI(4200, False, 1)
+                MM.userName = None
+                MM.password = None
                 os.system('cls')
                 MM.print_login_menu()
             del (input)

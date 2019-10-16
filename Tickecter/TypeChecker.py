@@ -85,11 +85,11 @@ class TypeChecker:
                             print('날짜가 입력 형식에 맞지 않습니다.')
                             return False
                         else:
-                            if (date[8] > 2 or date[10] > 5):
+                            if date[8] > 2 or date[10] > 5 or (date[8] == 2 and date[9] > 4):   #30시 또는 60분, 25시
                                 print('시간이 입력 형식에 맞지 않습니다.')
                                 return False
-
-                            return True
+                            else:
+                                return True
                     else:
                         if date[5] == '2' and (date[7] == '9' or date[6] > '2'):
                             print('날짜가 입력 형식에 맞지 않습니다.')
@@ -165,10 +165,14 @@ class TypeChecker:
 
 
     def checkyoursheet(self, sheet):
-        if sheet[0].isupper() == 0 or sheet[1:].isdigit() == 0:
-            print("입력 형식에 맞지 않습니다.")  # 길이
-            return False
-        else:
-            return True
+        for i in sheet:
+            if sheet[i][0].issupper() == 0 or sheet.isdigit[i][1] == 0:
+                print("입력 형식에 맞지 않습니다.")
+                return False
+            else:
+                for j,l in zip(len(sheet), range(1, len(sheet))):
+                    if sheet[j] == sheet[l]:
+                        print("입력 형식에 맞지 않습니다.")  # 동일한 좌석
+                        return False
+                return True
 
-a=3
