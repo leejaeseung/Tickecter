@@ -168,11 +168,10 @@ class TypeChecker:
         if sheet.isupper() == 0 or sheet.isdigit() == 0:
             print("입력 형식에 맞지 않습니다.")  # 길이
             return False
-        elif:
+        else:
             for i,j in zip(len(sheet),range(1,len(sheet))):
                 sheet[i]==sheet[j]
                 print("입력 형식에 맞지 않습니다.")  # 동일한 좌석
                 return false
-        else:
             return True
 
