@@ -19,6 +19,7 @@ class FileManager:
         self.movielist = dict([(key, [day,moviecode,moviename,starttime,finishtime,screen,seat,A,B,C,D,E,F,G,H,I,J])
                           for key, day, moviecode,moviename,starttime,finishtime,screen,seat,A,B,C,D,E,F,G,H,I,J
                           in zip(ML.day+ML.moviecode+ML.starttime,ML.day,ML.moviecode,ML.moviename,ML.starttime,ML.finishtime,ML.screen,ML.seat,ML.A,ML.B,ML.C,ML.D,ML.E,ML.F,ML.G,ML.H,ML.I,ML.J)])
+        print(self.movielist)
         #예약리스트 이차원 리스트
         self.reservationlist = [[member,userID,reservationcode,seats,cancel]
                                 for member,userID,reservationcode,seats,cancel in zip(RL.member,RL.userID,RL.reservationcode,RL.seats,RL.cancel)]
@@ -133,6 +134,8 @@ class FileManager:
                 if reserlist[4]=='0' and reserlist[2] == code_num:
                     return index
 
+    def findMovie(self, key):
+        return self.movielist[key]
 
 
     #예매 코드를 입력받으면 ReservationList에서 해당 예매코드를 취소하는 함수
@@ -158,13 +161,13 @@ class FileManager:
 
 # 클래스 선언
 
-x=FileManager()
+#x=FileManager()
 #user일때
-y = x.getReservation(username="user")
-for index, i in enumerate(y):
-    print(x.reservationlist[i])
-index=input("인덱스 입력")
-x.book_cancel(y[int(index)])
+#y = x.getReservation(username="user")
+#for index, i in enumerate(y):
+    #print(x.reservationlist[i])
+#index=input("인덱스 입력")
+#x.book_cancel(y[int(index)])
 #비회원
 # y= x.getReservation(code_num="20191020AA0710A3")
 # print(x.reservationlist[y])
@@ -175,7 +178,7 @@ x.book_cancel(y[int(index)])
 # index =input("인덱스를 입력하시요")
 # x.bookmovie("1","user",movie[int(index)][1],"A1,A2,A4")
 
-x.savefile()
+#x.savefile()
 
 # x.savefile()
 

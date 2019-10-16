@@ -1,4 +1,5 @@
 from . import FileManager, menuInfo
+from queue import PriorityQueue
 import os
 import time
 
@@ -103,6 +104,7 @@ class Menu:
         elif new_input == 2:
             if self.MI.getisMember():  # 회원이면
                 # ReservationList 에서 회원의 예매 내역 출력
+                self.print_SortedMovies()
                 print("취소하시려는 영화의 예매 코드를 입력해 주세요.(취소하지 않고  메인 메뉴로 돌아가시려면 “BACK”을 입력해 주세요)")
                 self.MI.setMI(4322, self.MI.getisMember(), self.MI.getwhere())
             else:
@@ -348,3 +350,17 @@ class Menu:
             else:
                 cnt = cnt + 1
         return cnt
+
+    #회원의 예매 내역을 시간순으로 출력해주는 함수
+    def print_SortedMovies(self):
+        pq = PriorityQueue()
+        R_list = self.__FM.getReservation(self.userName, "")
+        #시간 정보만 따로 뽑아서 우선순위 큐에 넣어 정렬한다.
+        for index in R_list:
+            Priority = int(self.__FM.reservationlist[index][2][0:8] + self.__FM.reservationlist[index][2][10:14])
+            pq.put((Priority, self.__FM.reservationlist[index]))
+
+        while not pq.empty():
+            reserve = pq.get()[1]
+            movie = self.__FM.findMovie(reserve[2][0:14])
+            print(movie[2] , movie[0][0:4], "년", movie[0][4:6], "월", movie[0][6:8], "일", movie[3][0:2], ":", movie[3][2:], reserve[3])
