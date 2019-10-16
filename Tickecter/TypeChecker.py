@@ -165,13 +165,14 @@ class TypeChecker:
 
 
     def checkyoursheet(self, sheet):
-        if sheet.isupper() == 0 or sheet.isdigit() == 0:
-            print("입력 형식에 맞지 않습니다.")  # 길이
-            return False
-        else:
-            for i,j in zip(len(sheet),range(1,len(sheet))):
-                sheet[i]==sheet[j]
-                print("입력 형식에 맞지 않습니다.")  # 동일한 좌석
+        for i in sheet:
+            if sheet[i][0].issupper() == 0 or sheet.isdigit[i][1] == 0:
+                print("입력 형식에 맞지 않습니다.")
                 return False
-            return True
+            else:
+                for j,l in zip(len(sheet), range(1, len(sheet))):
+                    if sheet[j] == sheet[l]:
+                        print("입력 형식에 맞지 않습니다.")  # 동일한 좌석
+                        return False
+                return True
 
