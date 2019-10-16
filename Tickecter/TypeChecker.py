@@ -1,39 +1,26 @@
 import os
 class TypeChecker:
 
-    def ID_check(self, new_id):
-        countalpha = 0
-        countnum = 0
+    def ID_check(self, new_id):     #아이디가 형식에 맞는지 확인
+        count = 0
         if len(new_id) < 4 or len(new_id) > 10:
             print("입력 형식에 맞지 않습니다.")  # 길이
             return False
         for index_value in new_id:
-            if index_value.isalpha() == 1 and index_value.islower() == 1:
-                countalpha = countalpha + 1
-                # print(countalpha)
-            elif index_value.isdigit() == 1:
-                countnum = countnum + 1
-                # print(countnum)
-        if countnum + countalpha == 0 or new_id.count(' ') > 0:
-            print("입력 형식에 맞지 않습니다.")  # 숫자나 문자가 없거나 공백 있음
+            if (index_value.isalpha() and index_value.islower()) or index_value.isdigit():
+                count += 1
+            else:
+                print("입력 형식에 맞지 않습니다.")    #입력받은 문자가 숫자나 문자가 아니면 False
+                return False
+        if count == 0 or new_id.isspace():
+            print("입력 형식에 맞지 않습니다.")  # 숫자나 문자가 1개도 없거나 공백 있음
             return False
         else:
-            import csv
-            input_file = "UserList.csv"
-            with open(input_file, 'r', newline='') as csv_in_file:
-                selected_column = [0]
-                idCheck = csv.reader(csv_in_file)
-                next(idCheck)
-                for row_list in idCheck:
-                    for index_value in selected_column:
-                        if row_list[index_value] == new_id:
-                            print("존재하는 아이디입니다.")
-                            return False
             print("사용 가능한 아이디입니다.")
             return True
 
 
-    def date_check(self, date):
+    def date_check(self, date): #날짜가 형식에 맞는지 확인(날짜만, 8자리)
         if date.isdigit() == 0 or len(date) != 8:
             print('8자리 숫자만 입력 가능합니다.')
         else:
@@ -65,7 +52,7 @@ class TypeChecker:
                     print('날짜가 입력 형식에 맞지 않습니다.')
                     return False
 
-    def time_check(self, date):
+    def time_check(self, date): #날짜 및 시간이 형식에 맞는지 확인(12자리,날짜 시간 모두 검증)
         if date.isdigit() == 0 or len(date) != 12:
             print('8자리 숫자만 입력 가능합니다.')
         else:
@@ -101,78 +88,61 @@ class TypeChecker:
                     print('날짜가 입력 형식에 맞지 않습니다.')
                     return False
 
-    def pw_check(self, password):
-        countalpha = 0
-        countnum = 0
+    def pw_check(self, password):   #비밀번호가 형식에 맞는지 검증
+        count = 0
         if len(password) < 4 or len(password) > 10:
             print("입력 형식에 맞지 않습니다.")  # 길이
             return False
         for index_value in password:
-            if index_value.isalpha() == 1 and index_value.islower() == 1:
-                countalpha += 1
-            elif index_value.isdigit() == 1:
-                countnum += 1
-        if countnum + countalpha == 0 or password.count(' '):
-            print("입력 형식에 맞지 않습니다.")  # 숫자나 문자 없거나 공백 포함
+            if (index_value.isalpha() and index_value.islower()) or index_value.isdigit():
+                count += 1
+            else:
+                print("입력 형식에 맞지 않습니다.")
+                return False    #입력받은 문자중 하나라도 숫자나 문자가 아니면 False
+        if count == 0 or password.count(' '):
+            print("입력 형식에 맞지 않습니다.")  # 숫자나 문자가 하나도 없거나 공백 포함
             return False
         else:
             print("사용 가능한 비밀번호입니다.")
             return True
 
 
-    def movieTitle(self, title):
-        if len(title) > 20 and title[0].isspace() == 1:
-            print("입력 형식에 맞지 않습니다.")  # 길이
+    def movieTitle(self, title):    #영화 제목이 형식에 맞는지 검증
+        count =0
+        if len(title) > 20 and title[0].isspace():
+            print("입력 형식에 맞지 않습니다.")  # 길이가 20자를 넘거나 공백으로 시작하는 경우 False
             return False
         else:
             for index_value in title:
-                if (index_value.isalpha() == 0 or index_value.islower() == 0) and index_value.isdigit() == 0:
-                    print("입력 형식에 맞지 않습니다.")  # 숫자나 영문 소문자가 아님
+                if (index_value.isalpha() and index_value.islower()) or index_value.isdigit():
+                    count += 1
+                else:
+                    print("입력 형식에 맞지 않습니다.")  # 입력된 문자 중 하나라도 숫자나 영문 소문자가 아니면 False
                     return False
-        if title.count('  ') > 0:
-            print("입력 형식에 맞지 않습니다.")  # 공백 연속으로 들어감
+        if title.count('  ') > 0 or count == 0:
+            print("입력 형식에 맞지 않습니다.")  # 공백 연속으로 들어간 경우
             return False
         else:
-            import csv
-            input_file = "MovieList.csv"
-            with open(input_file, 'r', newline='') as csv_in_file:
-                selected_column = [2]
-                titlecheck = csv.reader(csv_in_file)
-                next(titlecheck)
-                for row_list in titlecheck:
-                    for index_value in selected_column:
-                        if row_list[index_value] == title:
-                            return True
-        print("상영중인 영화가 아닙니다.")
-        return False
+            return True
 
-    def cardNum(self, cardnumber):
-        if len.cardnumber != 12 or cardnumber.isdigit():
+    def cardNum(self, cardnumber):  #카드번호가 형식에 맞는지 검증
+        if len.cardnumber != 12 or cardnumber.isdigit() or cardnumber.isspace():
             print('입력 형식에 맞지 않습니다.')
+            return False
         else:
-            import csv
-            input_file = "CardList.csv"
-            with open(input_file, 'r', newline='') as csv_in_file:
-                selected_column = [0]
-                numbercheck = csv.reader(csv_in_file)
-                next(numbercheck)
-                for row_list in numbercheck:
-                    for index_value in selected_column:
-                        if row_list[index_value] == cardnumber:
-                            return True
-        print("해당하는 카드번호가 없습니다.")
-        return False
+            return True
 
 
-    def checkyoursheet(self, sheet):
+    def checkyoursheet(self, sheet):    #좌석 입력형식이 맞는지 검증
         for i in sheet:
-            if sheet[i][0].issupper() == 0 or sheet.isdigit[i][1] == 0:
+            checker = list(i)
+            if checker[0].isupper() == 0 or checker[1].isdigit() == 0:
                 print("입력 형식에 맞지 않습니다.")
                 return False
-            else:
-                for j,l in zip(len(sheet), range(1, len(sheet))):
-                    if sheet[j] == sheet[l]:
-                        print("입력 형식에 맞지 않습니다.")  # 동일한 좌석
-                        return False
-                return True
+        for j in sheet:
+            for l in range(1, len(sheet)):
+                if j == sheet[l]:
+                    print("입력 형식에 맞지 않습니다.")  # 동일한 좌석
+                    return False
+        return True
 
