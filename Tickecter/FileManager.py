@@ -141,10 +141,6 @@ class FileManager:
     def book_cancel(self,input_code):
         index = self.getReservation("", input_code)
         reserv= self.reservationlist[int(index)]
-        '''if reserv[4] =='1':
-            print("이미 취소 된 내역 입니다.")
-            return False
-        else:'''
         seatlist= self.seats_to_list(reserv[3])
         choice_movie =self.movielist[reserv[2][:-2]]
         reserv[4] ='1'
