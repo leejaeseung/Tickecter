@@ -19,7 +19,7 @@ class FileManager:
         self.movielist = dict([(key, [day,moviecode,moviename,starttime,finishtime,screen,seat,A,B,C,D,E,F,G,H,I,J])
                           for key, day, moviecode,moviename,starttime,finishtime,screen,seat,A,B,C,D,E,F,G,H,I,J
                           in zip(ML.day+ML.moviecode+ML.starttime,ML.day,ML.moviecode,ML.moviename,ML.starttime,ML.finishtime,ML.screen,ML.seat,ML.A,ML.B,ML.C,ML.D,ML.E,ML.F,ML.G,ML.H,ML.I,ML.J)])
-        print(self.movielist)
+
         #예약리스트 이차원 리스트
         self.reservationlist = [[member,userID,reservationcode,seats,cancel]
                                 for member,userID,reservationcode,seats,cancel in zip(RL.member,RL.userID,RL.reservationcode,RL.seats,RL.cancel)]
@@ -133,9 +133,6 @@ class FileManager:
             for index, reserlist in enumerate(self.reservationlist):
                 if reserlist[4]=='0' and reserlist[2] == code_num:
                     return index
-
-    def findMovie(self, key):
-        return self.movielist[key]
 
 
     #예매 코드를 입력받으면 ReservationList에서 해당 예매코드를 취소하는 함수
