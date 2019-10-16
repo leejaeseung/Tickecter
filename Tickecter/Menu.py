@@ -227,9 +227,13 @@ class Menu:
     def menu4322(self, input):
         if self.__FM.getReservation("", input) != -1:     #존재하는 예매 코드인 경우
             # 예매 코드를 취소 - ReservationList, MovieList를 업데이트
+            self.__FM.book_cancel(input)
+            self.__FM.savefile()
             print("ㅁㅁㅁ의 예매가 취소되었습니다.")
             time.sleep(1)
-            self.MI.setMI(4323, self.MI.getisMember(), self.MI.getwhere())
+            os.system('cls')
+            self.print_main_menu()
+            self.MI.setMI(4300, self.MI.getisMember(), self.MI.getwhere())
         else:  #존재하지 않는 예매 코드인 경우
             print("존재하지 않는 예매 코드입니다. 다시 입력해 주세요.")
             self.MI.setMI(4322, self.MI.getisMember(), self.MI.getwhere())
