@@ -122,7 +122,7 @@ class FileManager:
             choice_movie[hori] =choice_movie[hori][0:vert] + "1" + choice_movie[hori][vert + 1:]
 
     #아이디를 입력받으면 해당 회원의 예매 코드에 해당하는 예약 리스트들의 인덱스 리스트 리턴하는 함수 ,회원이 아닌경우 code_num을 넣으면 예약리스트의 인덱스 하나 리턴
-    def getReservation(self, username="",code_num=''):  
+    def getReservation(self, username="",code_num=''):
         list=[]
         if username != '':
             for index, reserlist in enumerate(self.reservationlist):
@@ -133,6 +133,7 @@ class FileManager:
             for index, reserlist in enumerate(self.reservationlist):
                 if reserlist[4]=='0' and reserlist[2] == code_num:
                     return index
+            return -1
 
 
     #예매 코드를 입력받으면 ReservationList에서 해당 예매코드를 취소하는 함수
