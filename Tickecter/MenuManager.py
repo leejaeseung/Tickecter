@@ -1,7 +1,7 @@
 from . import Menu, menuInfo, TypeChecker
 
 
-class MenuManager(Menu.Menu):
+class MenuManager(Menu.Menu):   #상속
 
     def __init__(self):
         super().__init__()
