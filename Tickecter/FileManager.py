@@ -135,7 +135,7 @@ class FileManager:
 
 
 
-    # ReservationList의 인덱스를 입력받으면 ReservationList에서 해당 예매코드를 취소하는 함수
+    #예매 코드를 입력받으면 ReservationList에서 해당 예매코드를 취소하는 함수
     def book_cancel(self,index):
         reserv= self.reservationlist[int(index)]
         if reserv[4] =='1':
