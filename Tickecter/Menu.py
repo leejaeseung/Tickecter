@@ -35,7 +35,7 @@ class Menu:
         # 파일 관리 클래스를 사용해 input 과 비교, if문으로 True면 다음 메뉴, False면 다시 입력받음,아이디를 잠시 저장
         # if True :  #존재하는 아이디면
         tempID = str(input)     #아이디를 입력받아 임시 공간에 저장, FileManager 객체 __FM의 userlist의 userID와 비교.
-        if tempID == self.__FM.userlist.userID:     #일치한다면  menu4212로..
+        if tempID == self.__FM.userlist[tempID]:     #일치한다면  menu4212로..
             print("Password를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
             self.MI.setMI(4212, self.MI.getisMember(), self.MI.getwhere())
 
@@ -78,7 +78,6 @@ class Menu:
         self.MI.setMI(4223, self.MI.getisMember(), self.MI.getwhere())
 
     def menu4223(self, input):
-
         tempCardnum = int(input)
         # if 2 :     #이미 등록된 카드 번호이면
         if tempCardnum == self.__FM.cardlist.cardnum:
