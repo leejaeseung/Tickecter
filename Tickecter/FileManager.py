@@ -134,8 +134,6 @@ class FileManager:
                 if reserlist[4]=='0' and reserlist[2] == code_num:
                     return index
 
-    def findMovie(self, key):
-        return self.movielist[key]
 
 
     #예매 코드를 입력받으면 ReservationList에서 해당 예매코드를 취소하는 함수
