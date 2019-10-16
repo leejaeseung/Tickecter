@@ -161,11 +161,7 @@ class FileManager:
 
 #x=FileManager()
 #user일때
-#y = x.getReservation(username="user")
-#for index, i in enumerate(y):
-    #print(x.reservationlist[i])
-#index=input("인덱스 입력")
-#x.book_cancel(y[int(index)])
+
 #비회원
 # y= x.getReservation(code_num="20191020AA0710A3")
 # print(x.reservationlist[y])
