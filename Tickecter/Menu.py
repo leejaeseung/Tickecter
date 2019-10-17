@@ -157,7 +157,7 @@ class Menu:
 
     def menu4312(self, input):
         assert isinstance(input, str)
-        if self.__TC.movieTitle(input):
+        if self.__TC.checkMovieTitle(input):
             input = input.strip().split('.')  # 공백을 제거하고, . 을 기준으로 분리
             if self.print_seat(int(input[0]), input[1]):  # 입력한 영화가 존재할 경우
                 # 선택한 영화의 좌석표를 출력
@@ -216,6 +216,9 @@ class Menu:
             else:
                 print("초과된 마일리지 금액입니다. 다시 입력해 주세요.")
                 self.MI.setMI(43141, self.MI.getisMember(), self.MI.getwhere())
+        else:
+            print("입력 형식이 맞지 않습니다.")
+            return -1
 
     def menu43142(self, input):
         assert isinstance(input, str)
@@ -243,29 +246,31 @@ class Menu:
 
     def menu43212(self, input):
         assert isinstance(input, str)
-        if self.__FM.getReservation("", input) != -1:     #존재하는 예매 코드인 경우
-            # 예매 코드에 해당하는 영화정보 출력
-            self.printMovies(input)
-            print("취소하시려는 영화의 예매 코드를 입력해 주세요.(취소하지 않고  메인 메뉴로 돌아가시려면 “BACK”을 입력해 주세요.)")
-            self.MI.setMI(4322, self.MI.getisMember(), self.MI.getwhere())
-        else:  #존재하지 않는 예매 코드인 경우
-            print("존재하지 않는 예매 코드입니다. 다시 입력해 주세요.")
-            self.MI.setMI(43212, self.MI.getisMember(), self.MI.getwhere())
+        if self.__TC.checkReservationCode(input):
+            if self.__FM.getReservation("", input) != -1:     #존재하는 예매 코드인 경우
+                # 예매 코드에 해당하는 영화정보 출력
+                self.printMovies(input)
+                print("취소하시려는 영화의 예매 코드를 입력해 주세요.(취소하지 않고  메인 메뉴로 돌아가시려면 “BACK”을 입력해 주세요.)")
+                self.MI.setMI(4322, self.MI.getisMember(), self.MI.getwhere())
+            else:  #존재하지 않는 예매 코드인 경우
+                print("존재하지 않는 예매 코드입니다. 다시 입력해 주세요.")
+                self.MI.setMI(43212, self.MI.getisMember(), self.MI.getwhere())
 
     def menu4322(self, input):
         assert isinstance(input, str)
-        if self.__FM.getReservation("", input) != -1:     #존재하는 예매 코드인 경우
-            # 예매 코드를 취소 - ReservationList, MovieList를 업데이트
-            movie = self.__FM.book_cancel(input)
-            self.__FM.savefile()
-            print(movie[2], "의 예매가 취소되었습니다.", sep='')
-            time.sleep(1)
-            os.system('cls')
-            self.print_main_menu()
-            self.MI.setMI(4300, self.MI.getisMember(), self.MI.getwhere())
-        else:  #존재하지 않는 예매 코드인 경우
-            print("존재하지 않는 예매 코드입니다. 다시 입력해 주세요.")
-            self.MI.setMI(4322, self.MI.getisMember(), self.MI.getwhere())
+        if self.__TC.checkReservationCode(input):
+            if self.__FM.getReservation("", input) != -1:     #존재하는 예매 코드인 경우
+                # 예매 코드를 취소 - ReservationList, MovieList를 업데이트
+                movie = self.__FM.book_cancel(input)
+                self.__FM.savefile()
+                print(movie[2], "의 예매가 취소되었습니다.", sep='')
+                time.sleep(1)
+                os.system('cls')
+                self.print_main_menu()
+                self.MI.setMI(4300, self.MI.getisMember(), self.MI.getwhere())
+            else:  #존재하지 않는 예매 코드인 경우
+                print("존재하지 않는 예매 코드입니다. 다시 입력해 주세요.")
+                self.MI.setMI(4322, self.MI.getisMember(), self.MI.getwhere())
 
 
     def print_login_menu(self):

@@ -114,9 +114,15 @@ class TypeChecker:
         else:
             if checker[0].isdigit() and checker[1]: #'.'앞이 숫자인지 확인. 숫자이면 '.'뒤의 문자열 검증
                 for index_value in checker[1]:
-                    if index_value.isalpha() == 0 or index_value.islower() == 0 or index_value.isdigit() == 0:
+                    if not index_value.isalpha():
+                        if index_value.isdigit():
+                            continue
                         print("입력 형식에 맞지 않습니다.")  # 입력된 문자 중 하나라도 숫자나 영문 소문자가 아니면 False
                         return False
+                    else:
+                        if not index_value.islower():
+                            print("입력 형식에 맞지 않습니다.")  # 입력된 문자 중 하나라도 영문 소문자가 아니면 False
+                            return False
                 print("입력 형식 확인(테스트용)")
                 return True
             else:
