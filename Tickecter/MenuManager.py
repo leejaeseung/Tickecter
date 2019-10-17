@@ -1,21 +1,21 @@
-from . import Menu, menuInfo, TypeChecker
+from . import Menu
 
 
 class MenuManager(Menu.Menu):   #상속
 
     def __init__(self):
         super().__init__()
-        self.__TC = TypeChecker.TypeChecker()
 
     def getMI(self):
         return self.MI
 
     def manageMenu(self, input):
+        assert isinstance(input, str)
         menu = self.MI.getmenuNum()
+        assert isinstance(menu, int)
 
         if menu == 4100:
-            # if self.__TC.date_check(input):
-                self.menu4100(input)
+            self.menu4100(input)
         elif menu == 4200:
             self.menu4200(input)
         elif menu == 4211:
