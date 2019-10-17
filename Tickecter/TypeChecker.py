@@ -106,24 +106,22 @@ class TypeChecker:
             print("사용 가능한 비밀번호입니다.")
             return True
 
-
-    def movieTitle(self, title):    #영화 제목이 형식에 맞는지 검증
-        count =0
-        if len(title) > 20 and title[0].isspace():
-            print("입력 형식에 맞지 않습니다.")  # 길이가 20자를 넘거나 공백으로 시작하는 경우 False
+    def checkMovieTitle(self, title):
+        checker = title.split('.', maxsplit=1)  # '.'을 기준으로 문자열을 나눈다
+        if len(title) > 20 or len(title) == 0 or title.count('. ') or title.count('  ') or title.count('.') == 0:
+            print("입력 형식에 맞지 않습니다.")  # 글자가 없거나 20자를 넘거나 공백으로 시작하거나 공백이 연속으로 들어갔는지 또는 점이 없는지 확인
             return False
         else:
-            for index_value in title:
-                if (index_value.isalpha() and index_value.islower()) or index_value.isdigit():
-                    count += 1
-                else:
-                    print("입력 형식에 맞지 않습니다.")  # 입력된 문자 중 하나라도 숫자나 영문 소문자가 아니면 False
-                    return False
-        if title.count('  ') > 0 or count == 0:
-            print("입력 형식에 맞지 않습니다.")  # 공백 연속으로 들어간 경우
-            return False
-        else:
-            return True
+            if checker[0].isdigit() and checker[1]: #'.'앞이 숫자인지 확인. 숫자이면 '.'뒤의 문자열 검증
+                for index_value in checker[1]:
+                    if index_value.isalpha() == 0 or index_value.islower() == 0 or index_value.isdigit() == 0:
+                        print("입력 형식에 맞지 않습니다.")  # 입력된 문자 중 하나라도 숫자나 영문 소문자가 아니면 False
+                        return False
+                print("입력 형식 확인(테스트용)")
+                return True
+            else:
+                print("입력 형식에 맞지 않습니다.")
+                return False
 
     def cardNum(self, cardnumber):  #카드번호가 형식에 맞는지 검증
         if len.cardnumber != 12 or cardnumber.isdigit() or cardnumber.isspace():
@@ -146,3 +144,18 @@ class TypeChecker:
                     return False
         return True
 
+    def checkReservationCode(self, code): #예매번호 형식 체크  ex) 20190929AA0930F1
+        if len(code) == 16:
+            if code[0:8].isdigit() and code[10:14].isdigit() and code[15].isdigit():
+                if code[8:10].isalpha() and code[8:10].isupper() and code[14].isalpha() and code[14].isupper():
+                    print("입력 형식 확인(테스트용)")
+                    return True
+                else:
+                    print("입력 형식에 맞지 않습니다.")
+                    return False
+            else:
+                print("입력 형식에 맞지 않습니다.")
+                return False
+        else:
+            print("입력 형식에 맞지 않습니다.")
+            return False
