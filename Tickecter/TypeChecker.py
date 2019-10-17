@@ -54,7 +54,7 @@ class TypeChecker:
 
     def time_check(self, date): #날짜 및 시간이 형식에 맞는지 확인(12자리,날짜 시간 모두 검증)
         if date.isdigit() == 0 or len(date) != 12:
-            print('8자리 숫자만 입력 가능합니다.')
+            print('12자리 숫자만 입력 가능합니다.')
         else:
             if date[4] > '1' or date[6] > '3':  # 20월 이상, 40일 이상 먼저 거름
                 print('날짜가 입력 형식에 맞지 않습니다.')
@@ -72,7 +72,7 @@ class TypeChecker:
                             print('날짜가 입력 형식에 맞지 않습니다.')
                             return False
                         else:
-                            if date[8] > 2 or date[10] > 5 or (date[8] == 2 and date[9] > 4):   #30시 또는 60분, 25시
+                            if date[8] > '2' or date[10] > '5' or (date[8] == '2' and date[9] > '4'):   #30시 또는 60분, 25시
                                 print('시간이 입력 형식에 맞지 않습니다.')
                                 return False
                             else:
