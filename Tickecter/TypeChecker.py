@@ -116,11 +116,11 @@ class TypeChecker:
     def checkyoursheet(self, sheet):    #좌석 입력형식이 맞는지 검증
         for i in sheet:
             checker = list(i)
-            if checker[0].isupper() == 0 or checker[1].isdigit() == 0:
+            if checker[0].isupper() == 0 or (checker[1].isdigit() == 0 and len(sheet) > 1):
                 return False
         for j in sheet:
             for l in range(1, len(sheet)):
-                if j == sheet[l]:
+                if len(sheet) > 1 and j == sheet[l]:
                     # 동일한 좌석
                     return False
         return True
