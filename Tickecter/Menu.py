@@ -42,7 +42,6 @@ class Menu:
             self.MI.setMI(4300, self.MI.getisMember(), 2)
         else:
             print('입력 형식이 맞지 않습니다.')
-            return -1
 
     def menu4211(self, input): # 로그인 메뉴-id
         # 파일 관리 클래스를 사용해 input 과 비교, if문으로 True면 다음 메뉴, False면 다시 입력받음,아이디를 잠시 저장
@@ -94,6 +93,8 @@ class Menu:
             self.password = input
             print("등록할 카드 번호를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
             self.MI.setMI(4223, self.MI.getisMember(), self.MI.getwhere())
+        else:
+            print("입력 형식에 맞지 않습니다.")
 
     def menu4223(self, input):
         assert isinstance(input, str)
@@ -136,7 +137,6 @@ class Menu:
         # return 4300, False, 2  수정 필요
         else:
             print("입력 형식이 잘못됐습니다.")
-            return -1
 
     def menu4311(self, input):  # 완성
         assert isinstance(input, str)
@@ -182,8 +182,7 @@ class Menu:
         assert isinstance(input, str)
         self.seat_list = input
         seat_count = self.count_seat(input)
-        assert isinstance(seat_count, int)
-        if self.__TC.checkyoursheet(input):
+        if self.__TC.checkyoursheet(self.__FM.seats_to_list(input)):
             if seat_count != -1:  # 입력한 좌석이 존재하는 경우 = 예매할 수 있는 경우
                 # 결제 금액(좌석 수 x 가격)을 출력
                 if int(self.selected_movie[1][3]) >= 1200:
