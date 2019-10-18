@@ -353,7 +353,7 @@ class Menu:
     def printday_movie(self):
         if self.day_movielist:  # 리스트가 빈 리스트가 아닌 경우
             for index, elem in enumerate(self.day_movielist):
-                print(str(index) + ". " + elem[1][2] + " 시작시간 " + elem[1][3])
+                print(str(index) + "." + elem[1][2] + " 시작시간 " + elem[1][3])
             return True
         else:
             return False
