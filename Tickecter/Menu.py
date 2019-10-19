@@ -26,6 +26,8 @@ class Menu:
             self.__now_time = input
             self.print_login_menu()
             self.MI.setMI(4200, self.MI.getisMember(), 1)
+        else:
+            print("입력 형식이 맞지 않습니다.")
 
     def menu4200(self, input):
         assert isinstance(input, str)

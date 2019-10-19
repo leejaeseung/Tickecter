@@ -6,6 +6,7 @@ def main():
 
     while True:
         inpt = input()
+        assert MM.getMI().getwhere() == 0 or MM.getMI().getwhere() == 1 or MM.getMI().getwhere() == 2
         if inpt == 'EXIT':
             break
         elif inpt == 'RESTART':
@@ -22,7 +23,7 @@ def main():
                 os.system('cls')
                 MM.print_main_menu()
             continue
-            MM.manageMenu("123",1,1,1,1)
+        MM.manageMenu(inpt)
 
 
     print("프로그램이 종료됩니다.")
