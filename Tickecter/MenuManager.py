@@ -10,9 +10,7 @@ class MenuManager(Menu.Menu):   #상속
         return self.MI
 
     def manageMenu(self, input):
-        assert isinstance(input, str)
         menu = self.MI.getmenuNum()
-        assert isinstance(menu, int)
 
         if menu == 4100:
             self.menu4100(input)

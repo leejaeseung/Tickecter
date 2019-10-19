@@ -180,9 +180,10 @@ class Menu:
 
     def menu4313(self, input):
         assert isinstance(input, str)
-        self.seat_list = input
-        seat_count = self.count_seat(input)
+
         if self.__TC.checkyoursheet(self.__FM.seats_to_list(input)):
+            self.seat_list = input
+            seat_count = self.count_seat(input)
             if seat_count != -1:  # 입력한 좌석이 존재하는 경우 = 예매할 수 있는 경우
                 # 결제 금액(좌석 수 x 가격)을 출력
                 if int(self.selected_movie[1][3]) >= 1200:

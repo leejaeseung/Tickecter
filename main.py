@@ -1,9 +1,6 @@
 from Tickecter import MenuManager
 import os
 
-from Tickecter.TypeChecker import TypeChecker
-
-
 def main():
     MM = MenuManager.MenuManager()
 
@@ -25,7 +22,8 @@ def main():
                 os.system('cls')
                 MM.print_main_menu()
             continue
-        MM.manageMenu(inpt)
+            MM.manageMenu("123",1,1,1,1)
+
 
     print("프로그램이 종료됩니다.")
 
