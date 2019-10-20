@@ -7,18 +7,18 @@ class Menu:
 
     def __init__(self):
         print("현재 시간을 입력해 주세요.")
-        self.__now_time = None
+        self.__now_time = ""
         self.__FM = FileManager.FileManager()
         self.__TC = TypeChecker.TypeChecker()
         self.MI = menuInfo.menuInfo(4100, False, 0)
-        self.userName = None
-        self.password = None
-        self.want_reserveday = None
-        self.day_movielist = None
-        self.selected_movie = None
-        self.final_cost = None
-        self.seat_list = None
-        self.seat_First = None
+        self.userName = ""
+        self.password = ""
+        self.want_reserveday = ""
+        self.day_movielist = ""
+        self.selected_movie = ""
+        self.final_cost = ""
+        self.seat_list = ""
+        self.seat_First = ""
 
     def menu4100(self, input):
         assert isinstance(input, str)
@@ -26,6 +26,8 @@ class Menu:
             self.__now_time = input
             self.print_login_menu()
             self.MI.setMI(4200, self.MI.getisMember(), 1)
+        else:
+            print("입력 형식이 맞지 않습니다.")
 
     def menu4200(self, input):
         assert isinstance(input, str)
@@ -42,7 +44,6 @@ class Menu:
             self.MI.setMI(4300, self.MI.getisMember(), 2)
         else:
             print('입력 형식이 맞지 않습니다.')
-            return -1
 
     def menu4211(self, input): # 로그인 메뉴-id
         # 파일 관리 클래스를 사용해 input 과 비교, if문으로 True면 다음 메뉴, False면 다시 입력받음,아이디를 잠시 저장
@@ -54,7 +55,6 @@ class Menu:
                 self.MI.setMI(4212, self.MI.getisMember(), self.MI.getwhere())
             else:      # 존재하지 않는 아이디면
                 print("존재하지 않는 ID입니다. 다시 입력해 주세요.")
-                self.MI.setMI(4211, self.MI.getisMember(), self.MI.getwhere())
         else:
             print("입력 형식에 맞지 않습니다.")
 
@@ -69,7 +69,6 @@ class Menu:
                 self.MI.setMI(4300, True, 2)
             else:         #일치하지 않으면
                 print("일치하지 않는 Password입니다. 다시 입력해 주세요.")
-                self.MI.setMI(4212, self.MI.getisMember(), self.MI.getwhere())
         else:
             print("입력 형식에 맞지 않습니다.")
 
@@ -83,7 +82,6 @@ class Menu:
                 self.MI.setMI(4222, self.MI.getisMember(), self.MI.getwhere())
             else:  # 이미 존재하는 아이디면
                 print("이미 존재하는 ID입니다. 다시 입력해 주세요.")
-                self.MI.setMI(4221, self.MI.getisMember(), self.MI.getwhere())
         else:
             print("입력 형식에 맞지 않습니다.")
 
@@ -94,16 +92,16 @@ class Menu:
             self.password = input
             print("등록할 카드 번호를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
             self.MI.setMI(4223, self.MI.getisMember(), self.MI.getwhere())
+        else:
+            print("입력 형식에 맞지 않습니다.")
 
     def menu4223(self, input):
         assert isinstance(input, str)
         if self.__TC.cardNum(input):
             if self.__FM.dupli_checkCARDNUM(input) == 2:  # 이미 등록된 카드 번호이면
                 print("이미 등록된 카드 번호입니다. 다시 입력해 주세요.")
-                self.MI.setMI(4223, self.MI.getisMember(), self.MI.getwhere())
             elif self.__FM.dupli_checkCARDNUM(input) == 1:  # 존재하지 않는 카드 번호이면
                 print("존재하지 않는 카드 번호입니다. 다시 입력해 주세요.")
-                self.MI.setMI(4223, self.MI.getisMember(), self.MI.getwhere())
             else:  # 유효한 카드 번호이면 -> UserList를 업데이트
                 self.__FM.join_user(self.userName, self.password, input)
                 self.__FM.savefile()
@@ -136,14 +134,14 @@ class Menu:
         # return 4300, False, 2  수정 필요
         else:
             print("입력 형식이 잘못됐습니다.")
-            return -1
 
     def menu4311(self, input):  # 완성
         assert isinstance(input, str)
+        assert isinstance(self.__now_time, str)
+        assert self.__TC.time_check(self.__now_time)
         if self.__TC.date_check(input):
             if int(input) < int(self.__now_time[0:8]):
                 print("현재 날짜보다 이전 날짜입니다. 다시 입력해 주세요.")
-                self.MI.setMI(4311, self.MI.getisMember(), self.MI.getwhere())
             else:
                 self.want_reserveday = input
                 # 상영중인 영화를 한 줄씩 출력
@@ -151,13 +149,11 @@ class Menu:
                     self.day_movielist = self.__FM.day_movielist(input, self.__now_time[8:12])
                     if not self.printday_movie():
                         print("상영중인 영화가 없습니다. 다시 입력해 주세요.")
-                        self.MI.setMI(4311, self.MI.getisMember(), self.MI.getwhere())
                         return
                 else:
                     self.day_movielist = self.__FM.day_movielist(input, "0000")
                     if not self.printday_movie():
                         print("상영중인 영화가 없습니다. 다시 입력해 주세요.")
-                        self.MI.setMI(4311, self.MI.getisMember(), self.MI.getwhere())
                         return
                 print("예매할 영화를 선택하세요.(숫자.영화명 입력)")
                 self.MI.setMI(4312, self.MI.getisMember(), self.MI.getwhere())
@@ -174,16 +170,15 @@ class Menu:
                 self.MI.setMI(4313, self.MI.getisMember(), self.MI.getwhere())
             else:  # 입력한 영화가 존재하지 않을 경우
                 print("존재하지 않는 영화입니다. 다시 입력해 주세요.")
-                self.MI.setMI(4312, self.MI.getisMember(), self.MI.getwhere())
         else:
             print("입력 형식에 맞지 않습니다.")
 
     def menu4313(self, input):
         assert isinstance(input, str)
-        self.seat_list = input
-        seat_count = self.count_seat(input)
-        assert isinstance(seat_count, int)
-        if self.__TC.checkyoursheet(input):
+
+        if self.__TC.checkyoursheet(self.__FM.seats_to_list(input)):
+            self.seat_list = input
+            seat_count = self.count_seat(input)
             if seat_count != -1:  # 입력한 좌석이 존재하는 경우 = 예매할 수 있는 경우
                 # 결제 금액(좌석 수 x 가격)을 출력
                 if int(self.selected_movie[1][3]) >= 1200:
@@ -202,7 +197,6 @@ class Menu:
                     self.MI.setMI(43142, self.MI.getisMember(), self.MI.getwhere())
             else:  # 입력한 좌석이 존재하지 않는 경우
                 print("예약할 수 없는 좌석입니다. 다시 입력해 주세요")
-                self.MI.setMI(4313, self.MI.getisMember(), self.MI.getwhere())
         else:
             print("입력 형식에 맞지 않습니다.")
 
@@ -228,7 +222,6 @@ class Menu:
                 self.MI.setMI(4300, self.MI.getisMember(), self.MI.getwhere())
             else:
                 print("초과된 마일리지 금액입니다. 다시 입력해 주세요.")
-                self.MI.setMI(43141, self.MI.getisMember(), self.MI.getwhere())
         else:
             print("입력 형식이 맞지 않습니다.")
             return -1
@@ -239,11 +232,9 @@ class Menu:
         if self.__TC.cardNum(input):
             if self.__FM.dupli_checkCARDNUM(input) == 1:
                 print("존재하지 않는 카드 번호입니다. 다시 입력해 주세요.")
-                self.MI.setMI(43142, self.MI.getisMember(), self.MI.getwhere())
             # 이미 등록된 카드 번호일 경우
             elif self.__FM.dupli_checkCARDNUM(input) == 2:
                 print("이미 등록된 카드 번호입니다. 다시 입력해 주세요.")
-                self.MI.setMI(43142, self.MI.getisMember(), self.MI.getwhere())
             # 유효한 카드 번호일 경우
             else:
                 # 예매 코드 출력
@@ -269,7 +260,6 @@ class Menu:
                 self.MI.setMI(4322, self.MI.getisMember(), self.MI.getwhere())
             else:  #존재하지 않는 예매 코드인 경우
                 print("존재하지 않는 예매 코드입니다. 다시 입력해 주세요.")
-                self.MI.setMI(43212, self.MI.getisMember(), self.MI.getwhere())
         else:
             print("입력 형식에 맞지 않습니다.")
 
@@ -287,7 +277,6 @@ class Menu:
                 self.MI.setMI(4300, self.MI.getisMember(), self.MI.getwhere())
             else:  #존재하지 않는 예매 코드인 경우
                 print("존재하지 않는 예매 코드입니다. 다시 입력해 주세요.")
-                self.MI.setMI(4322, self.MI.getisMember(), self.MI.getwhere())
         else:
             print("입력 형식에 맞지 않습니다.")
 

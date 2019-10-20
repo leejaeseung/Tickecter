@@ -107,7 +107,7 @@ class TypeChecker:
                 return False
 
     def cardNum(self, cardnumber):  #카드번호가 형식에 맞는지 검증
-        if len(cardnumber) != 16 or cardnumber.isdigit() == 0 or cardnumber.isspace():
+        if len.cardnumber != 12 or cardnumber.isdigit() or cardnumber.isspace():
             return False
         else:
             return True

@@ -1,21 +1,19 @@
 from Tickecter import MenuManager
 import os
 
-from Tickecter.TypeChecker import TypeChecker
-
-
 def main():
     MM = MenuManager.MenuManager()
 
     while True:
         inpt = input()
+        assert MM.getMI().getwhere() == 0 or MM.getMI().getwhere() == 1 or MM.getMI().getwhere() == 2
         if inpt == 'EXIT':
             break
         elif inpt == 'RESTART':
             if MM.getMI().getwhere() != 0:
                 MM.getMI().setMI(4200, False, 1)
-                MM.userName = None
-                MM.password = None
+                MM.userName = ""
+                MM.password = ""
                 os.system('cls')
                 MM.print_login_menu()
             continue
@@ -26,6 +24,7 @@ def main():
                 MM.print_main_menu()
             continue
         MM.manageMenu(inpt)
+
 
     print("프로그램이 종료됩니다.")
 
