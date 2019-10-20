@@ -8,9 +8,9 @@ class Menu:
     def __init__(self):
         print("현재 시간을 입력해 주세요.")
         self.__now_time = ""
-        self.__FM = FileManager()
-        self.__TC = TypeChecker()
-        self.MI = menuInfo(4100, False, 0)
+        self.__FM = FileManager.FileManager()
+        self.__TC = TypeChecker.TypeChecker()
+        self.MI = menuInfo.menuInfo(4100, False, 0)
         self.userName = ""
         self.password = ""
         self.want_reserveday = ""
