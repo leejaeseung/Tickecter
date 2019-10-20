@@ -27,7 +27,7 @@ class TypeChecker:
             else:
                 if (date[4] == '0' and date[5] <= '9') or (date[4] == '1' and date[5] <= '2'):  # 0~9나  10~12월인지 검증
                     if (date[6] <= '2') or (
-                            date[5] != '2' and date[6] == '3' and date[7] <= '1'):  # 날짜가 10~29일, 또는 30~31일인지 확인(2월 제외)
+                            not(date[4] == '0' and date[5] == '2') and date[6] == '3' and date[7] <= '1'):  # 날짜가 10~29일, 또는 30~31일인지 확인(2월 제외)
                         if (date[5] == '4' or date[6] == '6' or date[6] == '9' or (date[4] == '1' and date[5] == '1')) and (
                                 date[6] == '3' and date[7] >= '1'):
                             # 4, 6, 9 11월일때는 31일이면 안 됨
@@ -35,7 +35,7 @@ class TypeChecker:
                         else:
                             return True
                     else:
-                        if date[5] == '2' and (date[7] == '9' or date[6] > '2'):
+                        if date[4] == '0' and date[5] == '2' and (date[7] == '9' or date[6] > '2'):
                             return False
                         else:
                             return False
@@ -53,7 +53,7 @@ class TypeChecker:
             else:
                 if (date[4] == '0' and date[5] <= '9') or (date[4] == '1' and date[5] <= '2'):  # 0~9나  10~12월인지 검증
                     if (date[6] <= '2') or (
-                            date[5] != '2' and date[6] == '3' and date[7] <= '1'):  # 날짜가 10~29일, 또는 30~31일인지 확인(2월 제외)
+                            not (date[4] == '0' and date[5] == '2') and date[6] == '3' and date[7] <= '1'):  # 날짜가 10~29일, 또는 30~31일인지 확인(2월 제외)
                         if (date[5] == '4' or date[6] == '6' or date[6] == '9' or (date[4] == '1' and date[5] == '1')) and (
                                 date[6] == '3' and date[7] >= '1'):
                             # 4, 6, 9 11월일때는 31일이면 안 됨
@@ -94,20 +94,20 @@ class TypeChecker:
             if checker[0].isdigit() and checker[1]: #'.'앞이 숫자인지 확인. 숫자이면 '.'뒤의 문자열 검증
                 for index_value in checker[1]:
                     if not index_value.isalpha():
-                        if index_value.isdigit():
+                        if index_value.isdigit() or index_value.isspace():
                             continue
-                        # 입력된 문자 중 하나라도 숫자나 영문 소문자가 아니면 False
+                        # 입력된 문자 중 하나라도 숫자나 공백, 영문 소문자가 아니면 False
                         return False
                     else:
                         if not index_value.islower():
-                            # 입력된 문자 중 하나라도 영문 소문자가 아니면 False
+                            #입력된 문자 중 하나라도 영문 소문자가 아니면 False
                             return False
                 return True
             else:
                 return False
 
     def cardNum(self, cardnumber):  #카드번호가 형식에 맞는지 검증
-        if len.cardnumber != 12 or cardnumber.isdigit() or cardnumber.isspace():
+        if len(cardnumber) != 16 or cardnumber.isdigit() == 0 or cardnumber.isspace():
             return False
         else:
             return True
