@@ -7,18 +7,18 @@ class Menu:
 
     def __init__(self):
         print("현재 시간을 입력해 주세요.")
-        self.__now_time = None
-        self.__FM = FileManager.FileManager()
-        self.__TC = TypeChecker.TypeChecker()
-        self.MI = menuInfo.menuInfo(4100, False, 0)
-        self.userName = None
-        self.password = None
-        self.want_reserveday = None
-        self.day_movielist = None
-        self.selected_movie = None
-        self.final_cost = None
-        self.seat_list = None
-        self.seat_First = None
+        self.__now_time = ""
+        self.__FM = FileManager()
+        self.__TC = TypeChecker()
+        self.MI = menuInfo(4100, False, 0)
+        self.userName = ""
+        self.password = ""
+        self.want_reserveday = ""
+        self.day_movielist = ""
+        self.selected_movie = ""
+        self.final_cost = ""
+        self.seat_list = ""
+        self.seat_First = ""
 
     def menu4100(self, input):
         assert isinstance(input, str)
@@ -137,7 +137,8 @@ class Menu:
 
     def menu4311(self, input):  # 완성
         assert isinstance(input, str)
-        assert self.__TC.date_check(self.__now_time)
+        assert isinstance(self.__now_time, str)
+        assert self.__TC.time_check(self.__now_time)
         if self.__TC.date_check(input):
             if int(input) < int(self.__now_time[0:8]):
                 print("현재 날짜보다 이전 날짜입니다. 다시 입력해 주세요.")

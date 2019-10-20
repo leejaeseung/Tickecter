@@ -12,8 +12,8 @@ def main():
         elif inpt == 'RESTART':
             if MM.getMI().getwhere() != 0:
                 MM.getMI().setMI(4200, False, 1)
-                MM.userName = None
-                MM.password = None
+                MM.userName = ""
+                MM.password = ""
                 os.system('cls')
                 MM.print_login_menu()
             continue
