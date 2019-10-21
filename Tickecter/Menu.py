@@ -11,6 +11,9 @@ class Menu:
         self.__FM = FileManager.FileManager()
         self.__TC = TypeChecker.TypeChecker()
         self.MI = menuInfo.menuInfo(4100, False, 0)
+        #self.__FM = FileManager()
+        #self.__TC = TypeChecker()
+        #self.MI = menuInfo(4100, False, 0)
         self.userName = ""
         self.password = ""
         self.want_reserveday = ""
@@ -178,7 +181,7 @@ class Menu:
 
         if self.__TC.checkyoursheet(self.__FM.seats_to_list(input)):
             self.seat_list = input
-            seat_count = self.count_seat(input)
+            seat_count = self.count_seat(self.__FM.seats_to_list(input))
             if seat_count != -1:  # 입력한 좌석이 존재하는 경우 = 예매할 수 있는 경우
                 # 결제 금액(좌석 수 x 가격)을 출력
                 if int(self.selected_movie[1][3]) >= 1200:
@@ -189,7 +192,7 @@ class Menu:
                 print("결제하실 금액은 총", self.final_cost, "원 입니다.")
                 if self.MI.getisMember():
                     # 보유 마일리지를 출력
-                    print("회원님의 마일리지 잔액은", self.__FM.getuser(self.userName, self.password).get("mileage"),
+                    print("회원님의 마일리지 잔액은", int(self.__FM.getuser(self.userName, self.password).get("mileage")),
                           "원 입니다. 얼마를 사용하시겠습니까?")
                     self.MI.setMI(43141, self.MI.getisMember(), self.MI.getwhere())
                 else:
@@ -383,8 +386,7 @@ class Menu:
         else:
             return False
 
-    def count_seat(self, seat_input):
-        seatList = self.__FM.seats_to_list(seat_input)
+    def count_seat(self, seatList):
         self.seat_First = seatList[0]
         cnt = 0
         for seat in seatList:
