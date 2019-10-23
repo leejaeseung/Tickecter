@@ -1,6 +1,5 @@
 import os
 
-
 class TypeChecker:
 
     def ID_check(self, new_id):  # 아이디가 형식에 맞는지 확인
