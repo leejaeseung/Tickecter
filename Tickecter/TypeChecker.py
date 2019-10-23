@@ -1,9 +1,12 @@
 import os
 
+from Tickecter.FileManager import FileManager
+
 
 class TypeChecker:
 
     def ID_check(self, new_id):  # 아이디가 형식에 맞는지 확인
+        assert isinstance(new_id, str)
         count = 0
         if len(new_id) < 4 or len(new_id) > 10:  # 길이
             return False
@@ -18,6 +21,7 @@ class TypeChecker:
             return True
 
     def date_check(self, date):  # 날짜가 형식에 맞는지 확인(날짜만, 8자리)
+        assert isinstance(date, str)
         if date.isdigit() == 0 or len(date) != 8:
             return False
         else:
@@ -46,6 +50,7 @@ class TypeChecker:
                     return False
 
     def time_check(self, date):  # 날짜 및 시간이 형식에 맞는지 확인(12자리,날짜 시간 모두 검증)
+        assert isinstance(date, str)
         if date.isdigit() == 0 or len(date) != 12:
             return False
         else:
@@ -77,6 +82,7 @@ class TypeChecker:
                     return False
 
     def pw_check(self, password):  # 비밀번호가 형식에 맞는지 검증
+        assert isinstance(password, str)
         count = 0
         if len(password) < 4 or len(password) > 10:  # 길이
             return False
@@ -91,6 +97,7 @@ class TypeChecker:
             return True
 
     def checkMovieTitle(self, title):
+        assert isinstance(title, str)
         checker = title.split('.', maxsplit=1)  # '.'을 기준으로 문자열을 나눈다
         if len(title) > 20 or len(title) == 0 or title.count('. ') or title.count('  ') or title.count('.') == 0:
             # 글자가 없거나 20자를 넘거나 공백으로 시작하거나 공백이 연속으로 들어갔는지 또는 점이 없는지 확인
@@ -112,24 +119,60 @@ class TypeChecker:
                 return False
 
     def cardNum(self, cardnumber):  # 카드번호가 형식에 맞는지 검증
-        if len.cardnumber != 12 or cardnumber.isdigit() or cardnumber.isspace():
+        assert isinstance(cardnumber, str)
+        if len(cardnumber) != 12 or cardnumber.isdigit() or cardnumber.isspace():
             return False
         else:
             return True
 
-    def checkyoursheet(self, sheet):  # 좌석 입력형식이 맞는지 검증
-        for i in sheet:
-            checker = list(i)
-            if checker[0].isupper() == 0 or (checker[1].isdigit() == 0 and len(sheet) > 1):
-                return False
-        for j in sheet:
-            for l in range(1, len(sheet)):
-                if len(sheet) > 1 and j == sheet[l]:
-                    # 동일한 좌석
-                    return False
-        return True
+    def checkSeatsList(self, strseat):         # 좌석 str 받으면 형식 검증 후 리스트 리턴 함수
+        assert isinstance(strseat, str)
+        if len(strseat) < 2:
+           list = []
+           return list
+        elif len(strseat) < 3:
+            if self.checkOneSeat(strseat):
+                list = [strseat]
+                return list
+            else:
+                list = []
+                return list
+        else:
+            if strseat.count("~") == 1:
+                list = strseat.split("~")
+                if self.checkOneSeat(list[0]) and self.checkOneSeat(list[1]):
+                    firstseat = list[0]
+                    lastseat = list[1]
+                    list = []
+                    if firstseat[0] == lastseat[0] and firstseat[1].isdigit() and lastseat[1].isdigit() and firstseat[1] != lastseat[1]:
+                        for i in range(int(firstseat[1]), int(lastseat[1])+1):
+                            list.append(firstseat[0] + str(i))
+                        return list
+                    else:
+                        return list
+                else:
+                    list = []
+                    return list
+            elif strseat.find(","):
+                list = strseat.split(",")
+                for i in list:
+                    if self.checkOneSeat(i) == 0 or strseat.count(i) > 1:
+                        list = []
+                        return list
+                return list
+            else:
+                list = []
+                return list
+
+    def checkOneSeat(selfs, seat):
+        assert isinstance(seat, str)
+        if len(seat) == 2 and seat[0].isupper() and seat[1].isdigit():    # 한글자만 검증하므로 isalpha를 안 써도 된다.
+            return True
+        else:
+            return False
 
     def checkReservationCode(self, code):  # 예매번호 형식 체크  ex) 20190929AA0930F1
+        assert isinstance(code, str)
         if len(code) == 16:
             if code[0:8].isdigit() and code[10:14].isdigit() and code[15].isdigit():
                 if code[8:10].isalpha() and code[8:10].isupper() and code[14].isalpha() and code[14].isupper():
@@ -140,3 +183,11 @@ class TypeChecker:
                 return False
         else:
             return False
+
+tt = TypeChecker()
+
+while True:
+    seatsstring = input()
+    ii = tt.checkSeatsList(seatsstring)
+    print(ii)
+
