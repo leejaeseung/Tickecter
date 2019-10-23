@@ -1,7 +1,5 @@
 import os
 
-from Tickecter.FileManager import FileManager
-
 
 class TypeChecker:
 
@@ -183,11 +181,3 @@ class TypeChecker:
                 return False
         else:
             return False
-
-tt = TypeChecker()
-
-while True:
-    seatsstring = input()
-    ii = tt.checkSeatsList(seatsstring)
-    print(ii)
-
