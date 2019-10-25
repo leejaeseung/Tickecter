@@ -36,13 +36,13 @@ class TypeChecker:
                                 date[6] == '3' and date[7] >= '1'):
                             # 4, 6, 9 11월일때는 31일이면 안 됨
                             return False
+                        elif date[4] == '0' and date[5] == '2' and (
+                                    (date[6] == '2' and date[7] == '9') or date[6] > '2'):  #2월은 28일까지
+                            return False
                         else:
                             return True
                     else:
-                        if date[4] == '0' and date[5] == '2' and (date[7] == '9' or date[6] > '2'):
-                            return False
-                        else:
-                            return False
+                        return False
                 else:
                     return False
 
@@ -65,16 +65,16 @@ class TypeChecker:
                                 date[6] == '3' and date[7] >= '1'):
                             # 4, 6, 9 11월일때는 31일이면 안 됨
                             return False
+                        elif date[4] == '0' and date[5] == '2' and (
+                                    (date[6] == '2' and date[7] == '9') or date[6] > '2'):  #2월은 28일까지
+                            return False
                         else:
                             if date[8] > '2' or date[10] > '5' or (date[8] == '2' and date[9] > '3'):  # 30시 또는 60분, 25시
                                 return False
                             else:
                                 return True
                     else:
-                        if date[5] == '2' and (date[7] == '9' or date[6] > '2'):
-                            return False
-                        else:
-                            return False
+                        return False
                 else:
                     return False
 
@@ -183,4 +183,3 @@ class TypeChecker:
                 return False
         else:
             return False
-
