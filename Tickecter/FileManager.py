@@ -159,6 +159,7 @@ class FileManager:
 # 클래스 선언
 
 #x=FileManager()
+#print(x.movielist)
 #user일때
 #y = x.getReservation(username="user")
 #for index, i in enumerate(y):

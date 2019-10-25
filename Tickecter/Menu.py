@@ -133,6 +133,48 @@ class Menu:
             else:
                 print("예매 코드를 입력해 주세요.")
                 self.MI.setMI(43212, self.MI.getisMember(), self.MI.getwhere())
+        elif input == '3':
+            print("영화 목록")
+            self.printPopmovie()
+            #printmovieToday() 영화목록 정렬되게 출력해야함
+            print("조회를 원하는 영화 제목이나 번호를 입력하세요.")
+            print(self.__FM.reservationlist)
+            self.MI.setMI(4330, self.MI.getisMember(), self.MI.getwhere())
+
+
+
+    def printPopmovie(self):        # 현재 시간기준으로 예매가 많이된 영화 n개 출력
+        nn = 5
+        ppq = PriorityQueue()
+        RClist = []            #예매된 영화코드 가져옴 리스트에 중복을 담아서 개수샘
+        DClist = []            #디폴트 코드 리스트
+        DMNlist = []            #디폴트 뮤비네임 리스트
+        for index in self.__FM.reservationlist:
+            if index[4] == '0' and int(self.__now_time) >= int(index[2][0:8]+index[2][10:14]):           #최소가 안된 영화라면, 지금 시간보다 이전기준포함
+                n = len(self.__FM.seats_to_list(index[3]))
+                print("n출력")
+                print(n)
+                for i in range(n):
+                     RClist.append(index[2][8:10])      #예매된 영화코드 가져옴 중복된 리스트
+
+        print(RClist)
+        for index in self.__FM.movielist:
+            if not index[1] in DClist:
+                DClist.append(index[1])                 #디폴트 코드 가져옴
+            if not str(index[1]+index[2]) in DMNlist:
+                print(index[1]+index[2])
+                DMNlist.append(str(index[1]+[2]))            #코드+영화이름으로 리스트에 저장
+        for index in DMNlist:
+            Priority = int(RClist.count(index[0:2]))
+            ppq.put((Priority, DMNlist[index][2:]))
+        for i in range(nn):
+            if ppq.empty():
+                break
+            movieN = ppq.get()[1]
+            print(i, movieN)
+
+            #print 시간표출력
+            #self.MI.setMI(4330,self.MI.getisMember(), self.MIgetwhere())
         # elif input == '3':
         # return 4300, False, 2  수정 필요
         else:
@@ -283,6 +325,13 @@ class Menu:
         else:
             print("입력 형식에 맞지 않습니다.")
 
+    def menu4330(self, input):
+        assert isinstance(input, str) or isinstance(input, int)
+        print(input)
+        print("시간표는 10초동안 보여집니다.")
+        time.sleep(10)
+        self.print_main_menu()
+        self.MI.setMI(4300, self.MI.getisMember(), self.MI.getwhere())
 
     def print_login_menu(self):
         print("1. 회원 로그인")
