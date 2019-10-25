@@ -66,7 +66,7 @@ class TypeChecker:
                             # 4, 6, 9 11월일때는 31일이면 안 됨
                             return False
                         else:
-                            if date[8] > '2' or date[10] > '5' or (date[8] == '2' and date[9] > '4'):  # 30시 또는 60분, 25시
+                            if date[8] > '2' or date[10] > '5' or (date[8] == '2' and date[9] > '3'):  # 30시 또는 60분, 25시
                                 return False
                             else:
                                 return True
@@ -96,31 +96,34 @@ class TypeChecker:
     def checkMovieTitle(self, title):
         assert isinstance(title, str)
         checker = title.split('.', maxsplit=1)  # '.'을 기준으로 문자열을 나눈다
-        if len(title) > 20 or len(title) == 0 or title.count('. ') or title.count('  ') or title.count('.') == 0:
-            # 글자가 없거나 20자를 넘거나 공백으로 시작하거나 공백이 연속으로 들어갔는지 또는 점이 없는지 확인
-            return False
-        else:
-            if checker[0].isdigit() and checker[1]:  # '.'앞이 숫자인지 확인. 숫자이면 '.'뒤의 문자열 검증
-                for index_value in checker[1]:
-                    if not index_value.isalpha():
-                        if index_value.isdigit() or index_value.isspace():
-                            continue
-                        # 입력된 문자 중 하나라도 숫자나 공백, 영문 소문자가 아니면 False
-                        return False
-                    else:
-                        if not index_value.islower():
-                            # 입력된 문자 중 하나라도 영문 소문자가 아니면 False
-                            return False
-                return True
-            else:
+        if checker[1]:
+            if len(checker[1]) > 20 or len(title) == 0 or title.count('. ') or title.count('  ') or title.count('.') == 0:
+                # 글자가 없거나 20자를 넘거나 공백으로 시작하거나 공백이 연속으로 들어갔는지 또는 점이 없는지 확인
                 return False
+            else:
+                if checker[0].isdigit() and checker[1]:  # '.'앞이 숫자인지 확인. 숫자이면 '.'뒤의 문자열 검증
+                    for index_value in checker[1]:
+                        if not index_value.isalpha():
+                            if index_value.isdigit() or index_value.isspace():
+                                continue
+                            # 입력된 문자 중 하나라도 숫자나 공백, 영문 소문자가 아니면 False
+                            return False
+                        else:
+                            if not index_value.islower():
+                                # 입력된 문자 중 하나라도 영문 소문자가 아니면 False
+                                return False
+                    return True
+                else:
+                    return False
+        else:
+            return False
 
     def cardNum(self, cardnumber):  # 카드번호가 형식에 맞는지 검증
         assert isinstance(cardnumber, str)
-        if len(cardnumber) != 12 or cardnumber.isdigit() or cardnumber.isspace():
-            return False
-        else:
+        if len(cardnumber) == 12 and cardnumber.isdigit() and not cardnumber.isspace():
             return True
+        else:
+            return False
 
     def checkSeatsList(self, strseat):         # 좌석 str 받으면 형식 검증 후 리스트 리턴 함수
         assert isinstance(strseat, str)
@@ -161,7 +164,7 @@ class TypeChecker:
                 list = []
                 return list
 
-    def checkOneSeat(selfs, seat):
+    def checkOneSeat(self, seat):
         assert isinstance(seat, str)
         if len(seat) == 2 and seat[0].isupper() and seat[1].isdigit():    # 한글자만 검증하므로 isalpha를 안 써도 된다.
             return True
@@ -180,3 +183,4 @@ class TypeChecker:
                 return False
         else:
             return False
+
