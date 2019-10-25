@@ -66,7 +66,7 @@ class TypeChecker:
                             # 4, 6, 9 11월일때는 31일이면 안 됨
                             return False
                         else:
-                            if date[8] > '2' or date[10] > '5' or (date[8] == '2' and date[9] > '4'):  # 30시 또는 60분, 25시
+                            if date[8] > '2' or date[10] > '5' or (date[8] == '2' and date[9] > '3'):  # 30시 또는 60분, 24시
                                 return False
                             else:
                                 return True
