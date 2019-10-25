@@ -122,34 +122,33 @@ class FileManager:
             choice_movie[hori] =choice_movie[hori][0:vert] + "1" + choice_movie[hori][vert + 1:]
 
     #아이디를 입력받으면 해당 회원의 예매 코드에 해당하는 예약 리스트들의 인덱스 리스트 리턴하는 함수 ,회원이 아닌경우 code_num을 넣으면 예약리스트의 인덱스 하나 리턴
-    def getReservation(self, username="",code_num=''):  
+    def getReservation(self, username="",code_num=''):
         list=[]
         if username != '':
             for index, reserlist in enumerate(self.reservationlist):
-                if reserlist[0] == '1' and reserlist[1] == username:
+                if reserlist[0] == '1' and reserlist[1] == username and reserlist[4]=='0':
                     list.append(index)
             return list
         else:
             for index, reserlist in enumerate(self.reservationlist):
                 if reserlist[4]=='0' and reserlist[2] == code_num:
                     return index
+            return -1
 
 
 
     #예매 코드를 입력받으면 ReservationList에서 해당 예매코드를 취소하는 함수
-    def book_cancel(self,index):
+    def book_cancel(self,input_code):
+        index = self.getReservation("", input_code)
         reserv= self.reservationlist[int(index)]
-        if reserv[4] =='1':
-            print("이미 취소 된 내역 입니다.")
-            return False
-        else:
-            seatlist= self.seats_to_list(reserv[3])
-            choice_movie =self.movielist[reserv[2][:-2]]
-            reserv[4] ='1'
-            for seat in seatlist:
-                hori = 7 + ord(seat[0]) - ord('A')
-                vert = int(seat[1:]) - 1
-                choice_movie[hori] = choice_movie[hori][0:vert] + "0" + choice_movie[hori][vert + 1:]
+        seatlist= self.seats_to_list(reserv[3])
+        choice_movie =self.movielist[reserv[2][:-2]]
+        reserv[4] ='1'
+        for seat in seatlist:
+            hori = 7 + ord(seat[0]) - ord('A')
+            vert = int(seat[1:]) - 1
+            choice_movie[hori] = choice_movie[hori][0:vert] + "0" + choice_movie[hori][vert + 1:]
+        return self.movielist[reserv[2][0:14]]
 
 
 # member, userID, reservationcode, seats, cancel
