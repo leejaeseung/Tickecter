@@ -1,15 +1,32 @@
 import pandas as pd
-
+import sys
 class FileManager:
 
     def __init__(self):
-        CL = pd.read_csv("./Tickecter/CardList.csv", dtype=str)
-        UL = pd.read_csv("./Tickecter/UserList.csv", dtype=str)
-        ML = pd.read_csv("./Tickecter/MovieList.csv", dtype=str)
-        RL = pd.read_csv("./Tickecter/ReservationList.csv", dtype=str)
+        try: #헤더를 그대로 주어버리게 되면 데이터 프레임의 shape가 고정이 됨
+            CL = pd.read_csv("./Tickecter/CardList.csv",dtype=str,skiprows=1,header=None)
+            UL = pd.read_csv("./Tickecter/UserList.csv", dtype=str,skiprows=1,header=None)
+            ML = pd.read_csv("./Tickecter/MovieList.csv", dtype=str,skiprows=1,header=None )
+            RL = pd.read_csv("./Tickecter/ReservationList.csv", dtype=str,skiprows=1,header=None)
+        except FileNotFoundError:
+            print("파일이 존재 하지 않거나 읽을수 없습니다")
+            sys.exit(0)
+        except pd.errors.ParserError: #파일 열수 이상하면
+            print("파일 형식이 맞지 않습니다.")
+            sys.exit(0)
+        except pd.errors.EmptyDataError:
+            RL=pd.read_csv("./Tickecter/ReservationList.csv", dtype=str)
 
-        # if CL.shape[1] != 2 or UL.shape[1] != 4 or ML.shape[1] != 18 or RL.shap[1] != 5:
-        #     pass
+        if CL.shape[1] != 2 or UL.shape[1] != 4 or ML.shape[1] != 17 or RL.shape[1] !=5:
+            print("파일 형식이 맞지 않습니다.")
+            sys.exit(0)
+
+        
+        CL.set_axis(["cardnum","regist"],axis='columns',inplace=True)
+        ML.set_axis(["day","moviecode",'moviename','starttime','finishtime','screen','seat','A','B','C','D','E','F','G','H','I','J'],axis='columns',inplace=True)
+        UL.set_axis(["userID", "userpassword", "registcard", "mileage"], axis='columns', inplace=True)
+        RL.set_axis(["member", "userID", "reservationcode", "seats", "cancel"], axis='columns',inplace=True)
+
 
         # 카드리스트 카드번호를 키로 딕셔너리
         self.cardlist = dict([(a, b) for a, b in zip(CL.cardnum, CL.regist)])
