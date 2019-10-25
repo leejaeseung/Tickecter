@@ -31,7 +31,7 @@ class FileManager:
             print("파일 형식이 맞지 않습니다.")
             sys.exit(0)
 
-        
+
         CL.set_axis(["cardnum","regist"],axis='columns',inplace=True)
         ML.set_axis(["day","moviecode",'moviename','starttime','finishtime','screen','seat','A','B','C','D','E','F','G','H','I','J'],axis='columns',inplace=True)
         UL.set_axis(["userID", "userpassword", "registcard", "mileage"], axis='columns', inplace=True)

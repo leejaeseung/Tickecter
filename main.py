@@ -7,8 +7,6 @@ def main():
     while True:
         inpt = input()
         assert MM.getMI().getwhere() == 0 or MM.getMI().getwhere() == 1 or MM.getMI().getwhere() == 2
-        print(MM.getMI().getwhere())
-        print(MM.getMI().getmenuNum())
         if inpt == 'EXIT':
             break
         elif inpt == 'RESTART':
