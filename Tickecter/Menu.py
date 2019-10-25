@@ -199,7 +199,6 @@ class Menu:
                 print("결제하실 금액은 총", self.final_cost, "원 입니다.")
                 if self.MI.getisMember():
                     # 보유 마일리지를 출력
-
                     print("회원님의 마일리지 잔액은", int(self.__FM.getuser(self.userName, self.password).get("mileage")),
                           "원 입니다. 얼마를 사용하시겠습니까?")
                     self.MI.setMI(43141, self.MI.getisMember(), self.MI.getwhere())
