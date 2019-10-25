@@ -33,7 +33,7 @@ class Menu:
             else:
                 self.__now_time = input
                 self.print_login_menu()
-                self.MI.setMI(4200, self.MI.getisMember(), 1)
+                self.MI.setMI(4200, self.MI.getisMember(), 0)
         else:
             print("입력 형식이 맞지 않습니다.")
 
@@ -215,14 +215,12 @@ class Menu:
         mileage = int(self.__FM.getuser(self.userName, self.password).get("mileage"))
         if input.isdecimal() and int(input) >= 0:
             if mileage >= int(input):  # 마일리지 잔액보다 적거나 같게 입력했을 경우
-                print("나머지 금액은", self.final_cost - int(input), " 입니다. 등록된 카드로 결제하겠습니다.")
-                # 마일리지를 저장
-                mileage = mileage - int(input) + int(self.final_cost / 10)
-                self.__FM.getuser(self.userName, self.password)['mileage'] = mileage
-
+                print("나머지 금액은", int(self.final_cost) - int(input), " 입니다. 등록된 카드로 결제하겠습니다.")
                 # 예매 코드 출력
                 print("결제가 완료되었습니다. 예매 코드 : ", self.selected_movie[0] + self.seat_First)
-
+                # 마일리지를 저장
+                mileage = mileage - int(input) + int(int(self.final_cost) / 10)
+                self.__FM.getuser(self.userName, self.password)['mileage'] = mileage
                 self.__FM.bookmovie('1', self.userName, self.selected_movie[1], self.seat_list)
                 # 수정된 파일들 저장
                 self.__FM.savefile()
