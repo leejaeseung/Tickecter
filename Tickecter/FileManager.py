@@ -8,6 +8,8 @@ class FileManager:
         ML = pd.read_csv("../Tickecter/MovieList.csv", dtype=str)
         RL = pd.read_csv("../Tickecter/ReservationList.csv", dtype=str)
 
+
+
         # 카드리스트 카드번호를 키로 딕셔너리
         self.cardlist = dict([(a, b) for a, b in zip(CL.cardnum, CL.regist)])
 
@@ -23,6 +25,9 @@ class FileManager:
         #예약리스트 이차원 리스트
         self.reservationlist = [[member,userID,reservationcode,seats,cancel]
                                 for member,userID,reservationcode,seats,cancel in zip(RL.member,RL.userID,RL.reservationcode,RL.seats,RL.cancel)]
+
+        # 파일의 값이 의도한 값과 같은지 검사하는 것 구현
+
 
     def savefile(self):
         ##card
@@ -56,6 +61,7 @@ class FileManager:
 
         # csv는 ,로 셀을 구분.. 좌석에 ,를 사용하면?
         #좌석 번호 저장 할때 csv가 ,로 셀을 구분하여 문자열에,이 포함될경우 자동으로 ""로 묶어줌 그래서 A1~A4는 "이 포함되지 않으나 A1,A2는 "이 포함되어 저장
+
 
     #아이디 존재 유무 리턴함수
     def dupli_checkID(self,inputID):
@@ -161,11 +167,7 @@ class FileManager:
 #x=FileManager()
 #print(x.movielist)
 #user일때
-#y = x.getReservation(username="user")
-#for index, i in enumerate(y):
-    #print(x.reservationlist[i])
-#index=input("인덱스 입력")
-#x.book_cancel(y[int(index)])
+
 #비회원
 # y= x.getReservation(code_num="20191020AA0710A3")
 # print(x.reservationlist[y])
