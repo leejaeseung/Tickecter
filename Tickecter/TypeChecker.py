@@ -66,7 +66,7 @@ class TypeChecker:
                             # 4, 6, 9 11월일때는 31일이면 안 됨
                             return False
                         else:
-                            if date[8] > '2' or date[10] > '5' or (date[8] == '2' and date[9] > '3'):  # 30시 또는 60분, 24시
+                            if date[8] > '2' or date[10] > '5' or (date[8] == '2' and date[9] > '3'):  # 30시 또는 60분, 25시
                                 return False
                             else:
                                 return True
@@ -117,10 +117,10 @@ class TypeChecker:
 
     def cardNum(self, cardnumber):  # 카드번호가 형식에 맞는지 검증
         assert isinstance(cardnumber, str)
-        if len(cardnumber) != 12 or cardnumber.isdigit() or cardnumber.isspace():
-            return False
-        else:
+        if len(cardnumber) == 12 and cardnumber.isdigit() and not cardnumber.isspace():
             return True
+        else:
+            return False
 
     def checkSeatsList(self, strseat):         # 좌석 str 받으면 형식 검증 후 리스트 리턴 함수
         assert isinstance(strseat, str)

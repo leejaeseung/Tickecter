@@ -26,9 +26,14 @@ class Menu:
     def menu4100(self, input):
         assert isinstance(input, str)
         if self.__TC.time_check(input):
-            self.__now_time = input
-            self.print_login_menu()
-            self.MI.setMI(4200, self.MI.getisMember(), 1)
+            if int(input[:8]) < 20191020:
+                print("현재 날짜보다 이전 날짜입니다. 다시 입력해 주세요.")
+            elif int(input[:8]) >= 20191121:
+                print("최대 날짜보다 이후 날짜입니다. 다시 입력해 주세요.")
+            else:
+                self.__now_time = input
+                self.print_login_menu()
+                self.MI.setMI(4200, self.MI.getisMember(), 1)
         else:
             print("입력 형식이 맞지 않습니다.")
 
@@ -138,13 +143,15 @@ class Menu:
         else:
             print("입력 형식이 잘못됐습니다.")
 
-    def menu4311(self, input):  # 완성
+    def menu4311(self, input):               #검사 완료
         assert isinstance(input, str)
         assert isinstance(self.__now_time, str)
         assert self.__TC.time_check(self.__now_time)
         if self.__TC.date_check(input):
             if int(input) < int(self.__now_time[0:8]):
                 print("현재 날짜보다 이전 날짜입니다. 다시 입력해 주세요.")
+            elif int(input) >= 20191121:
+                print("최대 날짜보다 이후 날짜입니다. 다시 입력해 주세요.")
             else:
                 self.want_reserveday = input
                 # 상영중인 영화를 한 줄씩 출력
@@ -163,7 +170,7 @@ class Menu:
         else:
             print("입력 형식에 맞지 않습니다.")
 
-    def menu4312(self, input):
+    def menu4312(self, input):              #검사 완료
         assert isinstance(input, str)
         if self.__TC.checkMovieTitle(input):
             input = input.strip().split('.')  # 공백을 제거하고, . 을 기준으로 분리
@@ -176,12 +183,12 @@ class Menu:
         else:
             print("입력 형식에 맞지 않습니다.")
 
-    def menu4313(self, input):
+    def menu4313(self, input):              #검사 완료
         assert isinstance(input, str)
 
-        if self.__TC.checkyoursheet(self.__FM.seats_to_list(input)):
+        if self.__TC.checkSeatsList(input):
             self.seat_list = input
-            seat_count = self.count_seat(self.__FM.seats_to_list(input))
+            seat_count = self.count_seat(input)
             if seat_count != -1:  # 입력한 좌석이 존재하는 경우 = 예매할 수 있는 경우
                 # 결제 금액(좌석 수 x 가격)을 출력
                 if int(self.selected_movie[1][3]) >= 1200:
@@ -192,6 +199,7 @@ class Menu:
                 print("결제하실 금액은 총", self.final_cost, "원 입니다.")
                 if self.MI.getisMember():
                     # 보유 마일리지를 출력
+
                     print("회원님의 마일리지 잔액은", int(self.__FM.getuser(self.userName, self.password).get("mileage")),
                           "원 입니다. 얼마를 사용하시겠습니까?")
                     self.MI.setMI(43141, self.MI.getisMember(), self.MI.getwhere())
@@ -386,13 +394,25 @@ class Menu:
         else:
             return False
 
-    def count_seat(self, seatList):
+    def count_seat(self, input):              #검사 완료
+        assert isinstance(input, str)
+        seatList = []
+        if "~" in input:
+            sp_list = input.split("~")
+            for i in range(int(sp_list[0][1:]), int(sp_list[1][1:]) + 1):
+                seatList.append(sp_list[0][0] + str(i))
+        elif "," in input:
+            seatList = input.split(",")
+        else:
+            seatList = [input]
+
         self.seat_First = seatList[0]
+        seat_size = self.selected_movie[1][6].split('x')
         cnt = 0
         for seat in seatList:
             row = ord(seat[0]) - ord('A') + 1
             col = int(seat[1:])
-            if len(self.selected_movie[1][6 + row]) < col:                  #예약 가능 좌석 보다 높은 값일 때
+            if row > int(seat_size[0]) or col > int(seat_size[1]) or col < 1:                  #예약 가능 좌석 보다 높은 값일 때
                 return -1
             if list(self.selected_movie[1][6 + row])[col - 1] == '1':  # 예약되어 있으면
                 return -1
