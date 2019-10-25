@@ -3,12 +3,13 @@ import pandas as pd
 class FileManager:
 
     def __init__(self):
-        CL = pd.read_csv("../Tickecter/CardList.csv", dtype=str)
-        UL = pd.read_csv("../Tickecter/UserList.csv", dtype=str)
-        ML = pd.read_csv("../Tickecter/MovieList.csv", dtype=str)
-        RL = pd.read_csv("../Tickecter/ReservationList.csv", dtype=str)
+        CL = pd.read_csv("./Tickecter/CardList.csv", dtype=str)
+        UL = pd.read_csv("./Tickecter/UserList.csv", dtype=str)
+        ML = pd.read_csv("./Tickecter/MovieList.csv", dtype=str)
+        RL = pd.read_csv("./Tickecter/ReservationList.csv", dtype=str)
 
-
+        # if CL.shape[1] != 2 or UL.shape[1] != 4 or ML.shape[1] != 18 or RL.shap[1] != 5:
+        #     pass
 
         # 카드리스트 카드번호를 키로 딕셔너리
         self.cardlist = dict([(a, b) for a, b in zip(CL.cardnum, CL.regist)])
@@ -164,7 +165,7 @@ class FileManager:
 
 # 클래스 선언
 
-#x=FileManager()
+# x=FileManager()
 #user일때
 
 #비회원
