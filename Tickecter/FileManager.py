@@ -1,13 +1,31 @@
 import pandas as pd
-
+import sys
 class FileManager:
 
     def __init__(self):
-        CL = pd.read_csv("../Tickecter/CardList.csv", dtype=str)
-        UL = pd.read_csv("../Tickecter/UserList.csv", dtype=str)
-        ML = pd.read_csv("../Tickecter/MovieList.csv", dtype=str)
-        RL = pd.read_csv("../Tickecter/ReservationList.csv", dtype=str)
+        try: #헤더를 그대로 주어버리게 되면 데이터 프레임의 shape가 고정이 됨
+            CL = pd.read_csv("./Tickecter/CardList.csv",dtype=str,skiprows=1,header=None)
+            UL = pd.read_csv("./Tickecter/UserList.csv", dtype=str,skiprows=1,header=None)
+            ML = pd.read_csv("./Tickecter/MovieList.csv", dtype=str,skiprows=1,header=None )
+            RL = pd.read_csv("./Tickecter/ReservationList.csv", dtype=str,skiprows=1,header=None)
+        except FileNotFoundError:
+            print("파일이 존재 하지 않거나 읽을수 없습니다")
+            sys.exit(0)
+        except pd.errors.ParserError: #파일 열수 이상하면
+            print("파일 형식이 맞지 않습니다.")
+            sys.exit(0)
+        except pd.errors.EmptyDataError:
+            RL=pd.read_csv("./Tickecter/ReservationList.csv", dtype=str)
 
+        if CL.shape[1] != 2 or UL.shape[1] != 4 or ML.shape[1] != 17 or RL.shape[1] !=5:
+            print("파일 형식이 맞지 않습니다.")
+            sys.exit(0)
+
+        
+        CL.set_axis(["cardnum","regist"],axis='columns',inplace=True)
+        ML.set_axis(["day","moviecode",'moviename','starttime','finishtime','screen','seat','A','B','C','D','E','F','G','H','I','J'],axis='columns',inplace=True)
+        UL.set_axis(["userID", "userpassword", "registcard", "mileage"], axis='columns', inplace=True)
+        RL.set_axis(["member", "userID", "reservationcode", "seats", "cancel"], axis='columns',inplace=True)
 
 
         # 카드리스트 카드번호를 키로 딕셔너리
@@ -50,14 +68,17 @@ class FileManager:
         df_movielist.set_axis(["day","moviecode",'moviename','starttime','finishtime','screen','seat','A','B','C','D','E','F','G','H','I','J'],axis='columns',inplace=True)
 
         # reservation
-        df_reservation = pd.DataFrame(self.reservationlist)
-        df_reservation.set_axis(["member","userID","reservationcode","seats","cancel"],axis='columns',inplace=True)
+        if len(self.reservationlist) != 0 :
+            df_reservation = pd.DataFrame(self.reservationlist)
+            df_reservation.set_axis(["member", "userID", "reservationcode", "seats", "cancel"], axis='columns',inplace=True)
+            df_reservation.to_csv("./Tickecter/ReservationList.csv", header=True, index=False)
+
 
         # 파일 저장 - 실제 작동할때는 파일명앞에 ../추가  "../CardList.csv"
-        df_cardlist.to_csv("CardList.csv",header=True,index=False)
-        df_userlist.to_csv("UserList.csv",header=True,index=False)
-        df_movielist.to_csv("MovieList.csv",header=True,index=False)
-        df_reservation.to_csv("ReservationList.csv", header=True, index=False)
+        df_cardlist.to_csv("./Tickecter/CardList.csv",header=True,index=False)
+        df_userlist.to_csv("./Tickecter/UserList.csv",header=True,index=False)
+        df_movielist.to_csv("./Tickecter/MovieList.csv",header=True,index=False)
+
 
         # csv는 ,로 셀을 구분.. 좌석에 ,를 사용하면?
         #좌석 번호 저장 할때 csv가 ,로 셀을 구분하여 문자열에,이 포함될경우 자동으로 ""로 묶어줌 그래서 A1~A4는 "이 포함되지 않으나 A1,A2는 "이 포함되어 저장
@@ -164,8 +185,7 @@ class FileManager:
 
 # 클래스 선언
 
-#x=FileManager()
-#print(x.movielist)
+x=FileManager()
 #user일때
 
 #비회원

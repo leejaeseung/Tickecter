@@ -7,10 +7,12 @@ def main():
     while True:
         inpt = input()
         assert MM.getMI().getwhere() == 0 or MM.getMI().getwhere() == 1 or MM.getMI().getwhere() == 2
+        print(MM.getMI().getwhere())
+        print(MM.getMI().getmenuNum())
         if inpt == 'EXIT':
             break
         elif inpt == 'RESTART':
-            if MM.getMI().getwhere() != 0:
+            if MM.getMI().getwhere() != 0 or MM.getMI().getmenuNum() != 4100:
                 MM.getMI().setMI(4200, False, 1)
                 MM.userName = ""
                 MM.password = ""
@@ -18,7 +20,7 @@ def main():
                 MM.print_login_menu()
             continue
         elif inpt == 'BACK':
-            if MM.getMI().getwhere() == 2:
+            if MM.getMI().getwhere() == 2 or MM.getMI().getmenuNum() >= 4300:
                 MM.getMI().setMI(4300, MM.getMI().getisMember(), MM.getMI().getwhere())
                 os.system('cls')
                 MM.print_main_menu()
