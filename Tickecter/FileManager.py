@@ -55,10 +55,10 @@ class FileManager:
         df_reservation.set_axis(["member","userID","reservationcode","seats","cancel"],axis='columns',inplace=True)
 
         # 파일 저장 - 실제 작동할때는 파일명앞에 ../추가  "../CardList.csv"
-        df_cardlist.to_csv("CardList.csv",header=True,index=False)
-        df_userlist.to_csv("UserList.csv",header=True,index=False)
-        df_movielist.to_csv("MovieList.csv",header=True,index=False)
-        df_reservation.to_csv("ReservationList.csv", header=True, index=False)
+        df_cardlist.to_csv("./Tickecter/CardList.csv",header=True,index=False)
+        df_userlist.to_csv("./Tickecter/UserList.csv",header=True,index=False)
+        df_movielist.to_csv("./Tickecter/MovieList.csv",header=True,index=False)
+        df_reservation.to_csv("./Tickecter/ReservationList.csv", header=True, index=False)
 
         # csv는 ,로 셀을 구분.. 좌석에 ,를 사용하면?
         #좌석 번호 저장 할때 csv가 ,로 셀을 구분하여 문자열에,이 포함될경우 자동으로 ""로 묶어줌 그래서 A1~A4는 "이 포함되지 않으나 A1,A2는 "이 포함되어 저장
@@ -165,7 +165,7 @@ class FileManager:
 
 # 클래스 선언
 
-# x=FileManager()
+x=FileManager()
 #user일때
 
 #비회원
