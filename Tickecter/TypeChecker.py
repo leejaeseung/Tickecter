@@ -184,8 +184,3 @@ class TypeChecker:
         else:
             return False
 
-tt = TypeChecker()
-while True:
-    ii = input()
-    a = tt.checkMovieTitle(ii)
-    print(a)
