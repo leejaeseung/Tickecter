@@ -51,14 +51,17 @@ class FileManager:
         df_movielist.set_axis(["day","moviecode",'moviename','starttime','finishtime','screen','seat','A','B','C','D','E','F','G','H','I','J'],axis='columns',inplace=True)
 
         # reservation
-        df_reservation = pd.DataFrame(self.reservationlist)
-        df_reservation.set_axis(["member","userID","reservationcode","seats","cancel"],axis='columns',inplace=True)
+        if len(self.reservationlist) != 0 :
+            df_reservation = pd.DataFrame(self.reservationlist)
+            df_reservation.set_axis(["member", "userID", "reservationcode", "seats", "cancel"], axis='columns',inplace=True)
+            df_reservation.to_csv("./Tickecter/ReservationList.csv", header=True, index=False)
+
 
         # 파일 저장 - 실제 작동할때는 파일명앞에 ../추가  "../CardList.csv"
         df_cardlist.to_csv("./Tickecter/CardList.csv",header=True,index=False)
         df_userlist.to_csv("./Tickecter/UserList.csv",header=True,index=False)
         df_movielist.to_csv("./Tickecter/MovieList.csv",header=True,index=False)
-        df_reservation.to_csv("./Tickecter/ReservationList.csv", header=True, index=False)
+
 
         # csv는 ,로 셀을 구분.. 좌석에 ,를 사용하면?
         #좌석 번호 저장 할때 csv가 ,로 셀을 구분하여 문자열에,이 포함될경우 자동으로 ""로 묶어줌 그래서 A1~A4는 "이 포함되지 않으나 A1,A2는 "이 포함되어 저장
