@@ -80,7 +80,7 @@ class FileManager:
         if len(self.reservationlist) != 0 :
             df_reservation = pd.DataFrame(self.reservationlist)
             df_reservation.set_axis(["member", "userID", "reservationcode", "seats", "cancel"], axis='columns',inplace=True)
-            df_reservation.to_csv("./Tickecter/ReservationList.csv", header=True, index=False)
+            df_reservation.to_csv("../Tickecter/ReservationList.csv", header=True, index=False)
 
 
         # 파일 저장 - 실제 작동할때는 파일명앞에 ../추가  "../CardList.csv"
