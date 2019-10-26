@@ -290,7 +290,7 @@ class Menu:
             print("입력 형식에 맞지 않습니다.")
 
     def menu4330(self, input):                     #숫자로는 받아지지않음
-        assert isinstance(input, str) or isinstance(input,int)
+        assert isinstance(input, str)
         MNlist  = []
         for val in self.__FM.movielist.values():
             if not val[2] in MNlist:
