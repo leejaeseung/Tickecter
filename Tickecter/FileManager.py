@@ -37,7 +37,6 @@ class FileManager:
         UL.set_axis(["userID", "userpassword", "registcard", "mileage"], axis='columns', inplace=True)
         RL.set_axis(["member", "userID", "reservationcode", "seats", "cancel"], axis='columns',inplace=True)
 
-
         # 카드리스트 카드번호를 키로 딕셔너리
         self.cardlist = dict([(a, b) for a, b in zip(CL.cardnum, CL.regist)])
 
@@ -114,7 +113,7 @@ class FileManager:
 
     #회원 가입(아이디,비밀번호,카드 매개로 받아 user하나 더생성)함수 //카드리스트랑 ,유저리스트 수정
     def join_user(self,id,password,cardnum):
-        self.userlist[id] ={"userpassword":password,"registcard":cardnum,"mileage":0}
+        self.userlist[id] ={"userID":id,"userpassword":password,"registcard":cardnum,"mileage":0}
         self.cardlist[cardnum] = str(1)
 
     #유저 정보 리스트 리턴함수 이 리스트의 값을 변경하면 유저 정보 변함, 마일리지적립,사용할 때 또는...

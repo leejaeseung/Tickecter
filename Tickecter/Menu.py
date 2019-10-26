@@ -123,7 +123,6 @@ class Menu:
 
     def menu4300(self, input):
         assert isinstance(input, str)
-
         if input == '1':
             self.print_10days()
             # 현재 날짜로부터 10일 후 까지의 달력 출력
@@ -139,10 +138,13 @@ class Menu:
                 print("예매 코드를 입력해 주세요.")
                 self.MI.setMI(43212, self.MI.getisMember())
         elif input == '3':
+            RElist = []
             print("영화 목록")
             self.printPopmovie()
             print("조회를 원하는 영화 제목이나 번호를 입력하세요.")
             self.MI.setMI(4330, self.MI.getisMember())
+        else:
+            print("입력 형식에 맞지 않습니다.")
 
     def menu4311(self, input):               #검사 완료
         assert isinstance(input, str)
@@ -290,8 +292,16 @@ class Menu:
             print("입력 형식에 맞지 않습니다.")
 
     def menu4330(self, input):                     #숫자로는 받아지지않음
-        assert isinstance(input, str) or isinstance(input,int)
-        MNlist  = []
+        assert isinstance(input, str)
+        MNlist = []                                 #moive name list
+        RElist = self.listPopmoive()
+        if len(input) == 1:
+            for index in RElist:
+                if input == index[0]:
+                    input = index[1:]
+                    break
+                else:
+                    print("입력형식에 맞지 않습니다.")
         for val in self.__FM.movielist.values():
             if not val[2] in MNlist:
                 MNlist.append(val[2])
@@ -312,12 +322,41 @@ class Menu:
                 if input in val[2]:
                     print(input, "상영날짜: ", val[0],"상영시간:", val[3], "~", val[4])
 
+    def listPopmoive(self):
+        nn = 5
+        ppq = PriorityQueue()
+        RClist = []  # 예매된 영화코드 가져옴 리스트에 중복을 담아서 개수샘
+        DClist = []  # 디폴트 코드 리스트
+        DMNlist = []  # 디폴트 뮤비네임 리스트
+        RElist = []  # 등수와 뮤비네임리스트
+        for index in self.__FM.reservationlist:
+            if index[4] == '0' and int(self.__now_time) >= int(
+                    index[2][0:8] + index[2][10:14]):  # 최소가 안된 영화라면, 지금 시간보다 이전기준포함
+                n = len(self.__FM.seats_to_list(index[3]))
+                for i in range(n):
+                    RClist.append(index[2][8:10])  # 예매된 영화코드 가져옴 중복된 리스트
+        for val in self.__FM.movielist.values():
+            if not val[1] in DClist:
+                DClist.append(val[1])  # 디폴트 코드 가져옴
+            if not val[1] + val[2] in DMNlist:
+                DMNlist.append(val[1] + val[2])  # 코드+영화이름으로 리스트에 저장
+        for index in DMNlist:
+            Priority = int(RClist.count(index[0:2]))
+            ppq.put((-Priority, index[2:]))  # -priority 예매많이된순으로 출력합
+        for i in range(nn):
+            if ppq.empty():
+                break
+            movieN = ppq.get()[1]
+            RElist.append(str(i + 1) + movieN)
+        return RElist
+
     def printPopmovie(self):        # 현재 시간기준으로 예매가 많이된 영화 n개 출력        완성
         nn = 5
         ppq = PriorityQueue()
         RClist = []            #예매된 영화코드 가져옴 리스트에 중복을 담아서 개수샘
         DClist = []            #디폴트 코드 리스트
         DMNlist = []            #디폴트 뮤비네임 리스트
+        RElist = []             #등수와 뮤비네임리스트
         for index in self.__FM.reservationlist:
             if index[4] == '0' and int(self.__now_time) >= int(index[2][0:8]+index[2][10:14]):           #최소가 안된 영화라면, 지금 시간보다 이전기준포함
                 n = len(self.__FM.seats_to_list(index[3]))
@@ -339,6 +378,7 @@ class Menu:
                 break
             movieN = ppq.get()[1]
             print(i+1, movieN)
+            RElist.append(str(i+1)+movieN)
             #print 시간표출력
             #self.MI.setMI(4330,self.MI.getisMember(), self.MIgetwhere())
 
