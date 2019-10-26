@@ -306,7 +306,7 @@ class Menu:
         if len(input) == 1:
             print("입력형식에 맞지 않습니다.")
         if input in MNlist:
-            print("시간표는 10초동안 보여집니다.")
+            print("시간표는 몇초동안 보여집니다.")
             self.printTodaymovietime(input)
         else:
             print("영화 제목이 잘못되었습니다. 영화제목을 다시한번 확인해 주세요")
