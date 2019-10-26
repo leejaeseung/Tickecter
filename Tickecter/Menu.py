@@ -74,7 +74,7 @@ class Menu:
             if self.__FM.userlist[self.userName]["userpassword"] == input:     # 비밀번호가 일치하면
                 os.system('cls')
                 self.print_main_menu()
-                self.MI.setMI(4300, True, 2)
+                self.MI.setMI(4300, True)
             else:         #일치하지 않으면
                 print("일치하지 않는 Password입니다. 다시 입력해 주세요.")
         else:
