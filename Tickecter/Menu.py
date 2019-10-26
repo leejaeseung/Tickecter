@@ -128,21 +128,21 @@ class Menu:
             self.print_10days()
             # 현재 날짜로부터 10일 후 까지의 달력 출력
             print("상영을 원하는 날짜를 8자리로 입력해 주세요.")
-            self.MI.setMI(4311, self.MI.getisMember(), self.MI.getwhere())
+            self.MI.setMI(4311, self.MI.getisMember())
         elif input == '2':
             if self.MI.getisMember():  # 회원이면
                 # ReservationList 에서 회원의 예매 내역 출력
                 self.printMovies("")
                 print("취소하시려는 영화의 예매 코드를 입력해 주세요.(취소하지 않고  메인 메뉴로 돌아가시려면 “BACK”을 입력해 주세요)")
-                self.MI.setMI(4322, self.MI.getisMember(), self.MI.getwhere())
+                self.MI.setMI(4322, self.MI.getisMember())
             else:
                 print("예매 코드를 입력해 주세요.")
-                self.MI.setMI(43212, self.MI.getisMember(), self.MI.getwhere())
+                self.MI.setMI(43212, self.MI.getisMember())
         elif input == '3':
             print("영화 목록")
             self.printPopmovie()
             print("조회를 원하는 영화 제목이나 번호를 입력하세요.")
-            self.MI.setMI(4330, self.MI.getisMember(), self.MI.getwhere())
+            self.MI.setMI(4330, self.MI.getisMember())
 
     def menu4311(self, input):               #검사 완료
         assert isinstance(input, str)
@@ -295,7 +295,7 @@ class Menu:
         print("시간표는 10초동안 보여집니다.")
         time.sleep(10)
         self.print_main_menu()
-        self.MI.setMI(4300, self.MI.getisMember(), self.MI.getwhere())
+        self.MI.setMI(4300, self.MI.getisMember())
 
     def printPopmovie(self):        # 현재 시간기준으로 예매가 많이된 영화 n개 출력        완성
         nn = 5
