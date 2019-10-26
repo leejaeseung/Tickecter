@@ -251,7 +251,7 @@ class Menu:
                 # 예매 코드 출력
                 print("결제가 완료되었습니다. 예매 코드 : ", self.selected_movie[0] + self.seat_First)
 
-                self.__FM.bookmovie('1', self.userName, self.selected_movie[1], self.seat_list)
+                self.__FM.bookmovie('0', self.userName, self.selected_movie[1], self.seat_list)
                 # 수정된 파일들 저장
                 self.__FM.savefile()
                 time.sleep(1)  # 1초동안 예매 코드를 보여줌
