@@ -293,9 +293,17 @@ class Menu:
         assert isinstance(input, str) or isinstance(input, int)
         print("미완성")
         print("시간표는 10초동안 보여집니다.")
+        self.printTodaymovietime(input)
         time.sleep(10)
         self.print_main_menu()
         self.MI.setMI(4300, self.MI.getisMember())
+
+    def printTodaymovietime(self,input):
+        for val in self.__FM.movielist.values():
+            if int(self.__now_time[0:8]) <= int(val[0]):
+                if input in val[2]:
+                    print(input, "상영날짜: ", val[0],"상영시간:", val[3], "~", val[4])
+
 
     def printPopmovie(self):        # 현재 시간기준으로 예매가 많이된 영화 n개 출력        완성
         nn = 5
