@@ -292,19 +292,18 @@ class Menu:
     def menu4330(self, input):                     #숫자로는 받아지지않음
         assert isinstance(input, str) or isinstance(input,int)
         MNlist  = []
-        for val in self.movielist.values():
+        for val in self.__FM.movielist.values():
             if not val[2] in MNlist:
                 MNlist.append(val[2])
         if input in MNlist:
             print("시간표는 10초동안 보여집니다.")
             self.printTodaymovietime(input)
             time.sleep(2)
-            self.MI.setMI(4300, self.MI.getisMember())
         else:
             print("상영중인 영화가 아닙니다." )
             time.sleep(2)
         self.print_main_menu()
-        self.MIsetMI(4330,self.MIgetisMember())
+        self.MI.setMI(4300, self.MI.getisMember())
 
     def printTodaymovietime(self,input):
         n = 0;
