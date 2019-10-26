@@ -291,7 +291,7 @@ class Menu:
 
     def menu4330(self, input):                     #숫자로는 받아지지않음
         assert isinstance(input, str)
-        MNlist  = []
+        MNlist = []
         for val in self.__FM.movielist.values():
             if not val[2] in MNlist:
                 MNlist.append(val[2])
