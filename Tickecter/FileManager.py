@@ -175,7 +175,7 @@ class FileManager:
 
     #예매 코드를 입력받으면 ReservationList에서 해당 예매코드를 취소하는 함수
     def book_cancel(self,input_code):
-        index = self.getReservation("", input_code)
+        index = self.getReservation(code_num= input_code)
         reserv= self.reservationlist[int(index)]
         seatlist= self.seats_to_list(reserv[3])
         choice_movie =self.movielist[reserv[2][:-2]]
