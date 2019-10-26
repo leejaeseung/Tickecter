@@ -292,7 +292,6 @@ class Menu:
     def menu4330(self, input):                      #미완성
         assert isinstance(input, str) or isinstance(input, int)
         print("미완성")
-        self.
         print("시간표는 10초동안 보여집니다.")
         time.sleep(10)
         self.print_main_menu()
