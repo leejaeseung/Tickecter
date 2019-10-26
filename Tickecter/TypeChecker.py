@@ -95,6 +95,8 @@ class TypeChecker:
 
     def checkMovieTitle(self, title):
         assert isinstance(title, str)
+        if '.' not in title:
+            return False
         checker = title.split('.', maxsplit=1)  # '.'을 기준으로 문자열을 나눈다
         if checker[1]:
             if len(checker[1]) > 20 or len(title) == 0 or title.count('. ') or title.count('  ') or title.count('.') == 0:
