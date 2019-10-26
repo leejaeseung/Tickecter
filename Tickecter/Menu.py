@@ -395,7 +395,7 @@ class Menu:
         print("2. 예매 내역 조회 및 취소")
         print("3. 영화 시간표 조회")
 
-    def print_10days(self):
+    def print_10days(self):             #검사 완료
         year = int(self.__now_time[:4])
         month = int(self.__now_time[4:6])
         day = int(self.__now_time[6:8]) - 1
@@ -443,7 +443,7 @@ class Menu:
 
         # 그날 영화 리스트 출력해주는 함수
 
-    def printday_movie(self):
+    def printday_movie(self):           #검사 완료
         if self.day_movielist:  # 리스트가 빈 리스트가 아닌 경우
             for index, elem in enumerate(self.day_movielist):
                 print(str(index) + "." + elem[1][2] + " 시작시간 " + elem[1][3])
@@ -452,8 +452,11 @@ class Menu:
             return False
 
         # 해당 영화 좌석 출력해주는 함수
-    def print_seat(self, index, movie_name):
-        assert isinstance(index, int)
+    def print_seat(self, index, movie_name):        #검사 완료
+        assert isinstance(index, int) and index >= 0
+        assert isinstance(movie_name, str)
+        if index >= len(self.day_movielist):
+            return False
         if self.day_movielist[index][1][2] == movie_name:  # 입력한 번호와 예매하고자 하는 영화명이 같으면
             self.selected_movie = self.day_movielist[index]  # 그 영화 정보를 저장
             seat_info = self.day_movielist[index][1][6].split('x')
