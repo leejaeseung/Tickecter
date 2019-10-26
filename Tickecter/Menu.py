@@ -289,21 +289,29 @@ class Menu:
         else:
             print("입력 형식에 맞지 않습니다.")
 
-    def menu4330(self, input):                      #미완성
-        assert isinstance(input, str) or isinstance(input, int)
-        print("미완성")
-        print("시간표는 10초동안 보여집니다.")
-        self.printTodaymovietime(input)
-        time.sleep(10)
+    def menu4330(self, input):                     #숫자로는 받아지지않음
+        assert isinstance(input, str) or isinstance(input,int)
+        MNlist  = []
+        for val in self.movielist.values():
+            if not val[2] in MNlist:
+                MNlist.append(val[2])
+        if input in MNlist:
+            print("시간표는 10초동안 보여집니다.")
+            self.printTodaymovietime(input)
+            time.sleep(2)
+            self.MI.setMI(4300, self.MI.getisMember())
+        else:
+            print("상영중인 영화가 아닙니다." )
+            time.sleep(2)
         self.print_main_menu()
-        self.MI.setMI(4300, self.MI.getisMember())
+        self.MIsetMI(4330,self.MIgetisMember())
 
     def printTodaymovietime(self,input):
+        n = 0;
         for val in self.__FM.movielist.values():
             if int(self.__now_time[0:8]) <= int(val[0]):
                 if input in val[2]:
                     print(input, "상영날짜: ", val[0],"상영시간:", val[3], "~", val[4])
-
 
     def printPopmovie(self):        # 현재 시간기준으로 예매가 많이된 영화 n개 출력        완성
         nn = 5
