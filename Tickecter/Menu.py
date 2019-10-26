@@ -300,6 +300,8 @@ class Menu:
                 if input == index[0]:
                     input = index[1:]
                     break
+                else:
+                    print("입력형식에 맞지 않습니다.")
         for val in self.__FM.movielist.values():
             if not val[2] in MNlist:
                 MNlist.append(val[2])
