@@ -10,7 +10,7 @@ class Menu:
         self.__now_time = ""
         self.__FM = FileManager.FileManager()
         self.__TC = TypeChecker.TypeChecker()
-        self.MI = menuInfo.menuInfo(4100, False, 0)
+        self.MI = menuInfo.menuInfo(4100, False)
         #self.__FM = FileManager()
         #self.__TC = TypeChecker()
         #self.MI = menuInfo(4100, False, 0)
@@ -33,7 +33,7 @@ class Menu:
             else:
                 self.__now_time = input
                 self.print_login_menu()
-                self.MI.setMI(4200, self.MI.getisMember(), 0)
+                self.MI.setMI(4200, self.MI.getisMember())
         else:
             print("입력 형식이 맞지 않습니다.")
 
@@ -42,14 +42,14 @@ class Menu:
 
         if input == '1':
             print("ID를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
-            self.MI.setMI(4211, self.MI.getisMember(), self.MI.getwhere())
+            self.MI.setMI(4211, self.MI.getisMember())
         elif input == '2':
             print("ID를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
-            self.MI.setMI(4221, self.MI.getisMember(), self.MI.getwhere())
+            self.MI.setMI(4221, self.MI.getisMember())
         elif input == '3':
             os.system('cls')
             self.print_main_menu()
-            self.MI.setMI(4300, self.MI.getisMember(), 2)
+            self.MI.setMI(4300, self.MI.getisMember())
         else:
             print('입력 형식이 맞지 않습니다.')
 
@@ -60,7 +60,7 @@ class Menu:
             if self.__FM.dupli_checkID(input) :  # 존재하는 아이디면
                 self.userName = input
                 print("Password를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
-                self.MI.setMI(4212, self.MI.getisMember(), self.MI.getwhere())
+                self.MI.setMI(4212, self.MI.getisMember())
             else:      # 존재하지 않는 아이디면
                 print("존재하지 않는 ID입니다. 다시 입력해 주세요.")
         else:
@@ -87,7 +87,7 @@ class Menu:
             if not self.__FM.dupli_checkID(input):     # 만들 수 있는 아이디면
                 self.userName = input
                 print("Password를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
-                self.MI.setMI(4222, self.MI.getisMember(), self.MI.getwhere())
+                self.MI.setMI(4222, self.MI.getisMember())
             else:  # 이미 존재하는 아이디면
                 print("이미 존재하는 ID입니다. 다시 입력해 주세요.")
         else:
@@ -99,7 +99,7 @@ class Menu:
         if self.__TC.pw_check(input):
             self.password = input
             print("등록할 카드 번호를 입력해 주세요.(되돌아 가려면 \"RESTART\"입력)")
-            self.MI.setMI(4223, self.MI.getisMember(), self.MI.getwhere())
+            self.MI.setMI(4223, self.MI.getisMember())
         else:
             print("입력 형식에 맞지 않습니다.")
 
@@ -117,31 +117,34 @@ class Menu:
                 self.userName = None
                 self.password = None
                 self.print_login_menu()
-                self.MI.setMI(4200, self.MI.getisMember(), self.MI.getwhere())
+                self.MI.setMI(4200, self.MI.getisMember())
         else:
             print("입력 형식에 맞지 않습니다.")
 
     def menu4300(self, input):
         assert isinstance(input, str)
-
         if input == '1':
             self.print_10days()
             # 현재 날짜로부터 10일 후 까지의 달력 출력
             print("상영을 원하는 날짜를 8자리로 입력해 주세요.")
-            self.MI.setMI(4311, self.MI.getisMember(), self.MI.getwhere())
+            self.MI.setMI(4311, self.MI.getisMember())
         elif input == '2':
             if self.MI.getisMember():  # 회원이면
                 # ReservationList 에서 회원의 예매 내역 출력
                 self.printMovies("")
                 print("취소하시려는 영화의 예매 코드를 입력해 주세요.(취소하지 않고  메인 메뉴로 돌아가시려면 “BACK”을 입력해 주세요)")
-                self.MI.setMI(4322, self.MI.getisMember(), self.MI.getwhere())
+                self.MI.setMI(4322, self.MI.getisMember())
             else:
                 print("예매 코드를 입력해 주세요.")
-                self.MI.setMI(43212, self.MI.getisMember(), self.MI.getwhere())
-        # elif input == '3':
-        # return 4300, False, 2  수정 필요
+                self.MI.setMI(43212, self.MI.getisMember())
+        elif input == '3':
+            RElist = []
+            print("영화 목록")
+            self.printPopmovie()
+            print("조회를 원하는 영화 제목이나 번호를 입력하세요.")
+            self.MI.setMI(4330, self.MI.getisMember())
         else:
-            print("입력 형식이 잘못됐습니다.")
+            print("입력 형식에 맞지 않습니다.")
 
     def menu4311(self, input):               #검사 완료
         assert isinstance(input, str)
@@ -166,7 +169,7 @@ class Menu:
                         print("상영중인 영화가 없습니다. 다시 입력해 주세요.")
                         return
                 print("예매할 영화를 선택하세요.(숫자.영화명 입력)")
-                self.MI.setMI(4312, self.MI.getisMember(), self.MI.getwhere())
+                self.MI.setMI(4312, self.MI.getisMember())
         else:
             print("입력 형식에 맞지 않습니다.")
 
@@ -177,7 +180,7 @@ class Menu:
             if self.print_seat(int(input[0]), input[1]):  # 입력한 영화가 존재할 경우
                 # 선택한 영화의 좌석표를 출력
                 print("예약할 좌석을 고르십시오.")
-                self.MI.setMI(4313, self.MI.getisMember(), self.MI.getwhere())
+                self.MI.setMI(4313, self.MI.getisMember())
             else:  # 입력한 영화가 존재하지 않을 경우
                 print("존재하지 않는 영화입니다. 다시 입력해 주세요.")
         else:
@@ -201,10 +204,10 @@ class Menu:
                     # 보유 마일리지를 출력
                     print("회원님의 마일리지 잔액은", int(self.__FM.getuser(self.userName, self.password).get("mileage")),
                           "원 입니다. 얼마를 사용하시겠습니까?")
-                    self.MI.setMI(43141, self.MI.getisMember(), self.MI.getwhere())
+                    self.MI.setMI(43141, self.MI.getisMember())
                 else:
                     print("결제하실 카드 번호를 입력해 주세요.")
-                    self.MI.setMI(43142, self.MI.getisMember(), self.MI.getwhere())
+                    self.MI.setMI(43142, self.MI.getisMember())
             else:  # 입력한 좌석이 존재하지 않는 경우
                 print("예약할 수 없는 좌석입니다. 다시 입력해 주세요")
         else:
@@ -227,7 +230,7 @@ class Menu:
                 time.sleep(1)  # 1초동안 예매 코드를 보여줌
                 os.system('cls')
                 self.print_main_menu()
-                self.MI.setMI(4300, self.MI.getisMember(), self.MI.getwhere())
+                self.MI.setMI(4300, self.MI.getisMember())
             else:
                 print("초과된 마일리지 금액입니다. 다시 입력해 주세요.")
         else:
@@ -254,7 +257,7 @@ class Menu:
                 time.sleep(1)  # 1초동안 예매 코드를 보여줌
                 os.system('cls')
                 self.print_main_menu()
-                self.MI.setMI(4300, self.MI.getisMember(), self.MI.getwhere())
+                self.MI.setMI(4300, self.MI.getisMember())
         else:
             print("입력 형식에 맞지 않습니다.")
 
@@ -265,7 +268,7 @@ class Menu:
                 # 예매 코드에 해당하는 영화정보 출력
                 self.printMovies(input)
                 print("취소하시려는 영화의 예매 코드를 입력해 주세요.(취소하지 않고  메인 메뉴로 돌아가시려면 “BACK”을 입력해 주세요.)")
-                self.MI.setMI(4322, self.MI.getisMember(), self.MI.getwhere())
+                self.MI.setMI(4322, self.MI.getisMember())
             else:  #존재하지 않는 예매 코드인 경우
                 print("존재하지 않는 예매 코드입니다. 다시 입력해 주세요.")
         else:
@@ -282,12 +285,102 @@ class Menu:
                 time.sleep(1)
                 os.system('cls')
                 self.print_main_menu()
-                self.MI.setMI(4300, self.MI.getisMember(), self.MI.getwhere())
+                self.MI.setMI(4300, self.MI.getisMember())
             else:  #존재하지 않는 예매 코드인 경우
                 print("존재하지 않는 예매 코드입니다. 다시 입력해 주세요.")
         else:
             print("입력 형식에 맞지 않습니다.")
 
+    def menu4330(self, input):                     #숫자로는 받아지지않음
+        assert isinstance(input, str)
+        MNlist = []                                 #moive name list
+        RElist = self.listPopmoive()
+        if len(input) == 1:
+            for index in RElist:
+                if input == index[0]:
+                    input = index[1:]
+                    break
+                else:
+                    print("입력형식에 맞지 않습니다.")
+        for val in self.__FM.movielist.values():
+            if not val[2] in MNlist:
+                MNlist.append(val[2])
+        if input in MNlist:
+            print("시간표는 10초동안 보여집니다.")
+            self.printTodaymovietime(input)
+            time.sleep(2)
+        else:
+            print("상영중인 영화가 아닙니다." )
+            time.sleep(2)
+        self.print_main_menu()
+        self.MI.setMI(4300, self.MI.getisMember())
+
+    def printTodaymovietime(self,input):
+        n = 0;
+        for val in self.__FM.movielist.values():
+            if int(self.__now_time[0:8]) <= int(val[0]):
+                if input in val[2]:
+                    print(input, "상영날짜: ", val[0],"상영시간:", val[3], "~", val[4])
+
+    def listPopmoive(self):
+        nn = 5
+        ppq = PriorityQueue()
+        RClist = []  # 예매된 영화코드 가져옴 리스트에 중복을 담아서 개수샘
+        DClist = []  # 디폴트 코드 리스트
+        DMNlist = []  # 디폴트 뮤비네임 리스트
+        RElist = []  # 등수와 뮤비네임리스트
+        for index in self.__FM.reservationlist:
+            if index[4] == '0' and int(self.__now_time) >= int(
+                    index[2][0:8] + index[2][10:14]):  # 최소가 안된 영화라면, 지금 시간보다 이전기준포함
+                n = len(self.__FM.seats_to_list(index[3]))
+                for i in range(n):
+                    RClist.append(index[2][8:10])  # 예매된 영화코드 가져옴 중복된 리스트
+        for val in self.__FM.movielist.values():
+            if not val[1] in DClist:
+                DClist.append(val[1])  # 디폴트 코드 가져옴
+            if not val[1] + val[2] in DMNlist:
+                DMNlist.append(val[1] + val[2])  # 코드+영화이름으로 리스트에 저장
+        for index in DMNlist:
+            Priority = int(RClist.count(index[0:2]))
+            ppq.put((-Priority, index[2:]))  # -priority 예매많이된순으로 출력합
+        for i in range(nn):
+            if ppq.empty():
+                break
+            movieN = ppq.get()[1]
+            RElist.append(str(i + 1) + movieN)
+        return RElist
+
+    def printPopmovie(self):        # 현재 시간기준으로 예매가 많이된 영화 n개 출력        완성
+        nn = 5
+        ppq = PriorityQueue()
+        RClist = []            #예매된 영화코드 가져옴 리스트에 중복을 담아서 개수샘
+        DClist = []            #디폴트 코드 리스트
+        DMNlist = []            #디폴트 뮤비네임 리스트
+        RElist = []             #등수와 뮤비네임리스트
+        for index in self.__FM.reservationlist:
+            if index[4] == '0' and int(self.__now_time) >= int(index[2][0:8]+index[2][10:14]):           #최소가 안된 영화라면, 지금 시간보다 이전기준포함
+                n = len(self.__FM.seats_to_list(index[3]))
+                for i in range(n):
+                     RClist.append(index[2][8:10])      #예매된 영화코드 가져옴 중복된 리스트
+        #print(self.__FM.movielist)
+        #print(self.__FM.day_movielist(self.__now_time[0:8], self.__now_time[8:]))
+        for val in self.__FM.movielist.values():
+            #print(val)
+            if not val[1] in DClist:
+                DClist.append(val[1])                   #디폴트 코드 가져옴
+            if not val[1]+val[2] in DMNlist:
+                DMNlist.append(val[1]+val[2])           #코드+영화이름으로 리스트에 저장
+        for index in DMNlist:
+            Priority = int(RClist.count(index[0:2]))
+            ppq.put((-Priority, index[2:]))             #-priority 예매많이된순으로 출력합
+        for i in range(nn):
+            if ppq.empty():
+                break
+            movieN = ppq.get()[1]
+            print(i+1, movieN)
+            RElist.append(str(i+1)+movieN)
+            #print 시간표출력
+            #self.MI.setMI(4330,self.MI.getisMember(), self.MIgetwhere())
 
     def print_login_menu(self):
         print("1. 회원 로그인")

@@ -42,5 +42,7 @@ class MenuManager(Menu.Menu):   #상속
             self.menu43212(input)
         elif menu == 4322:
             self.menu4322(input)
+        elif menu == 4330:
+            self.menu4330(input)
         else:
             return -1
