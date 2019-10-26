@@ -295,23 +295,22 @@ class Menu:
         assert isinstance(input, str)
         MNlist = []                                 #moive name list
         RElist = self.listPopmoive()
-        if len(input) == 1:
+        for val in self.__FM.movielist.values():
+            if not val[2] in MNlist:
+                MNlist.append(val[2])
+        if len(input) == 1 or not input in MNlist:
             for index in RElist:
                 if input == index[0]:
                     input = index[1:]
                     break
-                else:
-                    print("입력형식에 맞지 않습니다.")
-        for val in self.__FM.movielist.values():
-            if not val[2] in MNlist:
-                MNlist.append(val[2])
+        if len(input) == 1:
+            print("입력형식에 맞지 않습니다.")
         if input in MNlist:
             print("시간표는 10초동안 보여집니다.")
             self.printTodaymovietime(input)
-            time.sleep(2)
         else:
-            print("상영중인 영화가 아닙니다." )
-            time.sleep(2)
+            print("영화 제목이 잘못되었습니다. 영화제목을 다시한번 확인해 주세요")
+        time.sleep(2)
         self.print_main_menu()
         self.MI.setMI(4300, self.MI.getisMember())
 
@@ -321,6 +320,10 @@ class Menu:
             if int(self.__now_time[0:8]) <= int(val[0]):
                 if input in val[2]:
                     print(input, "상영날짜: ", val[0],"상영시간:", val[3], "~", val[4])
+                    n = n + 1
+        if n == 0:
+            print("상영중인 영화가 아닙니다.")
+            time.sleep(2)
 
     def listPopmoive(self):
         nn = 5
