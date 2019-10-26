@@ -11,9 +11,6 @@ class Menu:
         self.__FM = FileManager.FileManager()
         self.__TC = TypeChecker.TypeChecker()
         self.MI = menuInfo.menuInfo(4100, False)
-        #self.__FM = FileManager()
-        #self.__TC = TypeChecker()
-        #self.MI = menuInfo(4100, False, 0)
         self.userName = ""
         self.password = ""
         self.want_reserveday = ""
@@ -138,7 +135,6 @@ class Menu:
                 print("예매 코드를 입력해 주세요.")
                 self.MI.setMI(43212, self.MI.getisMember())
         elif input == '3':
-            RElist = []
             print("영화 목록")
             self.printPopmovie()
             print("조회를 원하는 영화 제목이나 번호를 입력하세요.")
