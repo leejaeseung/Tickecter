@@ -525,7 +525,8 @@ class Menu:
             for index in R_list:
                 Priority = int(self.__FM.reservationlist[index][2][0:8] + self.__FM.reservationlist[index][2][10:14])
                 pq.put((Priority, self.__FM.reservationlist[index]))
-
+            if pq.empty():
+                print("예매내역이 없습니다.")
             while not pq.empty():               #큐에 있는 모든 값을 출력
                 reserve = pq.get()[1]
                 movie = self.__FM.movielist[reserve[2][0:14]]
