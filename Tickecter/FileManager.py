@@ -4,9 +4,9 @@ class FileManager:
 
     def __init__(self):
         try: #헤더를 그대로 주어버리게 되면 데이터 프레임의 shape가 고정이 됨
-            CL = pd.read_csv("./Tickecter/CardList.csv",dtype=str,skiprows=1,header=None)
-            UL = pd.read_csv("./Tickecter/UserList.csv", dtype=str,skiprows=1,header=None)
-            ML = pd.read_csv("./Tickecter/MovieList.csv", dtype=str,skiprows=1,header=None )
+            CL = pd.read_csv("../Tickecter/CardList.csv",dtype=str,skiprows=1,header=None)
+            UL = pd.read_csv("../Tickecter/UserList.csv", dtype=str,skiprows=1,header=None)
+            ML = pd.read_csv("../Tickecter/MovieList.csv", dtype=str,skiprows=1,header=None )
         except FileNotFoundError:
             print("파일이 존재 하지 않거나 읽을수 없습니다")
             sys.exit(0)
@@ -17,7 +17,7 @@ class FileManager:
             print("파일 형식이 맞지 않습니다.")
             sys.exit(0)
         try:
-            RL=pd.read_csv("./Tickecter/ReservationList.csv", dtype=str,skiprows=1,header=None)
+            RL=pd.read_csv("../Tickecter/ReservationList.csv", dtype=str,skiprows=1,header=None)
         except FileNotFoundError:
             print("파일이 존재 하지 않거나 읽을수 없습니다")
             sys.exit(0)
@@ -25,7 +25,7 @@ class FileManager:
             print("파일 형식이 맞지 않습니다.")
             sys.exit(0)
         except pd.errors.EmptyDataError:
-            RL=pd.read_csv("./Tickecter/ReservationList.csv", dtype=str)
+            RL=pd.read_csv("../Tickecter/ReservationList.csv", dtype=str)
 
         if CL.shape[1] != 2 or UL.shape[1] != 4 or ML.shape[1] != 17 or RL.shape[1] != 5:
             print("파일 형식이 맞지 않습니다.")
@@ -84,9 +84,9 @@ class FileManager:
 
 
         # 파일 저장 - 실제 작동할때는 파일명앞에 ../추가  "../CardList.csv"
-        df_cardlist.to_csv("./Tickecter/CardList.csv",header=True,index=False)
-        df_userlist.to_csv("./Tickecter/UserList.csv",header=True,index=False)
-        df_movielist.to_csv("./Tickecter/MovieList.csv",header=True,index=False)
+        df_cardlist.to_csv("../Tickecter/CardList.csv",header=True,index=False)
+        df_userlist.to_csv("../Tickecter/UserList.csv",header=True,index=False)
+        df_movielist.to_csv("../Tickecter/MovieList.csv",header=True,index=False)
 
 
         # csv는 ,로 셀을 구분.. 좌석에 ,를 사용하면?
