@@ -1,8 +1,11 @@
 import pandas as pd
+from . import TypeChecker
 import sys
 class FileManager:
 
     def __init__(self):
+        self.TC=TypeChecker.TypeChecker()
+
         try: #헤더를 그대로 주어버리게 되면 데이터 프레임의 shape가 고정이 됨
             CL = pd.read_csv("../Tickecter/CardList.csv",dtype=str,skiprows=1,header=None)
             UL = pd.read_csv("../Tickecter/UserList.csv", dtype=str,skiprows=1,header=None)
@@ -39,22 +42,66 @@ class FileManager:
 
         # 카드리스트 카드번호를 키로 딕셔너리
         self.cardlist = dict([(a, b) for a, b in zip(CL.cardnum, CL.regist)])
+        if not self.checkcardlist():
+            exitprogram()
 
         #유저리스트 아이디를 키로 딕셔너리
         self.userlist = dict([(userID,{"userID":userID,"userpassword": password, "registcard": cardnum, "mileage": mileage})
                          for userID, password, cardnum, mileage in zip(UL.userID, UL.userpassword, UL.registcard,UL.mileage)])
-
+        if not self.checkuserlist():
+            exitprogram()
+        # aaaa,aaa122,123412341234,100000 검사
+        # aaaa,aaa122,123412341234,0100000 검사
         #영화일정리스트 이차원 리스트
         self.movielist = dict([(key, [day,moviecode,moviename,starttime,finishtime,screen,seat,A,B,C,D,E,F,G,H,I,J])
                           for key, day, moviecode,moviename,starttime,finishtime,screen,seat,A,B,C,D,E,F,G,H,I,J
                           in zip(ML.day+ML.moviecode+ML.starttime,ML.day,ML.moviecode,ML.moviename,ML.starttime,ML.finishtime,ML.screen,ML.seat,ML.A,ML.B,ML.C,ML.D,ML.E,ML.F,ML.G,ML.H,ML.I,ML.J)])
+        if not self.checkmovielist():
+            exitprogram()
+
 
         #예약리스트 이차원 리스트
         self.reservationlist = [[member,userID,reservationcode,seats,cancel]
                                 for member,userID,reservationcode,seats,cancel in zip(RL.member,RL.userID,RL.reservationcode,RL.seats,RL.cancel)]
-
+        if not self.checkreserlist():
+            exitprogram()
         # 파일의 값이 의도한 값과 같은지 검사하는 것 구현
+    def checkcardlist(self):
+        for cardnum,regis in self.cardlist.items():
+            if(self.TC.cardNum(cardnum) and (regis=='0'or regis=='1')):
+                pass
+            else:
+                return False
+        return True
 
+    def checkuserlist(self):
+        for userid,userinfo in self.userlist.items():
+            if(self.TC.ID_check(userinfo["userID"]) and self.TC.pw_check(userinfo["userpassword"]) and userinfo["registcard"] in self.cardlist and len(userinfo["mileage"]) <= 6 and userinfo["mileage"].isdecimal() and  0.0 <= int(userinfo["mileage"]) <= 100000 ):
+                pass
+            else:
+                return False
+        return True
+
+    def checkmovielist(self):
+        self.moviecodedic = {}
+        for key,movieinfo in self.movielist.items():
+            if (not len(movieinfo[0])==8) or (not self.TC.checkMoviename(movieinfo[2])):
+                return False
+            if len(movieinfo[1])==2:
+                if not movieinfo[1].isupper():
+                    return False
+
+            if movieinfo[1] in self.moviecodedic:
+                if self.moviecodedic[movieinfo[1]] != movieinfo[2]:
+                    return False
+            else:
+                self.moviecodedic[movieinfo[1]] = movieinfo[2]
+            if (not self.TC.time_check(movieinfo[0]+movieinfo[3])) or (not self.TC.time_check(movieinfo[0]+movieinfo[4])):
+                return False
+
+        return True
+    def checkreserlist(self):
+        pass
 
     def savefile(self):
         ##card
@@ -186,15 +233,21 @@ class FileManager:
             choice_movie[hori] = choice_movie[hori][0:vert] + "0" + choice_movie[hori][vert + 1:]
         return self.movielist[reserv[2][0:14]]
 
+def exitprogram():
+    print("파일 형식이 맞지 않습니다.")
+    sys.exit(0)
 
 # member, userID, reservationcode, seats, cancel
+
 
 
 #movielist day,moviecode,moviename,starttime,finishtime,screen,seat,A,B,C,D,E,F,G,H,I,J
 
 # 클래스 선언
 
-x=FileManager()
+
+
+# x=FileManager()
 #user일때
 
 #비회원
