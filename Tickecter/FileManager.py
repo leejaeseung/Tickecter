@@ -42,28 +42,31 @@ class FileManager:
 
         # 카드리스트 카드번호를 키로 딕셔너리
         self.cardlist = dict([(a, b) for a, b in zip(CL.cardnum, CL.regist)])
-        if not self.checkcardlist():
-            exitprogram()
 
         #유저리스트 아이디를 키로 딕셔너리
         self.userlist = dict([(userID,{"userID":userID,"userpassword": password, "registcard": cardnum, "mileage": mileage})
                          for userID, password, cardnum, mileage in zip(UL.userID, UL.userpassword, UL.registcard,UL.mileage)])
-        if not self.checkuserlist():
-            exitprogram()
-        # aaaa,aaa122,123412341234,100000 검사
-        # aaaa,aaa122,123412341234,0100000 검사
         #영화일정리스트 이차원 리스트
         self.movielist = dict([(key, [day,moviecode,moviename,starttime,finishtime,screen,seat,A,B,C,D,E,F,G,H,I,J])
                           for key, day, moviecode,moviename,starttime,finishtime,screen,seat,A,B,C,D,E,F,G,H,I,J
                           in zip(ML.day+ML.moviecode+ML.starttime,ML.day,ML.moviecode,ML.moviename,ML.starttime,ML.finishtime,ML.screen,ML.seat,ML.A,ML.B,ML.C,ML.D,ML.E,ML.F,ML.G,ML.H,ML.I,ML.J)])
-        if not self.checkmovielist():
-            exitprogram()
-
 
         #예약리스트 이차원 리스트
         self.reservationlist = [[member,userID,reservationcode,seats,cancel]
                                 for member,userID,reservationcode,seats,cancel in zip(RL.member,RL.userID,RL.reservationcode,RL.seats,RL.cancel)]
-        if not self.checkreserlist():
+        #파일 셀 값 검증
+        try: #파일의 셀중에 reservationlist의 비회원일때 userid가 빈칸인 경우를 제외하고, 어떠한 다른셀이 빈칸이면 nan으로 값이 들어가 타입 에러가 발생하므로 try로 받음
+            if not self.checkcardlist():
+                exitprogram()
+            if not self.checkuserlist():
+                exitprogram()
+            # aaaa,aaa122,123412341234,100000 검사
+            # aaaa,aaa122,123412341234,0100000 검사
+            if not self.checkmovielist():
+                exitprogram()
+            if not self.checkreserlist():
+                exitprogram()
+        except AssertionError: 
             exitprogram()
         # 파일의 값이 의도한 값과 같은지 검사하는 것 구현
     def checkcardlist(self):
@@ -98,10 +101,28 @@ class FileManager:
                 self.moviecodedic[movieinfo[1]] = movieinfo[2]
             if (not self.TC.time_check(movieinfo[0]+movieinfo[3])) or (not self.TC.time_check(movieinfo[0]+movieinfo[4])):
                 return False
-
+            if not self.TC.checkseatset(movieinfo[6]):
+                return False
+            for i in range(7,17):
+                for ss in movieinfo[i]:
+                    if ss != "0" and ss != "1":
+                        return False
         return True
     def checkreserlist(self):
-        pass
+        for reserinfo in self.reservationlist:
+            if reserinfo[0] != "0" and reserinfo[0] != "1":
+                return False
+            if reserinfo[0] =="0" and reserinfo[1] == reserinfo[1]: #값이 nan일 경우 자기 자신을 비교하면 false가 나옴  nan이 아니면 False 출력
+                return False
+            if reserinfo[0] =="1" and self.TC.ID_check(reserinfo[1]) ==False:
+                return False
+            if not self.TC.checkReservationCode(reserinfo[2]):
+                return False
+            if not self.TC.checkSeatsList(reserinfo[3]):
+                return False
+            if reserinfo[4] !="0" and reserinfo[4] !="1":
+                return False
+        return True
 
     def savefile(self):
         ##card
