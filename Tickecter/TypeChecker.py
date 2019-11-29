@@ -93,6 +93,27 @@ class TypeChecker:
         else:
             return True
 
+    def checkMovieTitleOnly(self, titleonly):
+        assert isinstance(titleonly, str)
+        if titleonly:
+            if len(titleonly) > 20 or len(titleonly) == 0 or titleonly.count('  '):
+                # 글자가 없거나 20자를 넘거나 공백으로 시작하거나 공백이 연속으로 들어갔는지 또는 점이 없는지 확인
+                return False
+            else:
+                for index_value in titleonly:
+                    if not index_value.isalpha():
+                        if index_value.isdigit() or index_value.isspace():
+                            continue
+                           # 입력된 문자 중 하나라도 숫자나 공백, 영문 소문자가 아니면 False
+                        return False
+                    else:
+                        if not index_value.islower():
+                            # 숫자가 아닌 문자 중 하나라도 영문 소문자가 아니면 False
+                            return False
+                return True
+        else:
+            return False
+
     def checkMovieTitle(self, title):
         assert isinstance(title, str)
         if '.' not in title:
