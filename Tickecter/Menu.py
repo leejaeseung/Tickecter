@@ -1,5 +1,6 @@
 from . import FileManager, menuInfo, TypeChecker
 from queue import PriorityQueue
+import msvcrt
 import os
 import time
 
@@ -137,7 +138,7 @@ class Menu:
         elif input == '3':
             print("영화 목록")
             self.printPopmovie()
-            print("조회를 원하는 영화 제목이나 번호를 입력하세요.")
+            print("조회를 원하는 영화 제목을 입력하세요.")
             self.MI.setMI(4330, self.MI.getisMember())
         else:
             print("입력 형식에 맞지 않습니다.")
@@ -262,9 +263,12 @@ class Menu:
         if self.__TC.checkReservationCode(input):
             if self.__FM.getReservation("", input) != -1:     #존재하는 예매 코드인 경우
                 # 예매 코드에 해당하는 영화정보 출력
-                self.printMovies(input)
-                print("취소하시려는 영화의 예매 코드를 입력해 주세요.(취소하지 않고  메인 메뉴로 돌아가시려면 “BACK”을 입력해 주세요.)")
-                self.MI.setMI(4322, self.MI.getisMember())
+                if int(self.__now_time[:8]) < int(input[:8]) or (int(self.__now_time[:8]) == int(input[:8]) and int(self.__now_time[8:12]) <= int(input[10:14])):
+                    self.printMovies(input)
+                    print("취소하시려는 영화의 예매 코드를 입력해 주세요.(취소하지 않고  메인 메뉴로 돌아가시려면 “BACK”을 입력해 주세요.)")
+                    self.MI.setMI(4322, self.MI.getisMember())
+                else:  #현재 시간 이전 예매코드인 경우
+                    print("존재하지 않는 예매 코드입니다. 다시 입력해 주세요ㅋ.")
             else:  #존재하지 않는 예매 코드인 경우
                 print("존재하지 않는 예매 코드입니다. 다시 입력해 주세요.")
         else:
@@ -274,14 +278,18 @@ class Menu:
         assert isinstance(input, str)
         if self.__TC.checkReservationCode(input):
             if self.__FM.getReservation("", input) != -1:     #존재하는 예매 코드인 경우
-                # 예매 코드를 취소 - ReservationList, MovieList를 업데이트
-                movie = self.__FM.book_cancel(input)
-                self.__FM.savefile()
-                print(movie[2], "의 예매가 취소되었습니다.", sep='')
-                time.sleep(1)
-                os.system('cls')
-                self.print_main_menu()
-                self.MI.setMI(4300, self.MI.getisMember())
+                if int(self.__now_time[:8]) < int(input[:8]) or (int(self.__now_time[:8]) == int(input[:8]) and int(self.__now_time[8:12]) <= int(input[10:14])):
+                    # 예매 코드를 취소 - ReservationList, MovieList를 업데이트
+                    movie = self.__FM.book_cancel(input)    #현재 시간 이후 영화만 취소되게 해야 함.
+                    self.__FM.savefile()
+                    print(movie[2], "의 예매가 취소되었습니다.", sep='')
+                    ch = msvcrt.getch() #아무 키나 입력하면 메인 메뉴로 돌아감.
+                    if ch:
+                        os.system('cls')
+                        self.print_main_menu()
+                        self.MI.setMI(4300, self.MI.getisMember())
+                else: #현재 시간 이전 영화를 취소하려고 할 경우
+                    print("존재하지 않는 예매 코드입니다. 다시 입력해 주세요.")
             else:  #존재하지 않는 예매 코드인 경우
                 print("존재하지 않는 예매 코드입니다. 다시 입력해 주세요.")
         else:
@@ -520,7 +528,8 @@ class Menu:
             #시간 정보만 따로 뽑아서 우선순위 큐에 넣어 정렬한다. - 시간이 작은 것부터 꺼내짐
             for index in R_list:
                 Priority = int(self.__FM.reservationlist[index][2][0:8] + self.__FM.reservationlist[index][2][10:14])
-                pq.put((Priority, self.__FM.reservationlist[index]))
+                if Priority >= int(self.__now_time):
+                    pq.put((Priority, self.__FM.reservationlist[index]))
             if pq.empty():
                 print("예매내역이 없습니다.")
             while not pq.empty():               #큐에 있는 모든 값을 출력
