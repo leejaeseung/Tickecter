@@ -410,6 +410,7 @@ class Menu:
         print('\t', month, '월')
         for i in range(0, 11):
             day = day + 1
+
             if month == 4 or month == 6 or month == 9 or month == 11:
                 if day > 30:
                     month = month + 1
@@ -433,14 +434,20 @@ class Menu:
                             print('\n\t', year, '년')
                         month = 1
                     else:
+                        print()                         #수정함 2019-11-10 일
                         month = month + 1
                     day = 1
                     count = 0
                     print('\t', month, '월')
             if count != 6:
                 print(day, end=' ')
+                if month == 11 and day == 20:
+                    print()
+                    return;
             else:
                 print(day)  # 일주일마다 행을 넘겨줌
+                if month == 11 and day == 20:
+                    return;
             count = count + 1
         if count != 6:
             print()
@@ -450,7 +457,7 @@ class Menu:
     def printday_movie(self):           #검사 완료
         if self.day_movielist:  # 리스트가 빈 리스트가 아닌 경우
             for index, elem in enumerate(self.day_movielist):
-                print(str(index) + "." + elem[1][2] + " 시작시간 " + elem[1][3])
+                print(str(index) + "." + elem[1][2] + " 상영 시간 " + elem[1][3][0:2] + ":" + elem[1][3][2:4] + " ~ " + elem[1][4][0:2] + ":" + elem[1][4][2:4])
             return True
         else:
             return False
