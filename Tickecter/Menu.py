@@ -297,31 +297,36 @@ class Menu:
 
     def menu4330(self, input):                     #숫자로는 받아지지않음
         assert isinstance(input, str)
+        if self.__TC.checkMovieTitleOnly(input):
+            print("입력 형식에 맞지 않습니다.")
         MNlist = []                                 #moive name list
-        RElist = self.listPopmoive()
+        RElist = self.listPopmoive()                #등수와 영화이름 리스트
         for val in self.__FM.movielist.values():
             if not val[2] in MNlist:
                 MNlist.append(val[2])
-        if len(input) == 1 or not input in MNlist:
-            for index in RElist:
-                if input == index[0]:
-                    input = index[1:]
-                    break
-        if len(input) == 1:
-            print("입력형식에 맞지 않습니다.")
+ # 숫자(등수)로 입력받는 부분 주석 처리
+ #       if len(input) == 1 or not input in MNlist:
+ #           for index in RElist:
+ #               if input == index[0]:
+ #                   input = index[1:]
+ #                   break
+ #       if len(input) == 1:
+ #           print("입력형식에 맞지 않습니다.")
         if input in MNlist:
-            print("시간표는 몇초동안 보여집니다.")
+            print("시간표가 출력 됩니다.")
             self.printTodaymovietime(input)
         else:
             print("영화 제목이 잘못되었습니다. 영화제목을 다시한번 확인해 주세요")
-        time.sleep(2)
+        #time.sleep(2)
+        os.system("pause");
+        os.system("cls");
         self.print_main_menu()
         self.MI.setMI(4300, self.MI.getisMember())
 
     def printTodaymovietime(self,input):
         n = 0;
         for val in self.__FM.movielist.values():
-            if int(self.__now_time[0:8]) <= int(val[0]):
+            if int(self.__now_time[0:12]) <= int(val[0]+val[3]):
                 if input in val[2]:
                     print(input, "상영날짜: ", val[0],"상영시간:", val[3], "~", val[4])
                     n = n + 1
@@ -377,9 +382,13 @@ class Menu:
                 DClist.append(val[1])                   #디폴트 코드 가져옴
             if not val[1]+val[2] in DMNlist:
                 DMNlist.append(val[1]+val[2])           #코드+영화이름으로 리스트에 저장
+        DMNlist.sort()
+        indexNumber = 0;
         for index in DMNlist:
-            Priority = int(RClist.count(index[0:2]))
-            ppq.put((-Priority, index[2:]))             #-priority 예매많이된순으로 출력합
+            Priority1 = int(RClist.count(index[0:2]))
+            Priority2 =  indexNumber
+            indexNumber = indexNumber + 1
+            ppq.put(((-Priority1, Priority2), index[2:]))             #-priority 예매많이된순으로 출력합
         for i in range(nn):
             if ppq.empty():
                 break
