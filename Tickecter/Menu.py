@@ -213,13 +213,22 @@ class Menu:
     def menu43141(self, input):
         assert isinstance(input, str)
         mileage = int(self.__FM.getuser(self.userName, self.password).get("mileage"))
-        if input.isdecimal() and int(input) >= 0:
+        if input.isdecimal() and int(input)>= 0 :
+            if int(input) >= int(self.final_cost):
+                print("입력값은",int(self.final_cost),"을 넘을 수 없습니다. 다시 입력해주세요.")
+                return -1
             if mileage >= int(input):  # 마일리지 잔액보다 적거나 같게 입력했을 경우
                 print("나머지 금액은", int(self.final_cost) - int(input), " 입니다. 등록된 카드로 결제하겠습니다.")
                 # 예매 코드 출력
                 print("결제가 완료되었습니다. 예매 코드 : ", self.selected_movie[0] + self.seat_First)
                 # 마일리지를 저장
-                mileage = mileage - int(input) + int(int(self.final_cost) / 10)
+                if input == "0":
+                    mileage = mileage - int(input) + int(int(self.final_cost) / 10)
+                else:
+                    mileage = mileage - int(input)
+                if mileage > 100000:
+                    print("마일리지는 10만을 넘을 수 없습니다. 현재 마일리지: 100000")
+                    mileage = 100000
                 self.__FM.getuser(self.userName, self.password)['mileage'] = mileage
                 self.__FM.bookmovie('1', self.userName, self.selected_movie[1], self.seat_list)
                 # 수정된 파일들 저장
