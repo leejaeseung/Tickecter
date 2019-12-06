@@ -100,6 +100,8 @@ class TypeChecker:
                 # 글자가 없거나 20자를 넘거나 공백으로 시작하거나 공백이 연속으로 들어갔는지 또는 점이 없는지 확인
                 return False
             else:
+                if titleonly[0]== " ": # 이부분 추가
+                    return False
                 for index_value in titleonly:
                     if not index_value.isalpha():
                         if index_value.isdigit() or index_value.isspace():
@@ -222,3 +224,5 @@ class TypeChecker:
         else:
             return False
 
+x= TypeChecker()
+print(x.checkMovieTitleOnly(" "))
