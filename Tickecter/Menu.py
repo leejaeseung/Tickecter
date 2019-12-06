@@ -553,7 +553,7 @@ class Menu:
             #시간 정보만 따로 뽑아서 우선순위 큐에 넣어 정렬한다. - 시간이 작은 것부터 꺼내짐
             for index in R_list:
                 Priority = int(self.__FM.reservationlist[index][2][0:8] + self.__FM.reservationlist[index][2][10:14])
-                if Priority >= int(self.__now_time):    #현재 시간 이후의 영화만
+                if Priority >= int(self.__now_time):    #현재 시간 이후의 영화만 받아옴
                     pq.put((Priority, self.__FM.reservationlist[index]))
             if pq.empty():
                 print("예매내역이 없습니다.")
