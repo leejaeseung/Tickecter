@@ -206,7 +206,7 @@ class TypeChecker:
 
     def checkOneSeat(self, seat):
         assert isinstance(seat, str)
-        if len(seat) == 2 and seat[0].isupper() and seat[1].isdigit():    # 한글자만 검증하므로 isalpha를 안 써도 된다.
+        if len(seat) == 2 and seat[0].isupper() and seat[1].isdigit() and seat[1] != "0":    # 한글자만 검증하므로 isalpha를 안 써도 된다.
             return True
         else:
             return False
