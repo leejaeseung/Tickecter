@@ -213,13 +213,22 @@ class Menu:
     def menu43141(self, input):
         assert isinstance(input, str)
         mileage = int(self.__FM.getuser(self.userName, self.password).get("mileage"))
-        if input.isdecimal() and int(input) >= 0:
+        if input.isdecimal() and int(input)>= 0 :
+            if int(input) >= int(self.final_cost):
+                print("입력값은",int(self.final_cost),"을 넘을 수 없습니다. 다시 입력해주세요.")
+                return -1
             if mileage >= int(input):  # 마일리지 잔액보다 적거나 같게 입력했을 경우
                 print("나머지 금액은", int(self.final_cost) - int(input), " 입니다. 등록된 카드로 결제하겠습니다.")
                 # 예매 코드 출력
                 print("결제가 완료되었습니다. 예매 코드 : ", self.selected_movie[0] + self.seat_First)
                 # 마일리지를 저장
-                mileage = mileage - int(input) + int(int(self.final_cost) / 10)
+                if input == "0":
+                    mileage = mileage - int(input) + int(int(self.final_cost) / 10)
+                else:
+                    mileage = mileage - int(input)
+                if mileage > 100000:
+                    print("마일리지는 10만을 넘을 수 없습니다. 현재 마일리지: 100000")
+                    mileage = 100000
                 self.__FM.getuser(self.userName, self.password)['mileage'] = mileage
                 self.__FM.bookmovie('1', self.userName, self.selected_movie[1], self.seat_list)
                 # 수정된 파일들 저장
@@ -297,31 +306,36 @@ class Menu:
 
     def menu4330(self, input):                     #숫자로는 받아지지않음
         assert isinstance(input, str)
+        if self.__TC.checkMovieTitleOnly(input):
+            print("입력 형식에 맞지 않습니다.")
         MNlist = []                                 #moive name list
-        RElist = self.listPopmoive()
+        RElist = self.listPopmoive()                #등수와 영화이름 리스트
         for val in self.__FM.movielist.values():
             if not val[2] in MNlist:
                 MNlist.append(val[2])
-        if len(input) == 1 or not input in MNlist:
-            for index in RElist:
-                if input == index[0]:
-                    input = index[1:]
-                    break
-        if not self.__TC.checkMovieTitleOnly(input):
-            print("입력형식에 맞지 않습니다.")
+ # 숫자(등수)로 입력받는 부분 주석 처리
+ #       if len(input) == 1 or not input in MNlist:
+ #           for index in RElist:
+ #               if input == index[0]:
+ #                   input = index[1:]
+ #                   break
+ #       if len(input) == 1:
+ #           print("입력형식에 맞지 않습니다.")
         if input in MNlist:
-            print("시간표는 몇초동안 보여집니다.")
+            print("시간표가 출력 됩니다.")
             self.printTodaymovietime(input)
         else:
             print("영화 제목이 잘못되었습니다. 영화제목을 다시한번 확인해 주세요")
-        time.sleep(2)
+        #time.sleep(2)
+        os.system("pause");
+        os.system("cls");
         self.print_main_menu()
         self.MI.setMI(4300, self.MI.getisMember())
 
     def printTodaymovietime(self,input):
         n = 0;
         for val in self.__FM.movielist.values():
-            if int(self.__now_time[0:8]) <= int(val[0]):
+            if int(self.__now_time[0:12]) <= int(val[0]+val[3]):
                 if input in val[2]:
                     print(input, "상영날짜: ", val[0],"상영시간:", val[3], "~", val[4])
                     n = n + 1
@@ -377,9 +391,13 @@ class Menu:
                 DClist.append(val[1])                   #디폴트 코드 가져옴
             if not val[1]+val[2] in DMNlist:
                 DMNlist.append(val[1]+val[2])           #코드+영화이름으로 리스트에 저장
+        DMNlist.sort()
+        indexNumber = 0;
         for index in DMNlist:
-            Priority = int(RClist.count(index[0:2]))
-            ppq.put((-Priority, index[2:]))             #-priority 예매많이된순으로 출력합
+            Priority1 = int(RClist.count(index[0:2]))
+            Priority2 =  indexNumber
+            indexNumber = indexNumber + 1
+            ppq.put(((-Priority1, Priority2), index[2:]))             #-priority 예매많이된순으로 출력합
         for i in range(nn):
             if ppq.empty():
                 break
@@ -410,6 +428,7 @@ class Menu:
         print('\t', month, '월')
         for i in range(0, 11):
             day = day + 1
+
             if month == 4 or month == 6 or month == 9 or month == 11:
                 if day > 30:
                     month = month + 1
@@ -433,14 +452,20 @@ class Menu:
                             print('\n\t', year, '년')
                         month = 1
                     else:
+                        print()                         #수정함 2019-11-10 일
                         month = month + 1
                     day = 1
                     count = 0
                     print('\t', month, '월')
             if count != 6:
                 print(day, end=' ')
+                if month == 11 and day == 20:
+                    print()
+                    return;
             else:
                 print(day)  # 일주일마다 행을 넘겨줌
+                if month == 11 and day == 20:
+                    return;
             count = count + 1
         if count != 6:
             print()
@@ -450,7 +475,7 @@ class Menu:
     def printday_movie(self):           #검사 완료
         if self.day_movielist:  # 리스트가 빈 리스트가 아닌 경우
             for index, elem in enumerate(self.day_movielist):
-                print(str(index) + "." + elem[1][2] + " 시작시간 " + elem[1][3])
+                print(str(index) + "." + elem[1][2] + " 상영 시간 " + elem[1][3][0:2] + ":" + elem[1][3][2:4] + " ~ " + elem[1][4][0:2] + ":" + elem[1][4][2:4])
             return True
         else:
             return False

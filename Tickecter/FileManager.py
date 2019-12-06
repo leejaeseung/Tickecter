@@ -196,7 +196,7 @@ class FileManager:
     def day_movielist(self,day,starttime):
         daylist =[]
         for _code,movieinfo in self.movielist.items():
-            if movieinfo[0] == day and int(movieinfo[3]) > int(starttime): # 상영날짜가 day인 아직 시작하지 않은 영화
+            if movieinfo[0] == day and int(movieinfo[3]) >= int(starttime): # 상영날짜가 day인 아직 시작하지 않은 영화
                 daylist.append([_code, movieinfo])  #이부분에서 _code와 movieinfo 리스트 하나로 묶는법을 잘 모르겠.
         return daylist
 
