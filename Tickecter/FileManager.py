@@ -110,6 +110,8 @@ class FileManager:
             if not self.TC.checkseatset(movieinfo[6]):
                 return False
             for i in range(7,17):
+                if len(movieinfo[i]) != 9:
+                    return False
                 for ss in movieinfo[i]:
                     if ss != "0" and ss != "1":
                         return False

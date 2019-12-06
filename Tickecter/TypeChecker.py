@@ -223,6 +223,3 @@ class TypeChecker:
                 return False
         else:
             return False
-
-x= TypeChecker()
-print(x.checkMovieTitleOnly(" "))
