@@ -90,6 +90,8 @@ class FileManager:
     def checkmovielist(self):
         self.moviecodedic = {}
         for key,movieinfo in self.movielist.items():
+            for info in movieinfo:
+                assert isinstance(info, str)
             if (not len(movieinfo[0])==8) or (not self.TC.checkMovieTitleOnly(movieinfo[2])):
                 return False
             if len(movieinfo[1])==2:
