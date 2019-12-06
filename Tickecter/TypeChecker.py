@@ -140,21 +140,9 @@ class TypeChecker:
                     return False
         else:
             return False
-    def checkMoviename(self,title): # 단순히 영화이름 형식맞는지 검증
-        if len(title) >20 or len(title)==0 or title.count('  ') or title[0]==" ":
-            return False
-        else:
-            for ss in title:
-                if not ss.isalpha():
-                    if ss.isdigit() or ss.isspace():
-                        continue
-                    return False
-                else:
-                    if not ss.islower():
-                        return False
-        return True
     
     def checkseatset(self,seatset): # 시트 정보 8x10 등이 맞는지 검증
+        assert isinstance(seatset, str)
         if "x" in seatset:
             seatnum = seatset.split("x")
             if len(seatnum) ==2:
@@ -162,10 +150,6 @@ class TypeChecker:
                     return True
         return False
 
-
-
-
-    
     def cardNum(self, cardnumber):  # 카드번호가 형식에 맞는지 검증
         assert isinstance(cardnumber, str)
         if len(cardnumber) == 12 and cardnumber.isdigit() and not cardnumber.isspace():

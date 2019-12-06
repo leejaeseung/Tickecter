@@ -7,9 +7,9 @@ import time
 class Menu:
 
     def __init__(self):
+        self.__FM = FileManager.FileManager()
         print("현재 시간을 입력해 주세요.")
         self.__now_time = ""
-        self.__FM = FileManager.FileManager()
         self.__TC = TypeChecker.TypeChecker()
         self.MI = menuInfo.menuInfo(4100, False)
         self.userName = ""
@@ -213,13 +213,22 @@ class Menu:
     def menu43141(self, input):
         assert isinstance(input, str)
         mileage = int(self.__FM.getuser(self.userName, self.password).get("mileage"))
-        if input.isdecimal() and int(input) >= 0:
+        if input.isdecimal() and int(input)>= 0 :
+            if int(input) >= int(self.final_cost):
+                print("입력값은",int(self.final_cost),"을 넘을 수 없습니다. 다시 입력해주세요.")
+                return -1
             if mileage >= int(input):  # 마일리지 잔액보다 적거나 같게 입력했을 경우
                 print("나머지 금액은", int(self.final_cost) - int(input), " 입니다. 등록된 카드로 결제하겠습니다.")
                 # 예매 코드 출력
                 print("결제가 완료되었습니다. 예매 코드 : ", self.selected_movie[0] + self.seat_First)
                 # 마일리지를 저장
-                mileage = mileage - int(input) + int(int(self.final_cost) / 10)
+                if input == "0":
+                    mileage = mileage - int(input) + int(int(self.final_cost) / 10)
+                else:
+                    mileage = mileage - int(input)
+                if mileage > 100000:
+                    print("마일리지는 10만을 넘을 수 없습니다. 현재 마일리지: 100000")
+                    mileage = 100000
                 self.__FM.getuser(self.userName, self.password)['mileage'] = mileage
                 self.__FM.bookmovie('1', self.userName, self.selected_movie[1], self.seat_list)
                 # 수정된 파일들 저장
@@ -546,7 +555,7 @@ class Menu:
             #시간 정보만 따로 뽑아서 우선순위 큐에 넣어 정렬한다. - 시간이 작은 것부터 꺼내짐
             for index in R_list:
                 Priority = int(self.__FM.reservationlist[index][2][0:8] + self.__FM.reservationlist[index][2][10:14])
-                if Priority >= int(self.__now_time):
+                if Priority >= int(self.__now_time):    #현재 시간 이후의 영화만 받아옴
                     pq.put((Priority, self.__FM.reservationlist[index]))
             if pq.empty():
                 print("예매내역이 없습니다.")
