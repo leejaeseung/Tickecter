@@ -136,7 +136,7 @@ class Menu:
                 print("예매 코드를 입력해 주세요.")
                 self.MI.setMI(43212, self.MI.getisMember())
         elif input == '3':
-            print("영화 목록")
+            print("인기 영화 목록(순위)")
             self.printPopmovie()
             print("조회를 원하는 영화 제목을 입력하세요.")
             self.MI.setMI(4330, self.MI.getisMember())
@@ -297,8 +297,9 @@ class Menu:
 
     def menu4330(self, input):                     #숫자로는 받아지지않음
         assert isinstance(input, str)
-        if self.__TC.checkMovieTitleOnly(input):
-            print("입력 형식에 맞지 않습니다.")
+        if not self.__TC.checkMovieTitleOnly(input):
+            print("형식에 맞지 않습니다. 다시 입력해주세요.")
+            return;
         MNlist = []                                 #moive name list
         RElist = self.listPopmoive()                #등수와 영화이름 리스트
         for val in self.__FM.movielist.values():
@@ -315,13 +316,14 @@ class Menu:
         if input in MNlist:
             print("시간표가 출력 됩니다.")
             self.printTodaymovietime(input)
+            os.system("pause")
+            os.system("cls")
+            self.print_main_menu()
+            self.MI.setMI(4300, self.MI.getisMember())
         else:
-            print("영화 제목이 잘못되었습니다. 영화제목을 다시한번 확인해 주세요")
+            print("존재 하지 않는 영화 입니다. 다시 입력해 주세요.")
         #time.sleep(2)
-        os.system("pause");
-        os.system("cls");
-        self.print_main_menu()
-        self.MI.setMI(4300, self.MI.getisMember())
+
 
     def printTodaymovietime(self,input):
         n = 0;
