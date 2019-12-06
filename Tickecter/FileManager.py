@@ -14,10 +14,10 @@ class FileManager:
             print("파일이 존재 하지 않거나 읽을수 없습니다")
             sys.exit(0)
         except pd.errors.ParserError: #파일 열수 이상하면
-            print("파일 형식이 맞지 않습니다.")
+            print("파일 형식이 맞지 않습니다.-파일 열수에러")
             sys.exit(0)
         except pd.errors.EmptyDataError:
-            print("파일 형식이 맞지 않습니다.")
+            print("파일 형식이 맞지 않습니다.-빈칸.")
             sys.exit(0)
         try:
             RL=pd.read_csv("../Tickecter/ReservationList.csv", dtype=str,skiprows=1,header=None)
@@ -25,13 +25,13 @@ class FileManager:
             print("파일이 존재 하지 않거나 읽을수 없습니다")
             sys.exit(0)
         except pd.errors.ParserError: #파일 열수 이상하면
-            print("파일 형식이 맞지 않습니다.")
+            print("파일 형식이 맞지 않습니다.-파일 열수 에러")
             sys.exit(0)
         except pd.errors.EmptyDataError:
             RL=pd.read_csv("../Tickecter/ReservationList.csv", dtype=str)
 
         if CL.shape[1] != 2 or UL.shape[1] != 4 or ML.shape[1] != 17 or RL.shape[1] != 5:
-            print("파일 형식이 맞지 않습니다.")
+            print("파일 형식이 맞지 않습니다.-파일 열수 에러")
             sys.exit(0)
 
 
@@ -79,16 +79,18 @@ class FileManager:
 
     def checkuserlist(self):
         for userid,userinfo in self.userlist.items():
-            if(self.TC.ID_check(userinfo["userID"]) and self.TC.pw_check(userinfo["userpassword"]) and userinfo["registcard"] in self.cardlist and len(userinfo["mileage"]) <= 6 and userinfo["mileage"].isdecimal() and  0.0 <= int(userinfo["mileage"]) <= 100000 ):
+            if(self.TC.ID_check(userinfo["userID"]) and self.TC.pw_check(userinfo["userpassword"]) and self.TC.cardNum(userinfo["registcard"])  and self.TC.mileagecheck(userinfo["mileage"])):
                 pass
             else:
-                return False
+               return False
         return True
+
+
 
     def checkmovielist(self):
         self.moviecodedic = {}
         for key,movieinfo in self.movielist.items():
-            if (not len(movieinfo[0])==8) or (not self.TC.checkMoviename(movieinfo[2])):
+            if (not len(movieinfo[0])==8) or (not self.TC.checkMovieTitleOnly(movieinfo[2])):
                 return False
             if len(movieinfo[1])==2:
                 if not movieinfo[1].isupper():

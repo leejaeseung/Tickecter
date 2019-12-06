@@ -156,7 +156,13 @@ class TypeChecker:
             return True
         else:
             return False
-
+    def mileagecheck(self,mileage): # 마일리지 형식 검증
+        assert isinstance(mileage, str)
+        if len(mileage) <= 6 and mileage.isdecimal() and  0.0 <= int(mileage) <= 100000:
+            return True
+        else:
+            return False
+        
     def checkSeatsList(self, strseat):         # 좌석 str 받으면 형식 검증 후 리스트 리턴 함수
         assert isinstance(strseat, str)
         if len(strseat) < 2:
