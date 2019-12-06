@@ -307,7 +307,7 @@ class Menu:
                 if input == index[0]:
                     input = index[1:]
                     break
-        if len(input) == 1:
+        if not self.__TC.checkMovieTitleOnly(input):
             print("입력형식에 맞지 않습니다.")
         if input in MNlist:
             print("시간표는 몇초동안 보여집니다.")
@@ -528,7 +528,7 @@ class Menu:
             #시간 정보만 따로 뽑아서 우선순위 큐에 넣어 정렬한다. - 시간이 작은 것부터 꺼내짐
             for index in R_list:
                 Priority = int(self.__FM.reservationlist[index][2][0:8] + self.__FM.reservationlist[index][2][10:14])
-                if Priority >= int(self.__now_time):
+                if Priority >= int(self.__now_time):    #현재 시간 이후의 영화만
                     pq.put((Priority, self.__FM.reservationlist[index]))
             if pq.empty():
                 print("예매내역이 없습니다.")
