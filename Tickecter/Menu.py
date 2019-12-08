@@ -157,14 +157,14 @@ class Menu:
                 # 상영중인 영화를 한 줄씩 출력
                 if int(input) == int(self.__now_time[0:8]):  # 입력한 날짜가 현재 날짜이면 -> 현재 시간도 비교해 줘야함
                     self.day_movielist = self.__FM.day_movielist(input, self.__now_time[8:12])
-                    if not self.printday_movie():
-                        print("상영중인 영화가 없습니다. 다시 입력해 주세요.")
-                        return
+                    self.printday_movie()
+                        #print("상영중인 영화가 없습니다. 다시 입력해 주세요.")
+                        #return
                 else:
                     self.day_movielist = self.__FM.day_movielist(input, "0000")
-                    if not self.printday_movie():
-                        print("상영중인 영화가 없습니다. 다시 입력해 주세요.")
-                        return
+                    self.printday_movie()
+                        #print("상영중인 영화가 없습니다. 다시 입력해 주세요.")
+                        #return
                 print("예매할 영화를 선택하세요.(숫자.영화명 입력)")
                 self.MI.setMI(4312, self.MI.getisMember())
         else:
@@ -174,7 +174,7 @@ class Menu:
         assert isinstance(input, str)
         if self.__TC.checkMovieTitle(input):
             input = input.strip().split('.')  # 공백을 제거하고, . 을 기준으로 분리
-            if self.print_seat(int(input[0]), input[1]):  # 입력한 영화가 존재할 경우
+            if self.print_seat(int(input[0]) - 1, input[1]):  # 입력한 영화가 존재할 경우
                 # 선택한 영화의 좌석표를 출력
                 print("예약할 좌석을 고르십시오.")
                 self.MI.setMI(4313, self.MI.getisMember())
@@ -477,7 +477,7 @@ class Menu:
     def printday_movie(self):           #검사 완료
         if self.day_movielist:  # 리스트가 빈 리스트가 아닌 경우
             for index, elem in enumerate(self.day_movielist):
-                print(str(index) + "." + elem[1][2] + " 상영 시간 " + elem[1][3][0:2] + ":" + elem[1][3][2:4] + " ~ " + elem[1][4][0:2] + ":" + elem[1][4][2:4])
+                print(str(index + 1) + "." + elem[1][2] + " 상영 시간 : " + elem[1][3][0:2] + ":" + elem[1][3][2:4] + " ~ " + elem[1][4][0:2] + ":" + elem[1][4][2:4])
             return True
         else:
             return False
@@ -562,10 +562,14 @@ class Menu:
             while not pq.empty():               #큐에 있는 모든 값을 출력
                 reserve = pq.get()[1]
                 movie = self.__FM.movielist[reserve[2][0:14]]
-                print("예매 코드 ", reserve[2], " " , movie[2]," " , movie[0][0:4], "년 ", movie[0][4:6], "월 ", movie[0][6:8], "일 ", movie[3][0:2], ":", movie[3][2:], " ", reserve[3] , sep="")
+                #print("예매 코드 ", reserve[2], " " , movie[2]," " , movie[0][0:4], "년 ", movie[0][4:6], "월 ", movie[0][6:8], "일 ", movie[3][0:2], ":", movie[3][2:], " ", reserve[3] , sep="")
+                print(movie[2], " ", movie[0][0:4], "년 ", movie[0][4:6], "월 ", movie[0][6:8],
+                      "일 ", movie[3][0:2], ":", movie[3][2:], " ", reserve[3], sep="")
         else:                               #getReservation 함수로 예매 코드에 해당하는 ReservationList의 index를 가져옴
             R_index = self.__FM.getReservation("", reserve_code)
             reserve = self.__FM.reservationlist[R_index]                #그 index로 ReservationList에서 예약 정보 리스트를 가져옴
             movie = self.__FM.movielist[self.__FM.reservationlist[R_index][2][0:14]]        #그 리스트의 예매 코드에서 좌석 정보만을 빼면 영화 정보를 찾을 수 있음.
-            print("예매 코드 ", reserve[2], " ", movie[2], " ", movie[0][0:4], "년 ", movie[0][4:6], "월 ", movie[0][6:8],
+            #print("예매 코드 ", reserve[2], " ", movie[2], " ", movie[0][0:4], "년 ", movie[0][4:6], "월 ", movie[0][6:8],
+                  #"일 ", movie[3][0:2], ":", movie[3][2:], " ", reserve[3], sep="")
+            print(movie[2], " ", movie[0][0:4], "년 ", movie[0][4:6], "월 ", movie[0][6:8],
                   "일 ", movie[3][0:2], ":", movie[3][2:], " ", reserve[3], sep="")
