@@ -338,7 +338,7 @@ class Menu:
     def printTodaymovietime(self,input):
         n = 0;
         for val in self.__FM.movielist.values():
-            if int(self.__now_time[0:12]) <= int(val[0]+val[3]):
+            if int(self.__now_time[0:12]) < int(val[0]+val[3]):
                 if input in val[2]:
                     print(input, "상영날짜: ", val[0],"상영시간:", val[3], "~", val[4])
                     n = n + 1
@@ -374,41 +374,40 @@ class Menu:
             RElist.append(str(i + 1) + movieN)
         return RElist
 
-    def printPopmovie(self):        # 현재 시간기준으로 예매가 많이된 영화 n개 출력        완성
+    def printPopmovie(self):  # 현재 시간기준으로 예매가 많이된 영화 n개 출력        완성
         nn = 5
         ppq = PriorityQueue()
-        RClist = []            #예매된 영화코드 가져옴 리스트에 중복을 담아서 개수샘
-        DClist = []            #디폴트 코드 리스트
-        DMNlist = []            #디폴트 뮤비네임 리스트
-        RElist = []             #등수와 뮤비네임리스트
+        RClist = []  # 예매된 영화코드 가져옴 리스트에 중복을 담아서 개수샘
+        DClist = []  # 디폴트 코드 리스트
+        DMNlist = []  # 디폴트 뮤비네임 리스트
+        RElist = []  # 등수와 뮤비네임리스트
+        MNlist = []  # 영화이름만! 리스트
         for index in self.__FM.reservationlist:
-            if index[4] == '0' and int(self.__now_time) >= int(index[2][0:8]+index[2][10:14]):           #최소가 안된 영화라면, 지금 시간보다 이전기준포함
+            if index[4] == '0' and int(self.__now_time) >= int(
+                    index[2][0:8] + index[2][10:14]):  # 최소가 안된 영화라면, 지금 시간보다 이전기준포함
                 n = len(self.__FM.seats_to_list(index[3]))
                 for i in range(n):
-                     RClist.append(index[2][8:10])      #예매된 영화코드 가져옴 중복된 리스트
-        #print(self.__FM.movielist)
-        #print(self.__FM.day_movielist(self.__now_time[0:8], self.__now_time[8:]))
+                    RClist.append(index[2][8:10])  # 예매된 영화코드 가져옴 중복된 리스트
+        # print(self.__FM.movielist)
+        # print(self.__FM.day_movielist(self.__now_time[0:8], self.__now_time[8:]))
         for val in self.__FM.movielist.values():
-            #print(val)
+            # print(val)
             if not val[1] in DClist:
-                DClist.append(val[1])                   #디폴트 코드 가져옴
-            if not val[1]+val[2] in DMNlist:
-                DMNlist.append(val[1]+val[2])           #코드+영화이름으로 리스트에 저장
-        DMNlist.sort()
-        indexNumber = 0;
+                DClist.append(val[1])  # 디폴트 코드 가져옴
+                MNlist.append(val[2])  # 영화이름 가져옴
+            if not val[1] + val[2] in DMNlist:
+                DMNlist.append(val[1] + val[2])  # 코드+영화이름으로 리스트에 저장
         for index in DMNlist:
             Priority1 = int(RClist.count(index[0:2]))
-            Priority2 =  indexNumber
-            indexNumber = indexNumber + 1
-            ppq.put(((-Priority1, Priority2), index[2:]))             #-priority 예매많이된순으로 출력합
+            ppq.put(((-Priority1), index[2:]))  # -priority 예매많이된순으로 출력합
         for i in range(nn):
             if ppq.empty():
                 break
             movieN = ppq.get()[1]
-            print(i+1, movieN)
-            RElist.append(str(i+1)+movieN)
-            #print 시간표출력
-            #self.MI.setMI(4330,self.MI.getisMember(), self.MIgetwhere())
+            print(i + 1, movieN)
+            RElist.append(str(i + 1) + movieN)
+            # print 시간표출력
+            # self.MI.setMI(4330,self.MI.getisMember(), self.MIgetwhere())
 
     def print_login_menu(self):
         print("1. 회원 로그인")
