@@ -233,10 +233,12 @@ class Menu:
                 self.__FM.bookmovie('1', self.userName, self.selected_movie[1], self.seat_list)
                 # 수정된 파일들 저장
                 self.__FM.savefile()
-                time.sleep(1)  # 1초동안 예매 코드를 보여줌
-                os.system('cls')
-                self.print_main_menu()
-                self.MI.setMI(4300, self.MI.getisMember())
+                print("계속하려면 아무 키나 누르십시오.")
+                ch = msvcrt.getch()  # 아무 키나 입력하면 메인 메뉴로 돌아감.
+                if ch:
+                    os.system('cls')
+                    self.print_main_menu()
+                    self.MI.setMI(4300, self.MI.getisMember())
             else:
                 print("초과된 마일리지 금액입니다. 다시 입력해 주세요.")
         else:
@@ -260,10 +262,12 @@ class Menu:
                 self.__FM.bookmovie('0', self.userName, self.selected_movie[1], self.seat_list)
                 # 수정된 파일들 저장
                 self.__FM.savefile()
-                time.sleep(1)  # 1초동안 예매 코드를 보여줌
-                os.system('cls')
-                self.print_main_menu()
-                self.MI.setMI(4300, self.MI.getisMember())
+                print("계속하려면 아무 키나 누르십시오.")
+                ch = msvcrt.getch()  # 아무 키나 입력하면 메인 메뉴로 돌아감.
+                if ch:
+                    os.system('cls')
+                    self.print_main_menu()
+                    self.MI.setMI(4300, self.MI.getisMember())
         else:
             print("입력 형식에 맞지 않습니다.")
 
