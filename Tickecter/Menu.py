@@ -292,6 +292,7 @@ class Menu:
                     movie = self.__FM.book_cancel(input)    #현재 시간 이후 영화만 취소되게 해야 함.
                     self.__FM.savefile()
                     print(movie[2], "의 예매가 취소되었습니다.", sep='')
+                    print("계속하려면 아무 키나 누르십시오.")
                     ch = msvcrt.getch() #아무 키나 입력하면 메인 메뉴로 돌아감.
                     if ch:
                         os.system('cls')
